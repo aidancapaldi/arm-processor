@@ -20,6 +20,8 @@ Registers are 64 bits
 
 We don't have to consider data hazards or synchronization 
 
+No NOR included in ARM.... can remove that from S and replace that with something useful for other operations
+
 ##### Slide Deck 
 
 `ADDS` happens on execute, if `bEQ` is next, it has to be on the decode stage. The branch needs to get the information directly from the execute stage without any pipelining. We forward the data to the decode stage. 
