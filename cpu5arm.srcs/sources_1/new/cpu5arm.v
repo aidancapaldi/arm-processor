@@ -9,8 +9,8 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     // Instruction bus and clock, reset for the PC DFF
     input [31:0] ibus;
     input clk, reset;
-    output [31:0] daddrbus, iaddrbus;
-    inout [31:0] databus;
+    output [63:0] daddrbus, iaddrbus;
+    inout [63:0] databus;
    
     //// ***FLAGS*** ////
     // Cin, Imm, S wires and intermediate wires
@@ -33,22 +33,22 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     
     //// ***DECODER + FIRST MUX OUTPUTS*** ////
     // Store the output of the decoders 
-    wire [31:0] Aselect, Bselect, rdOut;
+    wire [63:0] Aselect, Bselect, rdOut;
     
     // Store the sign extended IType instruction 
-    wire [31:0] signextOUT;
+    wire [63:0] signextOUT;
     
     // Store the output of the RT RD mux
-    wire [31:0] RTRDMuxResult;
+    wire [63:0] RTRDMuxResult;
     
     
     //// ***REGFILE OUTPUTS*** ////
     // Store the outputs of the regfile 
-    wire [31:0] regAbusOUT, regBbusOUT;
+    wire [63:0] regAbusOUT, regBbusOUT;
     
     //// ****COMPARATOR OUTPUTS**** ////
     // Intermediary Dselect wire
-    wire [31:0] DselectComparatorResult;
+    wire [63:0] DselectComparatorResult;
     
     // Store the comparator output 
     wire regComparatorResult;
@@ -56,68 +56,68 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     
     //// ***IDEX OUTPUTS*** ////
     // ALU inputs
-    wire [31:0] abus, bbus;
+    wire [63:0] abus, bbus;
     
     // Store the wire between IDEX and bbus mux
-    wire [31:0] IDEXBbusOUT;
+    wire [63:0] IDEXBbusOUT;
     
     // Intermediary Dselect wires
-    wire [31:0] IDEXDselectOUT;
+    wire [63:0] IDEXDselectOUT;
     
     // Store the output of the IDEX sign ext line 
-    wire [31:0] IDEXSignExtOUT;
+    wire [63:0] IDEXSignExtOUT;
     
     
     //// ***ALU OUTPUT*** ////
     // Result of the ALU
-    wire [31:0] ALUout;
+    wire [63:0] ALUout;
     
     // Store the needed SLT SLE outputs from the ALU 
-    wire isZeroOutput, carryOut;
+    wire isZeroOutput, carryOut, isNegativeOutput;
     
     
     //// ***SLTSLE OUTPUTS*** ////
     // Intermediary Dselect wires
-    wire [31:0] DselectSLTSLEResult;
+    wire [63:0] DselectSLTSLEResult;
     
     // Store the SLTSLE block's output 
-    wire [31:0] SLTSLEoutput;
+    wire [63:0] SLTSLEoutput;
     
     
     //// ***EXMEM OUTPUTS*** ////
     // Store the EXMEM line going into the databus tristate 
-    wire [31:0] EXMEMDatabus;
+    wire [63:0] EXMEMDatabus;
    
     // Intermediary Dselect wires
-    wire [31:0] EXMEMDselectOUT;
+    wire [63:0] EXMEMDselectOUT;
     
     
    //// ***MEMWB + FINAL MUX OUTPUTS*** ////
     // Store the MEMWB top output 
-    wire [31:0] memAddrOut;
+    wire [63:0] memAddrOut;
     
     // Store the MEMWB bottom output 
-    wire [31:0] memBusOut;
+    wire [63:0] memBusOut;
     
     // Final Dselect wire
-    wire [31:0] DselectTemp, Dselect;
+    wire [63:0] DselectTemp, Dselect;
     
     // Final dbus wire
-    wire [31:0] dbus;
+    wire [63:0] dbus;
     
 
     //// ***PC + ADDER WIRES*** ////
     // Store the mux output for the PC stage
-    wire [31:0] PCadderMuxOUT;
+    wire [63:0] PCadderMuxOUT;
     
     // Store the result of the adders 
-    wire [31:0] signextAdderOUT, pcplus4AdderOUT;
+    wire [63:0] signextAdderOUT, pcplus4AdderOUT;
     
     // Store the result of the new IFID output 
-    wire [31:0] IFIDaddOUT;
+    wire [63:0] IFIDaddOUT;
  
     // Intermediates for 32'b4 and the SLL by 2 for the adders 
-    wire [31:0] imm4, signExtSLL;
+    wire [63:0] imm4, signExtSLL;
     
    
      
@@ -129,7 +129,7 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .sum(signextAdderOUT)
     );
     
-    assign imm4 = 32'h00000004;
+    assign imm4 = 64'h0000000000000004;
     add32 pcplus4Adder(
         .a(imm4),
         .b(iaddrbus),
@@ -223,18 +223,23 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     );
     
     //// Instantiate and use the 32x32 bit regfile     
-    assign regAbusOUT = Aselect[0] ? 32'b0 : 32'bz;
-    assign regBbusOUT = Bselect[0] ? 32'b0 : 32'bz;
+    assign regAbusOUT = Aselect[31] ? 64'b0 : 64'bz;
+    assign regBbusOUT = Bselect[31] ? 64'b0 : 64'bz;
     
-    regfile aselbselregister[31:1] (
+    regfile aselbselregister[63:0] (
         .clk(clk),
-        .Dselect(Dselect[31:1]),
+        .Dselect(Dselect[63:0]),
         .dbus(dbus), 
-        .Aselect(Aselect[31:1]), 
-        .Bselect(Bselect[31:1]), 
+        .Aselect(Aselect[63:0]), 
+        .Bselect(Bselect[63:0]), 
         .abus(regAbusOUT),
         .bbus(regBbusOUT)
     );
+    // regfile aselbselregister[63:32] 
+    // regfile aselbselregister[30:0] 
+    // Zero the 31 register
+    // OR 
+    // just change 31 to 63 
     
     //// Instantiate the ID/EX DFF //// 
     //// Support the ID/EX handling Imm, S, Cin 
@@ -273,7 +278,7 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     );
     
     //// Instantiate the 32-bit ALU which stands between IDEX and EXMEM 
-    alu32 aluUnit(  
+    alu64 aluUnit(  
         .d(ALUout),
         .Cout(carryOut),
         .V(),
@@ -281,7 +286,8 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .b(bbus),
         .Cin(Cin), 
         .S(S), 
-        .zeroDetector(isZeroOutput)
+        .Z(isZeroOutput),
+        .N(isNegativeOutput)
     );
     
     //// Instantiate the SLTSLE logic "multiplexor" 
@@ -812,36 +818,36 @@ endmodule
 //// *** REGFILE *** ////
 // Behavioral representation of a falling-edge sensitive flip-flop.
 module regfile(clk, Dselect, Aselect, Bselect, dbus, abus, bbus);
-    input [31:0] dbus;
+    input [63:0] dbus;
     input Dselect, Aselect, Bselect;
     input clk;
-    output [31:0] abus, bbus;
+    output [63:0] abus, bbus;
    
-    reg [31:0] Q;
+    reg [63:0] Q;
     
     always @ (negedge clk) begin 
             if (Dselect == 1'b1) Q = dbus;
         end
-   assign abus = Aselect ? Q : 32'bz; 
-   assign bbus = Bselect ? Q : 32'bz;
+   assign abus = Aselect ? Q : 64'bz; 
+   assign bbus = Bselect ? Q : 64'bz;
 endmodule
 
 
 
-//// *** ALU32 *** //// 
-// Module representing a 32-bit ALU. 
-module alu32 (d, Cout, V, a, b, Cin, S, zeroDetector);
-   output[31:0] d;
-   output Cout, V, zeroDetector;
-   input [31:0] a, b;
+//// *** ALU64 *** //// 
+// Module representing a 64-bit ALU. 
+module alu64 (d, Cout, V, a, b, Cin, S, Z, N);
+   output[63:0] d;
+   output Cout, V, Z, N;
+   input [63:0] a, b;
    input Cin;
    input [2:0] S;
    
-   wire [31:0] c, g, p;
+   wire [63:0] c, g, p;
    wire gout, pout;
    
    // Instantiates 32 ALU cells.
-   alu_cell alucell[31:0] (
+   alu_cell alucell[63:0] (
       .d(d),
       .g(g),
       .p(p),
@@ -851,10 +857,11 @@ module alu32 (d, Cout, V, a, b, Cin, S, zeroDetector);
       .S(S)
    );
    
-   assign zeroDetector = d == 32'h00000000;
+   assign Z = d == 63'h00000000;
+   assign N = d[63] == 1'b1;
    
-   // Instantiates a 5-level LAC.
-   lac5 laclevel5(
+   // Instantiates a 6-level LAC.
+   lac6 laclevel6(
       .c(c),
       .gout(gout),
       .pout(pout),
@@ -892,7 +899,7 @@ module alu_cell (d, g, p, a, b, c, S);
     always @ (a, b, c, d, S, bint, cint, p) begin
         case (S)
             3'b100 : d = a | b;
-            3'b101 : d = ~(a | b); 
+            3'b101 : d = ~(a | b); /// THIS CAN BE SHIFT RIGHT NOW 
             3'b110 : d = a & b;
             3'b111 : d = 0; 
             default : d = (p ^ cint);
@@ -904,11 +911,11 @@ endmodule
 // ACCREDITION: Parts of this module were given in lecture notes.
 module overflow (Cout, V, Cin, gout, pout, c);
     output Cout, V;
-    input [31:0] c;
+    input [63:0] c;
     input Cin, gout, pout;
     
     assign Cout = gout | (pout & Cin);
-    assign V = Cout ^ c[31];
+    assign V = Cout ^ c[63];
 endmodule
 
 // ACCREDITION: This module's code comes from the lecture notes.
@@ -1058,6 +1065,42 @@ module lac5(c, gout, pout, Cin, g, p);
         .Cin(cint[1]),
         .g(g[31:16]),
         .p(p[31:16])
+    );
+    
+    lac root(
+        .c(cint),
+        .gout(gout),
+        .pout(pout),
+        .Cin(Cin),
+        .g(gint),
+        .p(pint)
+    );
+endmodule
+
+module lac6(c, gout, pout, Cin, g, p);
+    output [63:0] c;
+    output gout, pout;
+    input Cin; 
+    input [63:0] g, p;
+    
+    wire [1:0] cint, gint, pint;
+    
+    lac5 leaf0(
+        .c(c[31:0]),
+        .gout(gint[0]),
+        .pout(pint[0]),
+        .Cin(cint[0]),
+        .g(g[31:0]),
+        .p(p[31:0])
+    );
+    
+    lac5 leaf1(
+        .c(c[63:32]),
+        .gout(gint[1]),
+        .pout(pint[1]),
+        .Cin(cint[1]),
+        .g(g[63:32]),
+        .p(p[63:32])
     );
     
     lac root(

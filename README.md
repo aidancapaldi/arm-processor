@@ -73,11 +73,11 @@ parameter LDUR = 11'b11010000000;
 
 ##### TODO List
 
-- Redesign the decoder stage completely for the new opcodes 
-- Fix his testbench to start our own 
-- Redesign the regfile declaration for the new bits 
-- Refactor any use of `[0:31]` and so on to respect the new ordering of bits 
-- Need `LAC6` so we can get to 64 bits for the ALU and all that relies on the LAC 
-- Add the one flag needed for the ALU 
+- [ ] Redesign the decoder stage completely for the new opcodes 
+- [ ] Fix his testbench to start our own 
+- [ ] Redesign the regfile declaration for the new bits 
+- [ ] Refactor any use of `[0:31]` and so on to respect the new ordering of bits 
+- [x] Need `LAC6` so we can get to 64 bits for the ALU and all that relies on the LAC 
+- [x] Add the one flag needed for the ALU 
 
 
