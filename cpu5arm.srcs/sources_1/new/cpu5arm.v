@@ -23,8 +23,8 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     // Load Word Flags
     wire LW, LWOP, LWIDEXout, LWEXMEMout;
     
-    // SLT, SLE, BNE, BEQ flags 
-    wire SLTOP, SLEOP, SLT, SLE, BEQ, BNE;
+    // BNE, BEQ flags 
+    wire BEQ, BNE;
    
    
    //// ***IFID OUTPUT*** ////
@@ -74,15 +74,6 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     
     // Store the needed SLT SLE outputs from the ALU 
     wire isZeroOutput, carryOut, isNegativeOutput;
-    
-    
-    //// ***SLTSLE OUTPUTS*** ////
-    // Intermediary Dselect wires
-    wire [63:0] DselectSLTSLEResult;
-    
-    // Store the SLTSLE block's output 
-    wire [63:0] SLTSLEoutput;
-    
     
     //// ***EXMEM OUTPUTS*** ////
     // Store the EXMEM line going into the databus tristate 
@@ -164,7 +155,7 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     
     
     //// Instantiate the register result comparator module
-    comparator32 registerCheck(
+    comparator64 registerCheck(
         .a(regAbusOUT),
         .b(regBbusOUT),
         .result(regComparatorResult),
@@ -202,8 +193,6 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .func(IFIDout[5:0]), 
         .SWFlag(SWOP),
         .LWFlag(LWOP), 
-        .SLTFlag(SLTOP),
-        .SLEFlag(SLEOP),
         .BEQFlag(BEQ),
         .BNEFlag(BNE)
     );
@@ -222,19 +211,22 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .out(RTRDMuxResult)
     );
     
-    //// Instantiate and use the 32x32 bit regfile     
+    //// Instantiate and use the 32x64 bit regfile     
     assign regAbusOUT = Aselect[31] ? 64'b0 : 64'bz;
     assign regBbusOUT = Bselect[31] ? 64'b0 : 64'bz;
     
-    regfile aselbselregister[63:0] (
+    regfile aselbselregister[30:0] (
         .clk(clk),
-        .Dselect(Dselect[63:0]),
+        .Dselect(Dselect[30:0]),
         .dbus(dbus), 
-        .Aselect(Aselect[63:0]), 
-        .Bselect(Bselect[63:0]), 
+        .Aselect(Aselect[30:0]), 
+        .Bselect(Bselect[30:0]), 
         .abus(regAbusOUT),
         .bbus(regBbusOUT)
     );
+    
+    
+    
     // regfile aselbselregister[63:32] 
     // regfile aselbselregister[30:0] 
     // Zero the 31 register
@@ -262,11 +254,7 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .SWInput(SWOP),
         .SWOutput(SWIDEXout),
         .LWInput(LWOP),
-        .LWOutput(LWIDEXout),
-        .SLTin(SLTOP),
-        .SLEin(SLEOP),
-        .SLTout(SLT),
-        .SLEout(SLE)
+        .LWOutput(LWIDEXout)
     );
     
     //// Instantiate the mux between IDEX and EXMEM which switches for I Type instructions 
@@ -289,24 +277,11 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .Z(isZeroOutput),
         .N(isNegativeOutput)
     );
-    
-    //// Instantiate the SLTSLE logic "multiplexor" 
-    SLTSLE sltsleLogic(
-        .ALUin(ALUout),
-        .DselectIN(IDEXDselectOUT),
-        .DselectOUT(DselectSLTSLEResult),
-        .zeroInput(isZeroOutput),
-        .carryOutInput(carryOut),
-        .SLTSLEout(SLTSLEoutput),
-        .SLTsel(SLT),
-        .SLEsel(SLE)
-    );
-
 
     //// Instantiate the EX/MEM DFF //// 
     EXMEMDFF EXMEM (
-        .AluInput(SLTSLEoutput),
-        .IDEXInput(DselectSLTSLEResult),
+        .AluInput(ALUout),
+        .IDEXInput(IDEXDselectOUT),
         .BoperandIN(IDEXBbusOUT),
         .DselectOUT(EXMEMDselectOUT), 
         .Daddrbus(daddrbus),
@@ -375,13 +350,13 @@ module tristatebuffer(in0, ctrl, out0);
 endmodule
 
 // Given a 6-bit opcode, decipher which one we have and do something 
-module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, BNEFlag, SLTFlag, SLEFlag);
+module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, BNEFlag);
     input [5:0] opcode, func;
-    output ImmOP, CinOP, SWFlag, LWFlag, BEQFlag, BNEFlag, SLTFlag, SLEFlag;
+    output ImmOP, CinOP, SWFlag, LWFlag, BEQFlag, BNEFlag;
     output [2:0] SOP;
     
     // Internal wires to store R-Type results
-    reg ImmOP, CinOP, SWFlag, LWFlag, BEQFlag, BNEFlag, SLTFlag, SLEFlag;
+    reg ImmOP, CinOP, SWFlag, LWFlag, BEQFlag, BNEFlag;
     reg [2:0] SOP;
     
     // Decide which instruction type we have and react accordingly 
@@ -399,8 +374,6 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, B
                                                     LWFlag = 1'b0;
                                                     BEQFlag = 1'b0;
                                                     BNEFlag = 1'b0;
-                                                    SLTFlag = 1'b0;
-                                                    SLEFlag = 1'b0;
                                                end
                                     6'b000010: begin
                                                     // SUB 
@@ -411,8 +384,6 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, B
                                                     LWFlag = 1'b0;
                                                     BEQFlag = 1'b0;
                                                     BNEFlag = 1'b0;
-                                                    SLTFlag = 1'b0;
-                                                    SLEFlag = 1'b0;
                                                end
                                     6'b000001: begin
                                                     // XOR
@@ -423,8 +394,6 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, B
                                                     LWFlag = 1'b0;
                                                     BEQFlag = 1'b0;
                                                     BNEFlag = 1'b0;
-                                                    SLTFlag = 1'b0;
-                                                    SLEFlag = 1'b0;
                                                end
                                     6'b000111: begin
                                                     // AND 
@@ -435,8 +404,6 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, B
                                                     LWFlag = 1'b0;
                                                     BEQFlag = 1'b0;
                                                     BNEFlag = 1'b0;
-                                                    SLTFlag = 1'b0;
-                                                    SLEFlag = 1'b0;
                                                end
                                     6'b000100: begin
                                                     // OR 
@@ -447,32 +414,6 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, B
                                                     LWFlag = 1'b0;
                                                     BEQFlag = 1'b0;
                                                     BNEFlag = 1'b0;
-                                                    SLTFlag = 1'b0;
-                                                    SLEFlag = 1'b0;
-                                               end
-                                    6'b110110: begin
-                                                    // SLT 
-                                                    SOP = 3'b011;
-                                                    ImmOP = 1'b0;
-                                                    CinOP = 1'b1;
-                                                    SWFlag = 1'b0;
-                                                    LWFlag = 1'b0;
-                                                    BEQFlag = 1'b0;
-                                                    BNEFlag = 1'b0;
-                                                    SLTFlag = 1'b1;
-                                                    SLEFlag = 1'b0;
-                                               end 
-                                    6'b110111: begin
-                                                    // SLE 
-                                                    SOP = 3'b011;
-                                                    ImmOP = 1'b0;
-                                                    CinOP = 1'b1;
-                                                    SWFlag = 1'b0;
-                                                    LWFlag = 1'b0;
-                                                    BEQFlag = 1'b0;
-                                                    BNEFlag = 1'b0;
-                                                    SLTFlag = 1'b0;
-                                                    SLEFlag = 1'b1;
                                                end
                                     default: begin
                                                     // uh oh (rtype)
@@ -483,8 +424,6 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, B
                                                     LWFlag = 1'b0; 
                                                     BEQFlag = 1'b0;
                                                     BNEFlag = 1'b0;
-                                                    SLTFlag = 1'b0;
-                                                    SLEFlag = 1'b0;
                                              end
                             endcase 
                        end              
@@ -497,8 +436,6 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, B
                             LWFlag = 1'b0; 
                             BEQFlag = 1'b0;
                             BNEFlag = 1'b0;
-                            SLTFlag = 1'b0;
-                            SLEFlag = 1'b0;
                        end
             6'b000010: begin
                             // SUBI 
@@ -509,8 +446,6 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, B
                             LWFlag = 1'b0; 
                             BEQFlag = 1'b0;
                             BNEFlag = 1'b0;
-                            SLTFlag = 1'b0;
-                            SLEFlag = 1'b0;
                        end
            6'b000001: begin
                             // XORI 
@@ -521,8 +456,6 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, B
                             LWFlag = 1'b0;
                             BEQFlag = 1'b0;
                             BNEFlag = 1'b0;
-                            SLTFlag = 1'b0;
-                            SLEFlag = 1'b0; 
                        end
            6'b001111: begin
                             // ANDI 
@@ -533,8 +466,6 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, B
                             LWFlag = 1'b0; 
                             BEQFlag = 1'b0;
                             BNEFlag = 1'b0;
-                            SLTFlag = 1'b0;
-                            SLEFlag = 1'b0;
                        end
            6'b001100: begin
                             // ORI 
@@ -545,8 +476,6 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, B
                             LWFlag = 1'b0; 
                             BEQFlag = 1'b0;
                             BNEFlag = 1'b0;
-                            SLTFlag = 1'b0;
-                            SLEFlag = 1'b0;
                        end
            6'b011110: begin 
                            // LW 
@@ -557,8 +486,6 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, B
                            LWFlag = 1'b1; 
                            BEQFlag = 1'b0;
                            BNEFlag = 1'b0;
-                           SLTFlag = 1'b0;
-                           SLEFlag = 1'b0;
                       end
            6'b011111: begin 
                            // SW 
@@ -569,8 +496,6 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, B
                            LWFlag = 1'b0;
                            BEQFlag = 1'b0;
                            BNEFlag = 1'b0;
-                           SLTFlag = 1'b0;
-                           SLEFlag = 1'b0;
                       end
            6'b110000: begin 
                            // BEQ 
@@ -581,8 +506,6 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, B
                            LWFlag = 1'b0;
                            BEQFlag = 1'b1;
                            BNEFlag = 1'b0;
-                           SLTFlag = 1'b0;
-                           SLEFlag = 1'b0;
                       end
            6'b110001: begin 
                            // BNE
@@ -593,8 +516,6 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, B
                            LWFlag = 1'b0;
                            BEQFlag = 1'b0;
                            BNEFlag = 1'b1;
-                           SLTFlag = 1'b0;
-                           SLEFlag = 1'b0;
                       end
            default: begin
                         // uh oh
@@ -605,8 +526,6 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, B
                         LWFlag = 1'b0;
                         BEQFlag = 1'b0;
                         BNEFlag = 1'b0;
-                        SLTFlag = 1'b0;
-                        SLEFlag = 1'b0; 
                     end
         endcase 
     end               
@@ -622,23 +541,11 @@ endmodule
 
 // Behavioral representation of a 2-to-1 multiplexor.
 module mux2 (in0, in1, sel, out);
-    input [31:0] in0, in1;
+    input [63:0] in0, in1;
     input sel;
-    output [31:0] out; 
+    output [63:0] out; 
     
     assign out = ((sel === 1'bx) ? 0 : sel) ? in1 : in0;
-endmodule
-
-// Behavioral representation of a positive-edge triggered D-Flip-Flop. --> For 32-bit inputs
-module dff32bit (clk, D, Q);
-    input [31:0] D;
-    input clk;
-    output [31:0] Q; 
-    reg [31:0] Q; 
-    
-    always @ (posedge clk) begin 
-        Q = D;
-        end 
 endmodule
 
 // Behavioral representation of a D Flip Flop. 
@@ -657,26 +564,29 @@ endmodule
 // Behavioral representaiton of a positve-edge triggered, resettable D-Flip-Flop --> Handles the PC DFF
 module PCDFF(clk, reset, PCinput, PCoutput);
     input clk, reset;
-    input [31:0] PCinput;
+    input [63:0] PCinput;
     
-    output [31:0] PCoutput;
-    reg [31:0] PCoutput;
+    output [63:0] PCoutput;
+    reg [63:0] PCoutput;
     
     initial begin
-        PCoutput = 32'b0;
+        PCoutput = 63'b0;
     end
     
     always @(posedge clk, posedge reset)
-        if (reset) PCoutput <= 32'b0;
+        if (reset) PCoutput <= 63'b0;
         else       PCoutput <= PCinput;
 endmodule
 
 //// *** IFID DFF *** ////
 module IFIDDFF (clk, D, Q, IFIDaddlineIN, IFIDaddlineOUT);
     input clk; 
-    input [31:0] IFIDaddlineIN, D;
-    output [31:0] IFIDaddlineOUT, Q;
-    reg [31:0] IFIDaddlineOUT, Q;
+    input [63:0] IFIDaddlineIN;
+    input [31:0] D;
+    output [63:0] IFIDaddlineOUT;
+    output [31:0] Q;
+    reg [63:0] IFIDaddlineOUT;
+    reg [31:0] Q;
     
     always @ (posedge clk) begin 
         Q = D;
@@ -686,18 +596,18 @@ endmodule
 
 //// *** IDEX DFF *** ////
 // Behavioral representation of a positive-edge triggered D-Flip-Flop. --> Handles the ID/EX DFF
-module IDEXDFF (Imm, S, Cin, ImmIN, SIN, CinIN, clk, abusIN, bbusIN, RTRDMuxIN, SignExtIN, abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT, SWInput, SWOutput, LWInput, LWOutput, SLEin, SLTin, SLEout, SLTout);
+module IDEXDFF (Imm, S, Cin, ImmIN, SIN, CinIN, clk, abusIN, bbusIN, RTRDMuxIN, SignExtIN, abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT, SWInput, SWOutput, LWInput, LWOutput);
     input [2:0] SIN;
-    input [31:0] abusIN, bbusIN, RTRDMuxIN, SignExtIN; 
-    input CinIN, ImmIN, clk, SWInput, LWInput, SLEin, SLTin;
+    input [63:0] abusIN, bbusIN, RTRDMuxIN, SignExtIN; 
+    input CinIN, ImmIN, clk, SWInput, LWInput;
     
     output [2:0] S;
-    output [31:0] abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT; 
-    output Cin, Imm, SWOutput, LWOutput, SLEout, SLTout;
+    output [63:0] abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT; 
+    output Cin, Imm, SWOutput, LWOutput;
     
     reg [2:0] S;
-    reg [31:0] abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT;
-    reg Cin, Imm, SWOutput, LWOutput, SLEout, SLTout;
+    reg [63:0] abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT;
+    reg Cin, Imm, SWOutput, LWOutput;
     
     always @ (posedge clk) begin 
         S = SIN;
@@ -709,19 +619,17 @@ module IDEXDFF (Imm, S, Cin, ImmIN, SIN, CinIN, clk, abusIN, bbusIN, RTRDMuxIN, 
         SignExtOUT = SignExtIN;
         SWOutput = SWInput;
         LWOutput = LWInput;
-        SLTout = SLTin;
-        SLEout = SLEin; 
         end
 endmodule
 
 //// *** EXMEM DFF *** ////
 // Behavioral representation of a positive-edge triggered D-Flip-Flop. --> For 32-bit inputs
 module EXMEMDFF (clk, AluInput, IDEXInput, Daddrbus, DselectOUT, BoperandIN, BoperandOUT, SWInput, SWOutput, LWInput, LWOutput);
-    input [31:0] AluInput, IDEXInput, BoperandIN;
+    input [63:0] AluInput, IDEXInput, BoperandIN;
     input clk, SWInput, LWInput;
-    output [31:0] DselectOUT, Daddrbus, BoperandOUT; 
+    output [63:0] DselectOUT, Daddrbus, BoperandOUT; 
     output SWOutput, LWOutput;
-    reg [31:0] DselectOUT, Daddrbus, BoperandOUT; 
+    reg [63:0] DselectOUT, Daddrbus, BoperandOUT; 
     reg SWOutput, LWOutput;
     
     always @ (posedge clk) begin 
@@ -735,13 +643,13 @@ endmodule
 
 //// *** MEMWBDFF *** ////
 // Behavioral representation of a positive-edge triggered D-Flip-Flop. --> Handles the MEM/WB DFF
-module MEMWBDFF (clk, MEMWBaddrbusIN, MEMWBaddrbusOUT, MEMWBdatabusIN, MEMWBdatabusOUT, MEMWBDselectOUT, MEMWBDselectIN, SWInput, SWOutput, LWInput, LWOutput, MEMWBsltsleFlagInput, MEMWBsltsleFlagOutput);
+module MEMWBDFF (clk, MEMWBaddrbusIN, MEMWBaddrbusOUT, MEMWBdatabusIN, MEMWBdatabusOUT, MEMWBDselectOUT, MEMWBDselectIN, SWInput, SWOutput, LWInput, LWOutput);
     input [31:0] MEMWBaddrbusIN, MEMWBdatabusIN, MEMWBDselectIN;
-    input clk, SWInput, LWInput, MEMWBsltsleFlagInput;
+    input clk, SWInput, LWInput;
     output [31:0] MEMWBaddrbusOUT, MEMWBdatabusOUT, MEMWBDselectOUT;
-    output SWOutput, LWOutput, MEMWBsltsleFlagOutput;
+    output SWOutput, LWOutput;
     reg [31:0] MEMWBaddrbusOUT, MEMWBdatabusOUT, MEMWBDselectOUT;
-    reg SWOutput, LWOutput, MEMWBsltsleFlagOutput;
+    reg SWOutput, LWOutput;
     
     always @ (posedge clk) begin 
         MEMWBaddrbusOUT = MEMWBaddrbusIN;
@@ -749,7 +657,6 @@ module MEMWBDFF (clk, MEMWBaddrbusIN, MEMWBaddrbusOUT, MEMWBdatabusIN, MEMWBdata
         MEMWBDselectOUT = MEMWBDselectIN;
         SWOutput = SWInput;
         LWOutput = LWInput; 
-        MEMWBsltsleFlagOutput = MEMWBsltsleFlagInput;
         end 
 endmodule
 
@@ -762,14 +669,14 @@ module add32(a, b, sum);
 endmodule
 
 //// *** BRANCHING COMPARATOR MODULE *** ////
-module comparator32(a, b, result, DselectIn, DselectOut, BNEFlag, BEQFlag);
-    input [31:0] a, b, DselectIn;
+module comparator64(a, b, result, DselectIn, DselectOut, BNEFlag, BEQFlag);
+    input [63:0] a, b, DselectIn;
     input BNEFlag, BEQFlag;
-    output [31:0] DselectOut;
+    output [63:0] DselectOut;
     output result;
     
     reg result;
-    reg [31:0] DselectOut;
+    reg [63:0] DselectOut;
 
     always @ (BNEFlag, BEQFlag) begin
     if (BEQFlag == 1'b1 && a === b)
@@ -779,38 +686,9 @@ module comparator32(a, b, result, DselectIn, DselectOut, BNEFlag, BEQFlag);
     else 
         assign result = 1'b0;
         
-    assign DselectOut = ((BEQFlag == 1'b1 && a === b) || (BNEFlag == 1'b1 && a !== b)) ? 32'h00000000 : DselectIn;
+    assign DselectOut = ((BEQFlag == 1'b1 && a === b) || (BNEFlag == 1'b1 && a !== b)) ? 64'h0000000000000000 : DselectIn;
    
     end
-endmodule
-
-//// *** SLT SLE FLAG ASSIGNMENT MODULE *** ////
-module SLTSLE(ALUin, DselectIN, DselectOUT, SLTsel, SLEsel, SLTSLEout, zeroInput, carryOutInput);
-    input [31:0] ALUin, DselectIN;
-    input SLTsel, SLEsel, zeroInput, carryOutInput;
-    
-    output [31:0] SLTSLEout, DselectOUT;
-    reg [31:0] SLTSLEout, DselectOUT; 
-    reg SLTSLEbitFlag;
-    
-    always @ (ALUin, SLTsel, SLEsel, zeroInput, carryOutInput) begin
-        if (SLTsel == 1'b1 && (~zeroInput & ~carryOutInput)) begin 
-            assign SLTSLEout = 32'h00000001;
-            assign DselectOUT = DselectIN;
-        end
-        else if (SLEsel == 1'b1 && (zeroInput | ~carryOutInput)) begin 
-           assign SLTSLEout = 32'h00000001;
-           assign DselectOUT = DselectIN;
-        end  
-        else if (SLEsel == 1'b1 || SLTsel == 1'b1) begin 
-            assign SLTSLEout = 32'h00000000;
-            assign DselectOUT = DselectIN;
-        end
-        else begin
-            assign SLTSLEout = ALUin;
-            assign DselectOUT = DselectIN;
-        end
-    end 
 endmodule
 
 
