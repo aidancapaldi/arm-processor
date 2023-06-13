@@ -82,4 +82,5 @@ parameter LDUR = 11'b11010000000;
 - [x] Need `LAC6` so we can get to 64 bits for the ALU and all that relies on the LAC 
 - [x] Add the one flag needed for the ALU 
 
-
+##### DIAGRAM
+[Diagram link](https://lucid.app/lucidchart/bb6ea441-bf98-424a-8f45-dcc6bf4a040e/edit?page=0_0&invitationId=inv_fa02469f-1cc0-4602-ad25-949e55a2c984#)
