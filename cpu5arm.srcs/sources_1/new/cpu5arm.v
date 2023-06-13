@@ -73,7 +73,8 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     wire [63:0] ALUout;
     
     // Store the needed SLT SLE outputs from the ALU 
-    wire isZeroOutput, carryOut, isNegativeOutput;
+    // Flags for ARM instructions      // wire isZeroOutput, carryOut, isNegativeOutput;
+    wire C, V, Z, N;
     
     //// ***EXMEM OUTPUTS*** ////
     // Store the EXMEM line going into the databus tristate 
@@ -107,21 +108,32 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     // Store the result of the new IFID output 
     wire [63:0] IFIDaddOUT;
  
-    // Intermediates for 32'b4 and the SLL by 2 for the adders 
+    // Intermediates for 64'b4 and the SLL by 2 for the adders 
     wire [63:0] imm4, signExtSLL;
     
-   
+    // Flag for the opcode decoder 
+    // 3 bit flag, to choose from any of 6 types of instructions 
+    // 000 -> R-format, 001 -> I-format, 010 -> D-format, 011 -> IM-format, 100 -> B-format, 
+    // 101 -> CB-format
+    // 111 -> NOP or default 
+    // xxx -> :3 
+    wire [2:0] instrFlag;
+    
+    // Intermediate wire needed after setting the instruction bus flag 
+    wire [31:0] IFSout;
+    
+    
      
     //// Instantiate the PC adders 
     assign signExtSLL = signextOUT << 2;
-    add32 signextAdder(
+    add64 signextAdder(
         .a(signExtSLL),
         .b(IFIDaddOUT),
         .sum(signextAdderOUT)
     );
     
     assign imm4 = 64'h0000000000000004;
-    add32 pcplus4Adder(
+    add64 pcplus4Adder(
         .a(imm4),
         .b(iaddrbus),
         .sum(pcplus4AdderOUT)
@@ -153,6 +165,14 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .IFIDaddlineOUT(IFIDaddOUT)
     );
     
+    //// Set the InstrFlag based on the instruction bus input 
+    //// (determine which type of instruction we have so the opcode decoder can work) 
+    InstrFlagSetter SetFlag(
+        .instructionBusIn(IFIDout),
+        .instructionBusOut(IFSout),
+        .instructionFlagOut(instrFlag)
+    );
+    
     
     //// Instantiate the register result comparator module
     comparator64 registerCheck(
@@ -168,29 +188,29 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     //// Instantiate the decoders //// 
     //// Assign rs and Aselect ////
     decoder5bit rs (
-        .r(IFIDout[25:21]),
+        .r(IFSout[25:21]),
         .sel(Aselect)
     );
     
     //// Assign rt ////
     decoder5bit rt (
-        .r(IFIDout[20:16]),
+        .r(IFSout[20:16]),
         .sel(Bselect)
     );
     
     //// Assign rd ////
     decoder5bit rd (
-        .r(IFIDout[15:11]), 
+        .r(IFSout[15:11]), 
         .sel(rdOut)
     );
     
     //// Read opcode to determine ALU operation ////
     opcodedecoder op (
-        .opcode(IFIDout[31:26]), 
+        .opcode(IFSout[31:26]), 
         .ImmOP(ImmOP),
         .SOP(SOP),
         .CinOP(CinOP),
-        .func(IFIDout[5:0]), 
+        .func(IFSout[5:0]), 
         .SWFlag(SWOP),
         .LWFlag(LWOP), 
         .BEQFlag(BEQ),
@@ -199,7 +219,7 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     
     //// Sign extend for I-type instructions //// 
     signextender sd (
-        .in(IFIDout[15:0]),
+        .in(IFSout[15:0]),
         .se(signextOUT)
     );
     
@@ -225,13 +245,6 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .bbus(regBbusOUT)
     );
     
-    
-    
-    // regfile aselbselregister[63:32] 
-    // regfile aselbselregister[30:0] 
-    // Zero the 31 register
-    // OR 
-    // just change 31 to 63 
     
     //// Instantiate the ID/EX DFF //// 
     //// Support the ID/EX handling Imm, S, Cin 
@@ -268,14 +281,14 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     //// Instantiate the 32-bit ALU which stands between IDEX and EXMEM 
     alu64 aluUnit(  
         .d(ALUout),
-        .Cout(carryOut),
-        .V(),
+        .Cout(C),
+        .V(V),
         .a(abus),
         .b(bbus),
         .Cin(Cin), 
         .S(S), 
-        .Z(isZeroOutput),
-        .N(isNegativeOutput)
+        .Z(Z),
+        .N(N)
     );
 
     //// Instantiate the EX/MEM DFF //// 
@@ -342,196 +355,458 @@ endmodule
 // Behavioral representation of a tristate buffer, used so databus can play with inputs correctly and 
 // avoid an "assign" statement 
 module tristatebuffer(in0, ctrl, out0);
-    input [31:0] in0;
+    input [63:0] in0;
     input ctrl;
-    output [31:0] out0;
+    output [63:0] out0;
     
-    assign out0 = ctrl ?  in0 :  32'bz;
+    assign out0 = ctrl ?  in0 :  64'bz;
 endmodule
 
-// Given a 6-bit opcode, decipher which one we have and do something 
-module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, BNEFlag);
-    input [5:0] opcode, func;
-    output ImmOP, CinOP, SWFlag, LWFlag, BEQFlag, BNEFlag;
+//// Given a 6-bit opcode, decipher which one we have and do something 
+//module opcodedecoder(opcode, ImmOP, SOP, CinOP, func, SWFlag, LWFlag, BEQFlag, BNEFlag);
+//    input [5:0] opcode, func;
+//    output ImmOP, CinOP, SWFlag, LWFlag, BEQFlag, BNEFlag;
+//    output [2:0] SOP;
+    
+//    // Internal wires to store R-Type results
+//    reg ImmOP, CinOP, SWFlag, LWFlag, BEQFlag, BNEFlag;
+//    reg [2:0] SOP;
+    
+//    // Decide which instruction type we have and react accordingly 
+//    always @ (opcode, func) begin  
+//        case (opcode)
+//            6'b000000: begin 
+//                            // R-type
+//                            case (func)
+//                                    6'b000011: begin
+//                                                    // ADD
+//                                                    SOP = 3'b010;
+//                                                    ImmOP = 1'b0;
+//                                                    CinOP = 1'b0;
+//                                                    SWFlag = 1'b0;
+//                                                    LWFlag = 1'b0;
+//                                                    BEQFlag = 1'b0;
+//                                                    BNEFlag = 1'b0;
+//                                               end
+//                                    6'b000010: begin
+//                                                    // SUB 
+//                                                    SOP = 3'b011;
+//                                                    ImmOP = 1'b0;
+//                                                    CinOP = 1'b1;
+//                                                    SWFlag = 1'b0;
+//                                                    LWFlag = 1'b0;
+//                                                    BEQFlag = 1'b0;
+//                                                    BNEFlag = 1'b0;
+//                                               end
+//                                    6'b000001: begin
+//                                                    // XOR
+//                                                    SOP = 3'b000;
+//                                                    ImmOP = 1'b0;
+//                                                    CinOP = 1'b0;
+//                                                    SWFlag = 1'b0;
+//                                                    LWFlag = 1'b0;
+//                                                    BEQFlag = 1'b0;
+//                                                    BNEFlag = 1'b0;
+//                                               end
+//                                    6'b000111: begin
+//                                                    // AND 
+//                                                    SOP = 3'b110;
+//                                                    ImmOP = 1'b0;
+//                                                    CinOP = 1'b0;
+//                                                    SWFlag = 1'b0;
+//                                                    LWFlag = 1'b0;
+//                                                    BEQFlag = 1'b0;
+//                                                    BNEFlag = 1'b0;
+//                                               end
+//                                    6'b000100: begin
+//                                                    // OR 
+//                                                    SOP = 3'b100;
+//                                                    ImmOP = 1'b0;
+//                                                    CinOP = 1'b0;
+//                                                    SWFlag = 1'b0;
+//                                                    LWFlag = 1'b0;
+//                                                    BEQFlag = 1'b0;
+//                                                    BNEFlag = 1'b0;
+//                                               end
+//                                    default: begin
+//                                                    // uh oh (rtype)
+//                                                    SOP = 3'bxxx; 
+//                                                    ImmOP = 1'bx; 
+//                                                    CinOP = 1'bx;
+//                                                    SWFlag = 1'b0; 
+//                                                    LWFlag = 1'b0; 
+//                                                    BEQFlag = 1'b0;
+//                                                    BNEFlag = 1'b0;
+//                                             end
+//                            endcase 
+//                       end              
+//            6'b000011: begin
+//                            // ADDI 
+//                            SOP = 3'b010;
+//                            ImmOP = 1'b1;
+//                            CinOP = 1'b0;
+//                            SWFlag = 1'b0;
+//                            LWFlag = 1'b0; 
+//                            BEQFlag = 1'b0;
+//                            BNEFlag = 1'b0;
+//                       end
+//            6'b000010: begin
+//                            // SUBI 
+//                            SOP = 3'b011;
+//                            ImmOP = 1'b1;
+//                            CinOP = 1'b1;
+//                            SWFlag = 1'b0;
+//                            LWFlag = 1'b0; 
+//                            BEQFlag = 1'b0;
+//                            BNEFlag = 1'b0;
+//                       end
+//           6'b000001: begin
+//                            // XORI 
+//                            SOP = 3'b000;
+//                            ImmOP = 1'b1;
+//                            CinOP = 1'b0;
+//                            SWFlag = 1'b0;
+//                            LWFlag = 1'b0;
+//                            BEQFlag = 1'b0;
+//                            BNEFlag = 1'b0;
+//                       end
+//           6'b001111: begin
+//                            // ANDI 
+//                            SOP = 3'b110;
+//                            ImmOP  = 1'b1;
+//                            CinOP = 1'b0;
+//                            SWFlag = 1'b0;
+//                            LWFlag = 1'b0; 
+//                            BEQFlag = 1'b0;
+//                            BNEFlag = 1'b0;
+//                       end
+//           6'b001100: begin
+//                            // ORI 
+//                            SOP = 3'b100;
+//                            ImmOP = 1'b1;
+//                            CinOP = 1'b0;
+//                            SWFlag = 1'b0;
+//                            LWFlag = 1'b0; 
+//                            BEQFlag = 1'b0;
+//                            BNEFlag = 1'b0;
+//                       end
+//           6'b011110: begin 
+//                           // LW 
+//                           SOP = 3'b010; 
+//                           ImmOP = 1'b1; 
+//                           CinOP = 1'b0;
+//                           SWFlag = 1'b0;
+//                           LWFlag = 1'b1; 
+//                           BEQFlag = 1'b0;
+//                           BNEFlag = 1'b0;
+//                      end
+//           6'b011111: begin 
+//                           // SW 
+//                           SOP = 3'b010; 
+//                           ImmOP = 1'b1; 
+//                           CinOP = 1'b0;
+//                           SWFlag = 1'b1;
+//                           LWFlag = 1'b0;
+//                           BEQFlag = 1'b0;
+//                           BNEFlag = 1'b0;
+//                      end
+//           6'b110000: begin 
+//                           // BEQ 
+//                           SOP = 3'b111; 
+//                           ImmOP = 1'b1; 
+//                           CinOP = 1'b0;
+//                           SWFlag = 1'b0;
+//                           LWFlag = 1'b0;
+//                           BEQFlag = 1'b1;
+//                           BNEFlag = 1'b0;
+//                      end
+//           6'b110001: begin 
+//                           // BNE
+//                           SOP = 3'b111; 
+//                           ImmOP = 1'b1; 
+//                           CinOP = 1'b0;
+//                           SWFlag = 1'b0;
+//                           LWFlag = 1'b0;
+//                           BEQFlag = 1'b0;
+//                           BNEFlag = 1'b1;
+//                      end
+//           default: begin
+//                        // uh oh
+//                        SOP = 3'bxxx; 
+//                        ImmOP = 1'bx; 
+//                        CinOP = 1'bx;  
+//                        SWFlag = 1'b0;
+//                        LWFlag = 1'b0;
+//                        BEQFlag = 1'b0;
+//                        BNEFlag = 1'b0;
+//                    end
+//        endcase 
+//    end               
+//endmodule 
+
+module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSInstr);
+    input [10:0] opcode;
+    input [2:0] InstrFlag;
+    output ImmOP, CinOP, SWFlag, LWFlag, isSInstr;
     output [2:0] SOP;
     
     // Internal wires to store R-Type results
-    reg ImmOP, CinOP, SWFlag, LWFlag, BEQFlag, BNEFlag;
+    reg ImmOP, CinOP, SWFlag, LWFlag, isSInstr;
     reg [2:0] SOP;
     
     // Decide which instruction type we have and react accordingly 
-    always @ (opcode, func) begin  
-        case (opcode)
-            6'b000000: begin 
-                            // R-type
-                            case (func)
-                                    6'b000011: begin
-                                                    // ADD
-                                                    SOP = 3'b010;
-                                                    ImmOP = 1'b0;
-                                                    CinOP = 1'b0;
-                                                    SWFlag = 1'b0;
-                                                    LWFlag = 1'b0;
-                                                    BEQFlag = 1'b0;
-                                                    BNEFlag = 1'b0;
-                                               end
-                                    6'b000010: begin
-                                                    // SUB 
-                                                    SOP = 3'b011;
-                                                    ImmOP = 1'b0;
-                                                    CinOP = 1'b1;
-                                                    SWFlag = 1'b0;
-                                                    LWFlag = 1'b0;
-                                                    BEQFlag = 1'b0;
-                                                    BNEFlag = 1'b0;
-                                               end
-                                    6'b000001: begin
-                                                    // XOR
-                                                    SOP = 3'b000;
-                                                    ImmOP = 1'b0;
-                                                    CinOP = 1'b0;
-                                                    SWFlag = 1'b0;
-                                                    LWFlag = 1'b0;
-                                                    BEQFlag = 1'b0;
-                                                    BNEFlag = 1'b0;
-                                               end
-                                    6'b000111: begin
-                                                    // AND 
-                                                    SOP = 3'b110;
-                                                    ImmOP = 1'b0;
-                                                    CinOP = 1'b0;
-                                                    SWFlag = 1'b0;
-                                                    LWFlag = 1'b0;
-                                                    BEQFlag = 1'b0;
-                                                    BNEFlag = 1'b0;
-                                               end
-                                    6'b000100: begin
-                                                    // OR 
-                                                    SOP = 3'b100;
-                                                    ImmOP = 1'b0;
-                                                    CinOP = 1'b0;
-                                                    SWFlag = 1'b0;
-                                                    LWFlag = 1'b0;
-                                                    BEQFlag = 1'b0;
-                                                    BNEFlag = 1'b0;
-                                               end
-                                    default: begin
-                                                    // uh oh (rtype)
-                                                    SOP = 3'bxxx; 
-                                                    ImmOP = 1'bx; 
-                                                    CinOP = 1'bx;
-                                                    SWFlag = 1'b0; 
-                                                    LWFlag = 1'b0; 
-                                                    BEQFlag = 1'b0;
-                                                    BNEFlag = 1'b0;
+    always @ (opcode) begin  
+        case (InstrFlag)
+            3'b000: begin
+                        case (opcode)
+                            11'b00101000000: begin // ADD 
+                                                SOP = 3'b010; 
+                                                ImmOP = 1'b0; 
+                                                CinOP = 1'b0;  
+                                                SWFlag = 1'b0;
+                                                LWFlag = 1'b0;
+                                                isSInstr = 1'b0;
+                                             end 
+                            11'b00101000001: begin // ADDS
+                                                SOP = 3'b010; 
+                                                ImmOP = 1'b0; 
+                                                CinOP = 1'b0;  
+                                                SWFlag = 1'b0;
+                                                LWFlag = 1'b0;
+                                                isSInstr = 1'b1;
                                              end
-                            endcase 
-                       end              
-            6'b000011: begin
-                            // ADDI 
-                            SOP = 3'b010;
-                            ImmOP = 1'b1;
-                            CinOP = 1'b0;
-                            SWFlag = 1'b0;
-                            LWFlag = 1'b0; 
-                            BEQFlag = 1'b0;
-                            BNEFlag = 1'b0;
-                       end
-            6'b000010: begin
-                            // SUBI 
-                            SOP = 3'b011;
-                            ImmOP = 1'b1;
-                            CinOP = 1'b1;
-                            SWFlag = 1'b0;
-                            LWFlag = 1'b0; 
-                            BEQFlag = 1'b0;
-                            BNEFlag = 1'b0;
-                       end
-           6'b000001: begin
-                            // XORI 
-                            SOP = 3'b000;
-                            ImmOP = 1'b1;
-                            CinOP = 1'b0;
-                            SWFlag = 1'b0;
-                            LWFlag = 1'b0;
-                            BEQFlag = 1'b0;
-                            BNEFlag = 1'b0;
-                       end
-           6'b001111: begin
-                            // ANDI 
-                            SOP = 3'b110;
-                            ImmOP  = 1'b1;
-                            CinOP = 1'b0;
-                            SWFlag = 1'b0;
-                            LWFlag = 1'b0; 
-                            BEQFlag = 1'b0;
-                            BNEFlag = 1'b0;
-                       end
-           6'b001100: begin
-                            // ORI 
-                            SOP = 3'b100;
-                            ImmOP = 1'b1;
-                            CinOP = 1'b0;
-                            SWFlag = 1'b0;
-                            LWFlag = 1'b0; 
-                            BEQFlag = 1'b0;
-                            BNEFlag = 1'b0;
-                       end
-           6'b011110: begin 
-                           // LW 
-                           SOP = 3'b010; 
-                           ImmOP = 1'b1; 
-                           CinOP = 1'b0;
-                           SWFlag = 1'b0;
-                           LWFlag = 1'b1; 
-                           BEQFlag = 1'b0;
-                           BNEFlag = 1'b0;
-                      end
-           6'b011111: begin 
-                           // SW 
-                           SOP = 3'b010; 
-                           ImmOP = 1'b1; 
-                           CinOP = 1'b0;
-                           SWFlag = 1'b1;
-                           LWFlag = 1'b0;
-                           BEQFlag = 1'b0;
-                           BNEFlag = 1'b0;
-                      end
-           6'b110000: begin 
-                           // BEQ 
-                           SOP = 3'b111; 
-                           ImmOP = 1'b1; 
-                           CinOP = 1'b0;
-                           SWFlag = 1'b0;
-                           LWFlag = 1'b0;
-                           BEQFlag = 1'b1;
-                           BNEFlag = 1'b0;
-                      end
-           6'b110001: begin 
-                           // BNE
-                           SOP = 3'b111; 
-                           ImmOP = 1'b1; 
-                           CinOP = 1'b0;
-                           SWFlag = 1'b0;
-                           LWFlag = 1'b0;
-                           BEQFlag = 1'b0;
-                           BNEFlag = 1'b1;
-                      end
-           default: begin
-                        // uh oh
+                            11'b00101000010: begin // AND
+                                                SOP = 3'b110; 
+                                                ImmOP = 1'b0; 
+                                                CinOP = 1'b0;  
+                                                SWFlag = 1'b0;
+                                                LWFlag = 1'b0;
+                                                isSInstr = 1'b0;
+                                             end
+                            11'b00101000011: begin // ANDS
+                                                SOP = 3'b110; 
+                                                ImmOP = 1'b0; 
+                                                CinOP = 1'b0;  
+                                                SWFlag = 1'b0;
+                                                LWFlag = 1'b0;
+                                                isSInstr = 1'b1;
+                                             end
+                            11'b00101000100: begin // EOR
+                                                SOP = 3'b000; 
+                                                ImmOP = 1'b0; 
+                                                CinOP = 1'b0;  
+                                                SWFlag = 1'b0;
+                                                LWFlag = 1'b0;
+                                                isSInstr = 1'b0;
+                                             end
+                            11'b00101000101: begin // ENOR
+                                                SOP = 3'b001; 
+                                                ImmOP = 1'b0; 
+                                                CinOP = 1'b0;  
+                                                SWFlag = 1'b0;
+                                                LWFlag = 1'b0;
+                                                isSInstr = 1'b0;
+                                             end
+                            11'b00101000110: begin // LSL
+                                                SOP = 3'b101; 
+                                                ImmOP = 1'b0; 
+                                                CinOP = 1'b0;  
+                                                SWFlag = 1'b0;
+                                                LWFlag = 1'b0;
+                                                isSInstr = 1'b0;
+                                             end 
+                            11'b00101000111: begin // LSR
+                                                SOP = 3'b111; 
+                                                ImmOP = 1'b0; 
+                                                CinOP = 1'b0;  
+                                                SWFlag = 1'b0;
+                                                LWFlag = 1'b0;
+                                                isSInstr = 1'b0;
+                                             end
+                            11'b00101001000: begin // ORR
+                                                SOP = 3'b100; 
+                                                ImmOP = 1'b0; 
+                                                CinOP = 1'b0;  
+                                                SWFlag = 1'b0;
+                                                LWFlag = 1'b0;
+                                                isSInstr = 1'b0;
+                                             end 
+                            11'b00101001001: begin // SUB
+                                                SOP = 3'b011; 
+                                                ImmOP = 1'b0; 
+                                                CinOP = 1'b1;  
+                                                SWFlag = 1'b0;
+                                                LWFlag = 1'b0;
+                                                isSInstr = 1'b0;
+                                             end
+                            11'b00101001010: begin // SUBS
+                                                SOP = 3'b011; 
+                                                ImmOP = 1'b0; 
+                                                CinOP = 1'b1;  
+                                                SWFlag = 1'b0;
+                                                LWFlag = 1'b0;
+                                                isSInstr = 1'b1;
+                                             end
+                             default: begin // Erm 
+                                         SOP = 3'bxxx; 
+                                         ImmOP = 1'bx; 
+                                         CinOP = 1'bx;  
+                                         SWFlag = 1'b0;
+                                         LWFlag = 1'b0;
+                                         isSInstr = 1'b0;
+                                      end 
+                        endcase 
+                    end
+            3'b001: begin 
+                        case (opcode[10:1])
+                                10'b1000100000: begin // ADDI
+                                                    SOP = 3'b010; 
+                                                    ImmOP = 1'b1; 
+                                                    CinOP = 1'b0;  
+                                                    SWFlag = 1'b0;
+                                                    LWFlag = 1'b0;
+                                                    isSInstr = 1'b0;
+                                                end 
+                                10'b1000100001: begin // ADDIS
+                                                    SOP = 3'b010; 
+                                                    ImmOP = 1'b1; 
+                                                    CinOP = 1'b0;  
+                                                    SWFlag = 1'b0;
+                                                    LWFlag = 1'b0;
+                                                    isSInstr = 1'b1;
+                                                end
+                                10'b1000100010: begin // ANDI
+                                                    SOP = 3'b110; 
+                                                    ImmOP = 1'b1; 
+                                                    CinOP = 1'b0;  
+                                                    SWFlag = 1'b0;
+                                                    LWFlag = 1'b0;
+                                                    isSInstr = 1'b0;
+                                                end
+                                10'b1000100011: begin // ANDIS
+                                                    SOP = 3'b110; 
+                                                    ImmOP = 1'b1; 
+                                                    CinOP = 1'b0;  
+                                                    SWFlag = 1'b0;
+                                                    LWFlag = 1'b0;
+                                                    isSInstr = 1'b1;
+                                                end
+                                10'b1000100100: begin // EORI
+                                                    SOP = 3'b000; 
+                                                    ImmOP = 1'b1; 
+                                                    CinOP = 1'b0;  
+                                                    SWFlag = 1'b0;
+                                                    LWFlag = 1'b0;
+                                                    isSInstr = 1'b0;
+                                                end
+                                10'b1000100101: begin // ENORI
+                                                    SOP = 3'b001; 
+                                                    ImmOP = 1'b1; 
+                                                    CinOP = 1'b0;  
+                                                    SWFlag = 1'b0;
+                                                    LWFlag = 1'b0;
+                                                    isSInstr = 1'b0;
+                                                end
+                                10'b1000100110: begin // ORRI
+                                                    SOP = 3'b100; 
+                                                    ImmOP = 1'b1; 
+                                                    CinOP = 1'b0;  
+                                                    SWFlag = 1'b0;
+                                                    LWFlag = 1'b0;
+                                                    isSInstr = 1'b0;
+                                                end
+                                10'b1000100111: begin // SUBI
+                                                    SOP = 3'b011; 
+                                                    ImmOP = 1'b1; 
+                                                    CinOP = 1'b1;  
+                                                    SWFlag = 1'b0;
+                                                    LWFlag = 1'b0;
+                                                    isSInstr = 1'b0;
+                                                end
+                                10'b1000101000: begin // SUBIS
+                                                    SOP = 3'b011; 
+                                                    ImmOP = 1'b1; 
+                                                    CinOP = 1'b1;  
+                                                    SWFlag = 1'b0;
+                                                    LWFlag = 1'b0;
+                                                    isSInstr = 1'b1;
+                                                end
+                                default: begin // Erm 
+                                            SOP = 3'bxxx; 
+                                            ImmOP = 1'bx; 
+                                            CinOP = 1'bx;  
+                                            SWFlag = 1'b0;
+                                             LWFlag = 1'b0;
+                                             isSInstr = 1'b0;
+                                        end 
+                        endcase
+                    end
+            3'b010: begin 
+                        case (opcode)
+                                11'b11010000000: begin // LDUR
+                                                    SOP = 3'b010; 
+                                                    ImmOP = 1'b1; 
+                                                    CinOP = 1'b0;  
+                                                    SWFlag = 1'b0;
+                                                    LWFlag = 1'b1;
+                                                    isSInstr = 1'b0;
+                                                end 
+                                11'b11010000001: begin // STUR
+                                                    SOP = 3'b010; 
+                                                    ImmOP = 1'b1; 
+                                                    CinOP = 1'b0;  
+                                                    SWFlag = 1'b1;
+                                                    LWFlag = 1'b0;
+                                                    isSInstr = 1'b0;
+                                                end
+                                default: begin // Erm 
+                                            SOP = 3'bxxx; 
+                                            ImmOP = 1'bx; 
+                                            CinOP = 1'bx;  
+                                            SWFlag = 1'b0;
+                                             LWFlag = 1'b0;
+                                             isSInstr = 1'b0;
+                                        end 
+                        endcase
+                    end 
+            3'b011: begin 
+                        case (opcode[10:2])
+                                9'b110010101: begin // MOVZ
+                                                    SOP = 3'b101; 
+                                                    ImmOP = 1'b0; 
+                                                    CinOP = 1'b0;  
+                                                    SWFlag = 1'b0;
+                                                    LWFlag = 1'b0;
+                                                    isSInstr = 1'b0;
+                                                end
+                                default: begin // Erm 
+                                            SOP = 3'bxxx; 
+                                            ImmOP = 1'bx; 
+                                            CinOP = 1'bx;  
+                                            SWFlag = 1'b0;
+                                            LWFlag = 1'b0;
+                                            isSInstr = 1'b0;
+                                        end 
+                         endcase
+                    end
+            
+            3'b100: begin end
+            3'b101: begin end 
+            3'b111: begin
                         SOP = 3'bxxx; 
                         ImmOP = 1'bx; 
                         CinOP = 1'bx;  
                         SWFlag = 1'b0;
                         LWFlag = 1'b0;
-                        BEQFlag = 1'b0;
-                        BNEFlag = 1'b0;
+                        isSInstr = 1'b0;
                     end
-        endcase 
-    end               
+        endcase
+    end
 endmodule 
 
+
 // Sign extend the given value to 32 bits 
+// LETS COME BACK HERE
 module signextender(in, se);
     input [15:0] in;
     output [31:0] se;
@@ -570,11 +845,11 @@ module PCDFF(clk, reset, PCinput, PCoutput);
     reg [63:0] PCoutput;
     
     initial begin
-        PCoutput = 63'b0;
+        PCoutput = 64'b0;
     end
     
     always @(posedge clk, posedge reset)
-        if (reset) PCoutput <= 63'b0;
+        if (reset) PCoutput <= 64'b0;
         else       PCoutput <= PCinput;
 endmodule
 
@@ -593,6 +868,28 @@ module IFIDDFF (clk, D, Q, IFIDaddlineIN, IFIDaddlineOUT);
         IFIDaddlineOUT = IFIDaddlineIN;
         end 
 endmodule
+
+// Module which behaviorally sets the instruction bus flag 
+// This module decides which type of ARM instruction we have 
+module InstrFlagSetter();
+    input [31:0] instructionBusIn;
+    output [31:0] instructionBusOut;
+    output [2:0] instructionFlagOut;
+    
+    // Based on the instruction bus, set the flag. 
+    always @ (instructionBusIn) begin
+        case (instructionBusIn[63:60]) 
+            4'b0010: instructionFlagOut = 3'b000; // R-format 
+            4'b1000: instructionFlagOut = 3'b001; // I-format
+            4'b1101: instructionFlagOut = 3'b010; // D-format
+            4'b1100: instructionFlagOut = 3'b011; // IM-format
+            4'b0000: instructionFlagOut = 3'b100; // B-format
+            4'b1111: instructionFlagOut = 3'b101; // CB-format (CBZ, CBNZ) 
+            4'b0111: instructionFlagOut = 3'b101; // CB-format (BEQ, BNE, BLT, BGE)
+            default: instructionFlagOut = 3'b111; // NOP or error 
+        endcase 
+    end 
+endmodule 
 
 //// *** IDEX DFF *** ////
 // Behavioral representation of a positive-edge triggered D-Flip-Flop. --> Handles the ID/EX DFF
@@ -644,11 +941,11 @@ endmodule
 //// *** MEMWBDFF *** ////
 // Behavioral representation of a positive-edge triggered D-Flip-Flop. --> Handles the MEM/WB DFF
 module MEMWBDFF (clk, MEMWBaddrbusIN, MEMWBaddrbusOUT, MEMWBdatabusIN, MEMWBdatabusOUT, MEMWBDselectOUT, MEMWBDselectIN, SWInput, SWOutput, LWInput, LWOutput);
-    input [31:0] MEMWBaddrbusIN, MEMWBdatabusIN, MEMWBDselectIN;
+    input [63:0] MEMWBaddrbusIN, MEMWBdatabusIN, MEMWBDselectIN;
     input clk, SWInput, LWInput;
-    output [31:0] MEMWBaddrbusOUT, MEMWBdatabusOUT, MEMWBDselectOUT;
+    output [63:0] MEMWBaddrbusOUT, MEMWBdatabusOUT, MEMWBDselectOUT;
     output SWOutput, LWOutput;
-    reg [31:0] MEMWBaddrbusOUT, MEMWBdatabusOUT, MEMWBDselectOUT;
+    reg [63:0] MEMWBaddrbusOUT, MEMWBdatabusOUT, MEMWBDselectOUT;
     reg SWOutput, LWOutput;
     
     always @ (posedge clk) begin 
@@ -660,10 +957,10 @@ module MEMWBDFF (clk, MEMWBaddrbusIN, MEMWBaddrbusOUT, MEMWBdatabusIN, MEMWBdata
         end 
 endmodule
 
-//// *** 32-BIT ADDER *** ////
-module add32(a, b, sum);
-    input [31:0] a, b;
-    output [31:0] sum;
+//// *** 64-BIT ADDER *** ////
+module add64(a, b, sum);
+    input [63:0] a, b;
+    output [63:0] sum;
     
     assign sum = a + b;
 endmodule
@@ -777,9 +1074,9 @@ module alu_cell (d, g, p, a, b, c, S);
     always @ (a, b, c, d, S, bint, cint, p) begin
         case (S)
             3'b100 : d = a | b;
-            3'b101 : d = ~(a | b); /// THIS CAN BE SHIFT RIGHT NOW 
+            3'b101 : d = a << b; 
             3'b110 : d = a & b;
-            3'b111 : d = 0; 
+            3'b111 : d = a >> b; 
             default : d = (p ^ cint);
         endcase
     end

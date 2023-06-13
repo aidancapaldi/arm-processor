@@ -75,10 +75,13 @@ parameter LDUR = 11'b11010000000;
 
 ##### TODO List
 
+- [ ] Add logic to force B input to the ALU to be SHAMT when using LSL, same for LSR. 
+
 - [ ] Redesign the decoder stage completely for the new opcodes 
+- [ ] Figure out what we want to happen at the `SignExtend` module
 - [ ] Fix his testbench to start our own 
-- [ ] Redesign the regfile declaration for the new bits 
-- [ ] Refactor any use of `[0:31]` and so on to respect the new ordering of bits 
+- [x] Redesign the regfile declaration for the new bits 
+- [x] Refactor any use of `[0:31]` and so on to respect the new ordering of bits --> done except for Sign Extender
 - [x] Need `LAC6` so we can get to 64 bits for the ALU and all that relies on the LAC 
 - [x] Add the one flag needed for the ALU 
 
