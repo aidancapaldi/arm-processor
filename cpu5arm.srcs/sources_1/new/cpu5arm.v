@@ -238,7 +238,8 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .isSInstr(SInstruction),
         .BGEFlag(BGE),
         .BLTFlag(BLT),
-        .MOVZFlag(MOVZOP)
+        .MOVZFlag(MOVZOP),
+        .InstrFlag(instrFlag)
     );
     
     //// Sign extend for non R-type instructions //// 
@@ -408,7 +409,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
     reg [2:0] SOP;
     
     // Decide which instruction type we have and react accordingly 
-    always @ (opcode) begin  
+    always @ (opcode, InstrFlag) begin  
         case (InstrFlag)
             3'b000: begin
                         case (opcode)
@@ -1048,10 +1049,11 @@ module InstrFlagSetter(instructionBusIn, instructionBusOut, instructionFlagOut);
     output [2:0] instructionFlagOut;
     
     reg [2:0] instructionFlagOut;
+    reg [31:0] instructionBusOut;
     
     // Based on the instruction bus, set the flag. 
     always @ (instructionBusIn) begin
-        case (instructionBusIn[63:60]) 
+        case (instructionBusIn[31:28]) 
             4'b0010: instructionFlagOut = 3'b000; // R-format 
             4'b1000: instructionFlagOut = 3'b001; // I-format
             4'b1101: instructionFlagOut = 3'b010; // D-format
@@ -1061,6 +1063,7 @@ module InstrFlagSetter(instructionBusIn, instructionBusOut, instructionFlagOut);
             4'b0111: instructionFlagOut = 3'b101; // CB-format (BEQ, BNE, BLT, BGE)
             default: instructionFlagOut = 3'b111; // NOP or error 
         endcase 
+        assign instructionBusOut = instructionBusIn;
     end 
 endmodule 
 

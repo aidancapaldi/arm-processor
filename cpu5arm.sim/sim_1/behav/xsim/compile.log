@@ -27,5 +27,3 @@ INFO: [VRFC 10-311] analyzing module lac5
 INFO: [VRFC 10-311] analyzing module lac6
 INFO: [VRFC 10-2263] Analyzing Verilog file "E:/arm-processor/cpu5arm.srcs/sim_1/new/cpu5armtb.v" into library xil_defaultlib
 INFO: [VRFC 10-311] analyzing module cpu5armtb
-INFO: [VRFC 10-2263] Analyzing Verilog file "E:/arm-processor/cpu5arm.sim/sim_1/behav/xsim/glbl.v" into library xil_defaultlib
-INFO: [VRFC 10-311] analyzing module glbl
