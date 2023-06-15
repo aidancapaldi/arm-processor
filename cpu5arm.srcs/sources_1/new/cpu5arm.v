@@ -128,6 +128,9 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     // Flags for BLT and BGE 
     wire BLT, BGE;
     
+    // Intermediate wire to hold the shift value for LSL and LSR operations
+    wire [5:0] shamtIntoALU;
+    
     
      
     //// Instantiate the PC adders 
@@ -285,7 +288,9 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .LWInput(LWOP),
         .LWOutput(LWIDEXout),
         .SInstrIN(SInstruction),
-        .SInstrOUT(SFlag)
+        .SInstrOUT(SFlag),
+        .ShiftIN(IFSout[15:10]),
+        .ShiftOUT(shamtIntoALU)
     );
     
     //// Instantiate the mux between IDEX and EXMEM which switches for I Type instructions 
@@ -307,7 +312,8 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .S(S), 
         .Z(Z),
         .N(N),
-        .SInstructionIn(SFlag)
+        .SInstructionIn(SFlag),
+        .shamt(shamtIntoALU)
     );
 
     //// Instantiate the EX/MEM DFF //// 
@@ -990,18 +996,21 @@ endmodule
 
 //// *** IDEX DFF *** ////
 // Behavioral representation of a positive-edge triggered D-Flip-Flop. --> Handles the ID/EX DFF
-module IDEXDFF (Imm, S, Cin, ImmIN, SIN, CinIN, clk, abusIN, bbusIN, RTRDMuxIN, SignExtIN, abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT, SWInput, SWOutput, LWInput, LWOutput, SInstrIN, SInstrOUT);
+module IDEXDFF (Imm, S, Cin, ImmIN, SIN, CinIN, clk, abusIN, bbusIN, RTRDMuxIN, SignExtIN, abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT, SWInput, SWOutput, LWInput, LWOutput, SInstrIN, SInstrOUT, ShiftIN, ShiftOUT);
     input [2:0] SIN;
     input [63:0] abusIN, bbusIN, RTRDMuxIN, SignExtIN; 
+    input [5:0] ShiftIN;
     input CinIN, ImmIN, clk, SWInput, LWInput, SInstrIN;
     
     output [2:0] S;
     output [63:0] abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT; 
     output Cin, Imm, SWOutput, LWOutput, SInstrOUT;
+    output [5:0] ShiftOUT;
     
     reg [2:0] S;
     reg [63:0] abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT;
     reg Cin, Imm, SWOutput, LWOutput, SInstrOUT;
+    reg [5:0] ShiftOUT;
     
     always @ (posedge clk) begin 
         S = SIN;
@@ -1014,6 +1023,7 @@ module IDEXDFF (Imm, S, Cin, ImmIN, SIN, CinIN, clk, abusIN, bbusIN, RTRDMuxIN, 
         SWOutput = SWInput;
         LWOutput = LWInput;
         SInstrOUT = SInstrIN;
+        ShiftOUT = ShiftIN;
         end
 endmodule
 
@@ -1071,13 +1081,6 @@ endmodule
 
 // To do CBZ and CBNZ we can change the B input to be all 0 
 // This effectively reuses the BEQ BNE code since CBZ and CBNZ are those operands on 0 
-/*
-        .CBNZCBFlag(CBNZCB), 
-        .VFlag(V),
-        .CFlag(C),
-        .NFlag(N),
-        .ZFlag(Z)
-*/
 //// *** BRANCHING COMPARATOR MODULE *** ////
 module comparator64(a, b, result, DselectIn, DselectOut, BNEFlag, BEQFlag, VFlag, CFlag, NFlag, ZFlag, CBNZCBFlag, BLTFlag, BGEFlag);
     input [63:0] a, b;
@@ -1119,7 +1122,8 @@ module comparator64(a, b, result, DselectIn, DselectOut, BNEFlag, BEQFlag, VFlag
     else 
         begin 
             assign result = 1'b0;
-            assign DselectOut = DselectIn;
+            assign DselectOut = DselectIn;      // do we need to assign deselect to 31 if a flag is high but condition is false?
+                                                // assign DselectOut = (BEQFlag == 1'b1) || (BNEFlag == 1'b1) || (BLTFlag == 1'b1) || (BGE == 1'b1) || (CBNZCBFlag == 1'b'1) s? 32'b10000000000000000000000000000000 : DselectIn;
         end
         
     //assign DselectOut = ((BEQFlag == 1'b1 && a === b) || (BNEFlag == 1'b1 && a !== b)) ? 32'b10000000000000000000000000000000 : DselectIn;
@@ -1149,12 +1153,13 @@ endmodule
 
 //// *** ALU64 *** //// 
 // Module representing a 64-bit ALU. 
-module alu64 (d, Cout, V, a, b, Cin, S, Z, N, SInstructionIn);
+module alu64 (d, Cout, V, a, b, Cin, S, Z, N, SInstructionIn, shamt);
    output[63:0] d;
    output Cout, V, Z, N;
    input [63:0] a, b;
    input Cin, SInstructionIn;
    input [2:0] S;
+   input [5:0] shamt;
    
    wire [63:0] c, g, p;
    wire gout, pout;
@@ -1167,7 +1172,8 @@ module alu64 (d, Cout, V, a, b, Cin, S, Z, N, SInstructionIn);
       .a(a),
       .b(b),
       .c(c),
-      .S(S)
+      .S(S),
+      .shamt(shamt)
    );
    
    assign Z = SInstructionIn ? (d == 64'h0000000000000000) : 1'b0;
@@ -1196,10 +1202,11 @@ module alu64 (d, Cout, V, a, b, Cin, S, Z, N, SInstructionIn);
 endmodule
 
 // Module representing a single-bit cell of a 32-bit ALU
-module alu_cell (d, g, p, a, b, c, S);
+module alu_cell (d, g, p, a, b, c, S, shamt);
     output d, g, p;
     input a, b, c;
     input [2:0] S;
+    input [5:0] shamt;
     
     // Use reg instead of wire since wires cannot be procedurally assigned in that control block (always)
     wire cint, bint;
@@ -1213,9 +1220,9 @@ module alu_cell (d, g, p, a, b, c, S);
     always @ (a, b, c, d, S, bint, cint, p) begin
         case (S)
             3'b100 : d = a | b;
-            3'b101 : d = a << b; 
+            3'b101 : d = a << shamt; 
             3'b110 : d = a & b;
-            3'b111 : d = a >> b; 
+            3'b111 : d = a >> shamt; 
             default : d = (p ^ cint);
         endcase
     end
