@@ -33,13 +33,11 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     
     //// ***DECODER + FIRST MUX OUTPUTS*** ////
     // Store the output of the decoders 
-    wire [63:0] Aselect, Bselect, rdOut;
+    wire [63:0] Aselect, Bselect, rdrtOut;
     
     // Store the sign extended IType instruction 
     wire [63:0] signextOUT;
     
-    // Store the output of the RT RD mux
-    wire [31:0] RTRDMuxResult;
     
     
     //// ***REGFILE OUTPUTS*** ////
@@ -188,7 +186,7 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .a(regAbusOUT),
         .b(regBbusOUT),
         .result(regComparatorResult),
-        .DselectIn(RTRDMuxResult),
+        .DselectIn(rdrtOUT[31:0]),
         .DselectOut(DselectComparatorResult),
         .BEQFlag(BEQ),
         .BNEFlag(BNE), 
@@ -217,7 +215,7 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     //// Assign rd ////
     decoder5bit rdrt (
         .r(IFSout[4:0]), 
-        .sel(rdOut)
+        .sel(rdrtOut)
     );
     
     //// Read opcode to determine ALU operation ////
@@ -370,12 +368,12 @@ endmodule
 
 //// *** SUB MODULES *** ////
 
-// Given a 5-bit RS, RT, or RD, creates the correct decoded 32-bit value 
+// Given a 5-bit RS, RT, or RD, creates the correct decoded 64-bit value 
 module decoder5bit(r, sel);
     input [4:0] r;
     output [63:0] sel;
     
-    assign sel = 63'd1 << r;
+    assign sel = 64'd1 << r;
 endmodule 
 
 // Behavioral representation of a tristate buffer, used so databus can play with inputs correctly and 
