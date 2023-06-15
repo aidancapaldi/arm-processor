@@ -129,6 +129,11 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     // Intermediate wire to hold the shift value for LSL and LSR operations
     wire [5:0] shamtIntoALU;
     
+    // Flag for MOVZ 
+    wire MOVZOP, MOVZ; 
+    
+    // Intermediate wire 
+    wire [5:0] movmuxOutput;
     
      
     //// Instantiate the PC adders 
@@ -183,8 +188,8 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     
     //// Instantiate the register result comparator module
     comparator64 registerCheck(
-        .a(regAbusOUT),
-        .b(regBbusOUT),
+        .a(abus),
+        .b(64'h0000000000000000), // TODO: is this ok to do? branching is different in ARM so it should be 
         .result(regComparatorResult),
         .DselectIn(rdrtOUT[31:0]),
         .DselectOut(DselectComparatorResult),
@@ -231,7 +236,8 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .CBNZCBFlag(CBNZCB), 
         .isSInstr(SInstruction),
         .BGEFlag(BGE),
-        .BLTFlag(BLT)
+        .BLTFlag(BLT),
+        .MOVZFlag(MOVZOP)
     );
     
     //// Sign extend for non R-type instructions //// 
@@ -239,6 +245,14 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .in(IFSout[15:0]),
         .se(signextOUT),
         .instrType(instrFlag)
+    );
+    
+    // Mux to handle MOVZ 
+    mux6bit MOVZmux (
+        .in0(IFSout[15:10]),
+        .in1({4'b0, IFSout[22:21]}),
+        .sel(MOVZOP),
+        .out(movmuxOutput)
     );
     
     //// Instantiate the mux ////
@@ -288,8 +302,10 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .LWOutput(LWIDEXout),
         .SInstrIN(SInstruction),
         .SInstrOUT(SFlag),
-        .ShiftIN(IFSout[15:10]),
-        .ShiftOUT(shamtIntoALU)
+        .ShiftIN(movmuxOutput),
+        .ShiftOUT(shamtIntoALU),
+        .MOVZInput(MOVZOP),
+        .MOVZOutput(MOVZ)
     );
     
     //// Instantiate the mux between IDEX and EXMEM which switches for I Type instructions 
@@ -312,7 +328,8 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .Z(Z),
         .N(N),
         .SInstructionIn(SFlag),
-        .shamt(shamtIntoALU)
+        .shamt(shamtIntoALU),
+        .MOVZFlag(MOVZ)
     );
 
     //// Instantiate the EX/MEM DFF //// 
@@ -387,14 +404,14 @@ module tristatebuffer(in0, ctrl, out0);
 endmodule
 
 // Given a variable-length ARM opcode of at most 11 bits, set the correct flags for the pipelined CPU. 
-module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSInstr, CBNZCBFlag, BEQFlag, BNEFlag, BGEFlag, BLTFlag);
+module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSInstr, CBNZCBFlag, BEQFlag, BNEFlag, BGEFlag, BLTFlag, MOVZFlag);
     input [10:0] opcode;
     input [2:0] InstrFlag;
-    output ImmOP, CinOP, SWFlag, LWFlag, isSInstr, CBNZCBFlag, BEQFlag, BNEFlag, BGEFlag, BLTFlag;
+    output ImmOP, CinOP, SWFlag, LWFlag, isSInstr, CBNZCBFlag, BEQFlag, BNEFlag, BGEFlag, BLTFlag, MOVZFlag;
     output [2:0] SOP;
     
     // Internal wires to store R-Type results
-    reg ImmOP, CinOP, SWFlag, LWFlag, isSInstr, CBNZCBFlag, BEQFlag, BNEFlag, BGEFlag, BLTFlag;
+    reg ImmOP, CinOP, SWFlag, LWFlag, isSInstr, CBNZCBFlag, BEQFlag, BNEFlag, BGEFlag, BLTFlag, MOVZFlag;
     reg [2:0] SOP;
     
     // Decide which instruction type we have and react accordingly 
@@ -414,6 +431,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                 BNEFlag = 1'b0;
                                                 BLTFlag = 1'b0; 
                                                 BGEFlag = 1'b0;
+                                                MOVZFlag = 1'b0;
                                              end 
                             11'b00101000001: begin // ADDS
                                                 SOP = 3'b010; 
@@ -427,6 +445,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                 BNEFlag = 1'b0;
                                                 BLTFlag = 1'b0; 
                                                 BGEFlag = 1'b0;
+                                                MOVZFlag = 1'b0;
                                              end
                             11'b00101000010: begin // AND
                                                 SOP = 3'b110; 
@@ -440,6 +459,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                 BNEFlag = 1'b0;
                                                 BLTFlag = 1'b0; 
                                                 BGEFlag = 1'b0;
+                                                MOVZFlag = 1'b0;
                                              end
                             11'b00101000011: begin // ANDS
                                                 SOP = 3'b110; 
@@ -453,6 +473,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                 BNEFlag = 1'b0;
                                                 BLTFlag = 1'b0; 
                                                 BGEFlag = 1'b0;
+                                                MOVZFlag = 1'b0;
                                              end
                             11'b00101000100: begin // EOR
                                                 SOP = 3'b000; 
@@ -466,6 +487,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                 BNEFlag = 1'b0;
                                                 BLTFlag = 1'b0; 
                                                 BGEFlag = 1'b0;
+                                                MOVZFlag = 1'b0;
                                              end
                             11'b00101000101: begin // ENOR
                                                 SOP = 3'b001; 
@@ -492,6 +514,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                 BNEFlag = 1'b0;
                                                 BLTFlag = 1'b0; 
                                                 BGEFlag = 1'b0;
+                                                MOVZFlag = 1'b0;
                                              end 
                             11'b00101000111: begin // LSR
                                                 SOP = 3'b111; 
@@ -505,6 +528,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                 BNEFlag = 1'b0;
                                                 BLTFlag = 1'b0; 
                                                 BGEFlag = 1'b0;
+                                                MOVZFlag = 1'b0;
                                              end
                             11'b00101001000: begin // ORR
                                                 SOP = 3'b100; 
@@ -518,6 +542,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                 BNEFlag = 1'b0;
                                                 BLTFlag = 1'b0; 
                                                 BGEFlag = 1'b0;
+                                                MOVZFlag = 1'b0;
                                              end 
                             11'b00101001001: begin // SUB
                                                 SOP = 3'b011; 
@@ -531,6 +556,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                 BNEFlag = 1'b0;
                                                 BLTFlag = 1'b0; 
                                                 BGEFlag = 1'b0;
+                                                MOVZFlag = 1'b0;
                                              end
                             11'b00101001010: begin // SUBS
                                                 SOP = 3'b011; 
@@ -544,6 +570,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                 BNEFlag = 1'b0;
                                                 BLTFlag = 1'b0; 
                                                 BGEFlag = 1'b0;
+                                                MOVZFlag = 1'b0;
                                              end
                              default: begin // Erm 
                                          SOP = 3'bxxx; 
@@ -557,6 +584,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                          BNEFlag = 1'b0;
                                          BLTFlag = 1'b0; 
                                          BGEFlag = 1'b0;
+                                         MOVZFlag = 1'b0;
                                       end 
                         endcase 
                     end
@@ -574,6 +602,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b0;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b0;
                                                 end 
                                 10'b1000100001: begin // ADDIS
                                                     SOP = 3'b010; 
@@ -587,6 +616,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b0;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b0;
                                                 end
                                 10'b1000100010: begin // ANDI
                                                     SOP = 3'b110; 
@@ -600,6 +630,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b0;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b0;
                                                 end
                                 10'b1000100011: begin // ANDIS
                                                     SOP = 3'b110; 
@@ -613,6 +644,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b0;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b0;
                                                 end
                                 10'b1000100100: begin // EORI
                                                     SOP = 3'b000; 
@@ -626,6 +658,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b0;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b0;
                                                 end
                                 10'b1000100101: begin // ENORI
                                                     SOP = 3'b001; 
@@ -639,6 +672,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b0;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b0;
                                                 end
                                 10'b1000100110: begin // ORRI
                                                     SOP = 3'b100; 
@@ -652,6 +686,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b0;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b0;
                                                 end
                                 10'b1000100111: begin // SUBI
                                                     SOP = 3'b011; 
@@ -665,6 +700,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b0;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b0;
                                                 end
                                 10'b1000101000: begin // SUBIS
                                                     SOP = 3'b011; 
@@ -678,6 +714,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b0;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b0;
                                                 end
                                 default: begin // Erm 
                                             SOP = 3'bxxx; 
@@ -691,6 +728,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                             BNEFlag = 1'b0;
                                             BLTFlag = 1'b0; 
                                             BGEFlag = 1'b0;
+                                            MOVZFlag = 1'b0;
                                         end 
                         endcase
                     end
@@ -708,6 +746,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b0;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b0;
                                                 end 
                                 11'b11010000001: begin // STUR
                                                     SOP = 3'b010; 
@@ -721,6 +760,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b0;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b0;
                                                 end
                                 default: begin // Erm 
                                             SOP = 3'bxxx; 
@@ -734,6 +774,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                             BNEFlag = 1'b0;
                                             BLTFlag = 1'b0; 
                                             BGEFlag = 1'b0;
+                                            MOVZFlag = 1'b0;
                                         end 
                         endcase
                     end 
@@ -741,7 +782,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                         case (opcode[10:2])
                                 9'b110010101: begin // MOVZ
                                                     SOP = 3'b101; 
-                                                    ImmOP = 1'b0; 
+                                                    ImmOP = 1'b1; 
                                                     CinOP = 1'b0;  
                                                     SWFlag = 1'b0;
                                                     LWFlag = 1'b0;
@@ -751,6 +792,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b0;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b1;
                                                 end
                                 default: begin // Erm 
                                             SOP = 3'bxxx; 
@@ -764,6 +806,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                             BNEFlag = 1'b0;
                                             BLTFlag = 1'b0; 
                                             BGEFlag = 1'b0;
+                                            MOVZFlag = 1'b0;
                                         end 
                          endcase
                     end
@@ -781,6 +824,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b1;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b0;
                                                 end
                                 default: begin // Erm 
                                             SOP = 3'bxxx; 
@@ -794,6 +838,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                             BNEFlag = 1'b0;
                                             BLTFlag = 1'b0; 
                                             BGEFlag = 1'b0;
+                                            MOVZFlag = 1'b0;
                                         end 
                          endcase
                     end
@@ -811,6 +856,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b0;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b0;
                                                 end
                                 8'b11110101: begin // CBNZ
                                                     SOP = 3'b101; 
@@ -824,6 +870,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b1;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b0;
                                                 end
                                 8'b01110100: begin // BEQ
                                                     SOP = 3'b101; 
@@ -837,6 +884,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b0;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b0;
                                                 end
                                 8'b01110101: begin // BNE
                                                     SOP = 3'b101; 
@@ -850,6 +898,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b1;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b0;
                                                 end 
                                 8'b01110110: begin // BLT
                                                     SOP = 3'b101; 
@@ -863,6 +912,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b0;
                                                     BLTFlag = 1'b1; 
                                                     BGEFlag = 1'b0;
+                                                    MOVZFlag = 1'b0;
                                                 end
                                 8'b01110111: begin // BGE
                                                     SOP = 3'b101; 
@@ -876,6 +926,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                                     BNEFlag = 1'b0;
                                                     BLTFlag = 1'b0; 
                                                     BGEFlag = 1'b1;
+                                                    MOVZFlag = 1'b0;
                                                 end
                                 default: begin // Erm 
                                             SOP = 3'bxxx; 
@@ -889,6 +940,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                                             BNEFlag = 1'b0;
                                             BLTFlag = 1'b0; 
                                             BGEFlag = 1'b0;
+                                            MOVZFlag = 1'b0;
                                         end 
                          endcase
                     end 
@@ -901,6 +953,7 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
                         isSInstr = 1'b0;
                         BLTFlag = 1'b0; 
                         BGEFlag = 1'b0;
+                        MOVZFlag = 1'b0;
                     end
         endcase
     end
@@ -929,11 +982,20 @@ module signextender(in, instrType, se);
     //assign se = {{16{in[15]}}, in};
 endmodule 
 
-// Behavioral representation of a 2-to-1 multiplexor.
+// Behavioral representation of a 2-to-1 multiplexor (64-bit).
 module mux2 (in0, in1, sel, out);
     input [63:0] in0, in1;
     input sel;
     output [63:0] out; 
+    
+    assign out = ((sel === 1'bx) ? 0 : sel) ? in1 : in0;
+endmodule
+
+// Behavioral representation of a 2-to-1 multiplexor (6-bit).
+module mux6bit (in0, in1, sel, out);
+    input [5:0] in0, in1;
+    input sel;
+    output [5:0] out; 
     
     assign out = ((sel === 1'bx) ? 0 : sel) ? in1 : in0;
 endmodule
@@ -1008,20 +1070,20 @@ endmodule
 
 //// *** IDEX DFF *** ////
 // Behavioral representation of a positive-edge triggered D-Flip-Flop. --> Handles the ID/EX DFF
-module IDEXDFF (Imm, S, Cin, ImmIN, SIN, CinIN, clk, abusIN, bbusIN, RTRDMuxIN, SignExtIN, abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT, SWInput, SWOutput, LWInput, LWOutput, SInstrIN, SInstrOUT, ShiftIN, ShiftOUT);
+module IDEXDFF (Imm, S, Cin, ImmIN, SIN, CinIN, clk, abusIN, bbusIN, RTRDMuxIN, SignExtIN, abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT, SWInput, SWOutput, LWInput, LWOutput, SInstrIN, SInstrOUT, ShiftIN, ShiftOUT, MOVZInput, MOVZOutput);
     input [2:0] SIN;
     input [63:0] abusIN, bbusIN, RTRDMuxIN, SignExtIN; 
     input [5:0] ShiftIN;
-    input CinIN, ImmIN, clk, SWInput, LWInput, SInstrIN;
+    input CinIN, ImmIN, clk, SWInput, LWInput, SInstrIN, MOVZInput;
     
     output [2:0] S;
     output [63:0] abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT; 
-    output Cin, Imm, SWOutput, LWOutput, SInstrOUT;
+    output Cin, Imm, SWOutput, LWOutput, SInstrOUT, MOVZOutput;
     output [5:0] ShiftOUT;
     
     reg [2:0] S;
     reg [63:0] abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT;
-    reg Cin, Imm, SWOutput, LWOutput, SInstrOUT;
+    reg Cin, Imm, SWOutput, LWOutput, SInstrOUTm, MOVZOutput;
     reg [5:0] ShiftOUT;
     
     always @ (posedge clk) begin 
@@ -1036,6 +1098,7 @@ module IDEXDFF (Imm, S, Cin, ImmIN, SIN, CinIN, clk, abusIN, bbusIN, RTRDMuxIN, 
         LWOutput = LWInput;
         SInstrOUT = SInstrIN;
         ShiftOUT = ShiftIN;
+        MOVZOutput = MOVZInput;
         end
 endmodule
 
@@ -1104,7 +1167,7 @@ module comparator64(a, b, result, DselectIn, DselectOut, BNEFlag, BEQFlag, VFlag
     reg result;
     reg [31:0] DselectOut;
     
-    assign b = CBNZCBFlag ? 64'h0000000000000000 : b;
+    //assign b = CBNZCBFlag ? 64'h0000000000000000 : b;
     
     always @ (BNEFlag, BEQFlag, CBNZCBFlag, BLTFlag, BGEFlag) begin
     if (BEQFlag == 1'b1 && ZFlag === 1) begin 
@@ -1165,11 +1228,11 @@ endmodule
 
 //// *** ALU64 *** //// 
 // Module representing a 64-bit ALU. 
-module alu64 (d, Cout, V, a, b, Cin, S, Z, N, SInstructionIn, shamt);
+module alu64 (d, Cout, V, a, b, Cin, S, Z, N, SInstructionIn, shamt, MOVZFlag);
    output[63:0] d;
    output Cout, V, Z, N;
    input [63:0] a, b;
-   input Cin, SInstructionIn;
+   input Cin, SInstructionIn, MOVZFlag;
    input [2:0] S;
    input [5:0] shamt;
    
@@ -1185,7 +1248,8 @@ module alu64 (d, Cout, V, a, b, Cin, S, Z, N, SInstructionIn, shamt);
       .b(b),
       .c(c),
       .S(S),
-      .shamt(shamt)
+      .shamt(shamt),
+      .MOVZ(MOVZFlag)
    );
    
    assign Z = SInstructionIn ? (d == 64'h0000000000000000) : 1'b0;
@@ -1214,9 +1278,9 @@ module alu64 (d, Cout, V, a, b, Cin, S, Z, N, SInstructionIn, shamt);
 endmodule
 
 // Module representing a single-bit cell of a 32-bit ALU
-module alu_cell (d, g, p, a, b, c, S, shamt);
+module alu_cell (d, g, p, a, b, c, S, shamt, MOVZ);
     output d, g, p;
-    input a, b, c;
+    input a, b, c, MOVZ;
     input [2:0] S;
     input [5:0] shamt;
     
@@ -1229,10 +1293,10 @@ module alu_cell (d, g, p, a, b, c, S, shamt);
     assign p = a ^ bint;
     assign cint = S[1] & c;
 
-    always @ (a, b, c, d, S, bint, cint, p) begin
+    always @ (a, b, c, d, S, bint, cint, p, MOVZ, shamt) begin
         case (S)
             3'b100 : d = a | b;
-            3'b101 : d = a << shamt; // terenary operator for MOVZ... have MOVZ flag??
+            3'b101 : d = MOVZ ? (b << (shamt * 4'b1000)) : (a << shamt); // terenary operator for MOVZ... have MOVZ flag??
             3'b110 : d = a & b;
             3'b111 : d = a >> shamt; 
             default : d = (p ^ cint);
