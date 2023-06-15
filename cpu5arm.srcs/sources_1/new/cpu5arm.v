@@ -192,7 +192,7 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .a(abus),
         .b(64'h0000000000000000), // TODO: is this ok to do? branching is different in ARM so it should be 
         .result(regComparatorResult),
-        .DselectIn(rdrtOUT[31:0]),
+        .DselectIn(rdrtOUT),
         .DselectOut(DselectComparatorResult),
         .BEQFlag(BEQ),
         .BNEFlag(BNE), 
@@ -219,7 +219,7 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     );
     
     //// Assign rd ////
-    decoder5bit rdrt (
+    decoder5bitsize32 rdrt (
         .r(IFSout[4:0]), 
         .sel(rdrtOUT)
     );
@@ -385,6 +385,13 @@ module decoder5bit(r, sel);
     output [63:0] sel;
     
     assign sel = 64'd1 << r;
+endmodule 
+
+module decoder5bitsize32(r,sel);
+    input [4:0] r;
+    output [31:0] sel;
+    
+    assign sel = 32'd1 << r;
 endmodule 
 
 // Behavioral representation of a tristate buffer, used so databus can play with inputs correctly and 

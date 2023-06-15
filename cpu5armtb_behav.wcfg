@@ -12,14 +12,14 @@
    </db_ref_list>
    <zoom_setting>
       <ZoomStartTime time="0.000 ns"></ZoomStartTime>
-      <ZoomEndTime time="848.325 ns"></ZoomEndTime>
-      <Cursor1Time time="550.000 ns"></Cursor1Time>
+      <ZoomEndTime time="893.317 ns"></ZoomEndTime>
+      <Cursor1Time time="104.577 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="175"></NameColumnWidth>
-      <ValueColumnWidth column_width="85"></ValueColumnWidth>
+      <NameColumnWidth column_width="231"></NameColumnWidth>
+      <ValueColumnWidth column_width="120"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="6" />
+   <WVObjectSize size="5" />
    <wvobject fp_name="/cpu5armtb/instrbus" type="array">
       <obj_property name="ElementShortName">instrbus[31:0]</obj_property>
       <obj_property name="ObjectShortName">instrbus[31:0]</obj_property>
@@ -39,9 +39,5 @@
    <wvobject fp_name="/cpu5armtb/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
-   </wvobject>
-   <wvobject fp_name="/cpu5armtb/reset" type="logic">
-      <obj_property name="ElementShortName">reset</obj_property>
-      <obj_property name="ObjectShortName">reset</obj_property>
    </wvobject>
 </wave_config>
