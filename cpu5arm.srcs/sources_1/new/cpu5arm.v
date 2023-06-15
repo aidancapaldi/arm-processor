@@ -236,10 +236,11 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .BLTFlag(BLT)
     );
     
-    //// Sign extend for I-type instructions //// 
+    //// Sign extend for non R-type instructions //// 
     signextender sd (
         .in(IFSout[15:0]),
-        .se(signextOUT)
+        .se(signextOUT),
+        .instrType(instrFlag)
     );
     
     //// Instantiate the mux ////
@@ -908,13 +909,26 @@ module opcodedecoder(opcode, ImmOP, SOP, CinOP, SWFlag, LWFlag, InstrFlag, isSIn
 endmodule 
 
 
-// Sign extend the given value to 32 bits 
-// LETS COME BACK HERE
-module signextender(in, se);
-    input [15:0] in;
-    output [31:0] se;
+// Sign extend the given value to 64 bits 
+module signextender(in, instrType, se);
+    input [63:0] in;
+    input [2:0] instrType;
+    output [63:0] se;
     
-    assign se = {{16{in[15]}}, in};
+    // is the always @ condition correct?
+    always @ (in) begin  
+        case (instrType)
+            // these extension parameters were taken directly from the LEGv8 reference sheet
+            3'b001: assign se = {52'b0,in[21:10]};          // I-type instruction
+            3'b010: assign se = {{55{in[20]}}, in[20:12]};  // D-type instruction
+            3'b011: assign se = {48'b0, in[20:5]};          // IM-type instruction
+            3'b100: assign se = {{38{in[25]}}, in[25:0]};   // B-type instruction
+            3'b101: assign se = {{45{in[23]}}, in[23:5]};   // CB-type add64
+            default: assign se = 64'bz;                     // R-type and NOP don't rely on on any signextender
+        endcase
+    end
+    
+    //assign se = {{16{in[15]}}, in};
 endmodule 
 
 // Behavioral representation of a 2-to-1 multiplexor.
@@ -1177,7 +1191,7 @@ module alu64 (d, Cout, V, a, b, Cin, S, Z, N, SInstructionIn, shamt);
    );
    
    assign Z = SInstructionIn ? (d == 64'h0000000000000000) : 1'b0;
-   assign N = SInstructionIn ? (d[63] = 1'b1) : 1'b0;
+   assign N = SInstructionIn ? (d[63] == 1'b1) : 1'b0;
    
    // Instantiates a 6-level LAC.
    lac6 laclevel6(
@@ -1220,7 +1234,7 @@ module alu_cell (d, g, p, a, b, c, S, shamt);
     always @ (a, b, c, d, S, bint, cint, p) begin
         case (S)
             3'b100 : d = a | b;
-            3'b101 : d = a << shamt; 
+            3'b101 : d = a << shamt; // terenary operator for MOVZ... have MOVZ flag??
             3'b110 : d = a & b;
             3'b111 : d = a >> shamt; 
             default : d = (p ^ cint);
