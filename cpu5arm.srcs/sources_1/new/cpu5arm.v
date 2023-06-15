@@ -245,8 +245,8 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     //// Sign extend for non R-type instructions //// 
     signextender sd (
         .in(IFSout[15:0]),
-        .se(signextOUT),
-        .instrType(instrFlag)
+        .instrType(instrFlag),
+        .se(signextOUT)
     );
     
     // Mux to handle MOVZ 
@@ -1063,25 +1063,28 @@ module InstrFlagSetter(instructionBusIn, instructionBusOut, instructionFlagOut);
             4'b0111: instructionFlagOut = 3'b101; // CB-format (BEQ, BNE, BLT, BGE)
             default: instructionFlagOut = 3'b111; // NOP or error 
         endcase 
-        assign instructionBusOut = instructionBusIn;
+        instructionBusOut = instructionBusIn;
     end 
 endmodule 
 
 //// *** IDEX DFF *** ////
 // Behavioral representation of a positive-edge triggered D-Flip-Flop. --> Handles the ID/EX DFF
-module IDEXDFF (Imm, S, Cin, ImmIN, SIN, CinIN, clk, abusIN, bbusIN, RTRDMuxIN, SignExtIN, abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT, SWInput, SWOutput, LWInput, LWOutput, SInstrIN, SInstrOUT, ShiftIN, ShiftOUT, MOVZInput, MOVZOutput);
+module IDEXDFF (Imm, S, Cin, ImmIN, SIN, CinIN, clk, abusIN, bbusIN, SignExtIN, abusOUT, bbusOUT, RTRDMuxIN, RTRDMuxOUT, SignExtOUT, SWInput, SWOutput, LWInput, LWOutput, SInstrIN, SInstrOUT, ShiftIN, ShiftOUT, MOVZInput, MOVZOutput);
     input [2:0] SIN;
-    input [63:0] abusIN, bbusIN, RTRDMuxIN, SignExtIN; 
+    input [63:0] abusIN, bbusIN, SignExtIN; 
+    input [31:0] RTRDMuxIN;
     input [5:0] ShiftIN;
     input CinIN, ImmIN, clk, SWInput, LWInput, SInstrIN, MOVZInput;
     
     output [2:0] S;
-    output [63:0] abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT; 
+    output [63:0] abusOUT, bbusOUT, SignExtOUT; 
+    output [31:0] RTRDMuxOUT;
     output Cin, Imm, SWOutput, LWOutput, SInstrOUT, MOVZOutput;
     output [5:0] ShiftOUT;
     
     reg [2:0] S;
-    reg [63:0] abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT;
+    reg [63:0] abusOUT, bbusOUT, SignExtOUT;
+    reg [31:0] RTRDMuxOUT;
     reg Cin, Imm, SWOutput, LWOutput, SInstrOUT, MOVZOutput;
     reg [5:0] ShiftOUT;
     
