@@ -75,7 +75,7 @@ parameter LDUR = 11'b11010000000;
 
 ##### TODO List
 
-- [ ] Add logic to force B input to the ALU to be SHAMT when using LSL, same for LSR. 
+- [X] Add logic to force B input to the ALU to be SHAMT when using LSL, same for LSR. 
 
 - [ ] Redesign the decoder stage completely for the new opcodes 
 - [ ] Figure out what we want to happen at the `SignExtend` module
