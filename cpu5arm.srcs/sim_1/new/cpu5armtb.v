@@ -31,34 +31,36 @@ reg [63:0] dontcare;
 reg [24*8:1] iname[0:num];
 integer error, k, ntests;
 
-	parameter BRANCH	= 6'b000101;
-	parameter BEQ		= 8'b01010101;
-	parameter BNE		= 8'b01010110;
-	parameter BLT		= 8'b01010111;
-	parameter BGE		= 8'b01011000;
-	parameter CBZ		= 8'b10110100;
-	parameter CBNZ		= 8'b10110101;
-	parameter ADD		= 11'b10001011000;
-	parameter ADDS		= 11'b10101011000;
-	parameter SUB		= 11'b11001011000;
-	parameter SUBS		= 11'b11101011000;
-	parameter AND		= 11'b10001010000;
-	parameter ANDS		= 11'b11101010000;
-	parameter EOR		= 11'b11001010000;
-	parameter ORR		= 11'b10101010000;
-	parameter LSL		= 11'b11010011011;
-	parameter LSR		= 11'b11010011010;
-	parameter ADDI  	= 10'b1001000100;
-	parameter ADDIS		= 10'b1011000100;
-	parameter SUBI		= 10'b1101000100;
-	parameter SUBIS		= 10'b1111000100;
-	parameter ANDI		= 10'b1001001000;
-	parameter ANDIS		= 10'b1111001000;
-	parameter EORI		= 10'b1101001000;
-	parameter ORRI		= 10'b1011001000;
-	parameter MOVZ		= 9'b110100101;
-	parameter STUR		= 11'b11111000000;
-	parameter LDUR		= 11'b11111000010;
+	parameter BRANCH = 6'b000011;
+    parameter BEQ = 8'b01110100;
+    parameter BNE = 8'b01110101;
+    parameter BLT = 8'b01110110;
+    parameter BGE = 8'b01110111;
+    parameter CBZ = 8'b11110100;
+    parameter CBNZ = 8'b11110101;
+    parameter ADD = 11'b00101000000;
+    parameter ADDS = 11'b00101000001;
+    parameter SUB = 11'b00101001001;
+    parameter SUBS = 11'b00101001010;
+    parameter AND = 11'b00101000010;
+    parameter ANDS = 11'b00101000011;
+    parameter EOR = 11'b00101000100;
+    parameter ENOR = 11'b00101000101;
+    parameter ORR = 11'b00101001000;
+    parameter LSL = 11'b00101000110;
+    parameter LSR = 11'b00101000111;
+    parameter ADDI  = 10'b1000100000;
+    parameter ADDIS = 10'b1000100001;
+    parameter SUBI = 10'b1000100111;
+    parameter SUBIS = 10'b1000101000;
+    parameter ANDI = 10'b1000100010;
+    parameter ANDIS = 10'b1000100011;
+    parameter EORI = 10'b1000100100;
+    parameter ENORI = 10'b1000100101;
+    parameter ORRI = 10'b1000100110;
+    parameter MOVZ = 9'b110010101;
+    parameter STUR = 11'b11010000001;
+    parameter LDUR = 11'b11010000000;
 	
 	
 cpu5arm dut(.reset(reset),.clk(clk),.iaddrbus(iaddrbus),.ibus(instrbus),.daddrbus(daddrbus),.databus(databus));
@@ -87,17 +89,17 @@ iname[17] = "STUR R27, [R17,0]";
 iname[18] = "STUR R28, [R18,100]"; 
 iname[19] = "STUR R29, [R19,0]";
 iname[20] = "STUR R30, [R20,0]";
-iname[21] = "ADDI R1,  R31, #1";    // Setting R1 to 32'h00000001 (since, R0 < R21).
+iname[21] = "ADDI R1,  R31, #1";
 iname[22] = "ADDI R5,  R31, #1";
 iname[23] = "SUBIS R31, R31, #1";
-iname[24] = "BNE  #16";             // Branching to  //(32'h00000060 + (decimal 16 *4) ) since, R0 != R1.
-iname[25] = "ADDI R31, R31, #1";    // Delay Slot   //Branched Location
-iname[26] = "ADDI R2,  R31, #15";   // Setting R2 to 32'h00000001 (since, R0 = R0).
+iname[24] = "BNE  #16";          
+iname[25] = "ADDI R31, R31, #1"; 
+iname[26] = "ADDI R2,  R31, #15";  
 iname[27] = "NOP  ANDI  R31, R20, #hFF";
 iname[28] = "NOP  SUBS  R31, R22, R31";
 iname[29] = "BEQ  #16";   
-iname[30] = "SUBS R31, R20, R24";   // Delay Slot
-iname[31] = "BGE  #16";             // Branching to (32h'0000000A0 + (decimal 16 *4))
+iname[30] = "SUBS R31, R20, R24";  
+iname[31] = "BGE  #16";             
 iname[32] = "NOP  ANDS  R31,  R20, R31";    
 iname[33] = "NOP  ADDS  R31,  R20, R31";
 iname[34] = "SUBS R31,  R20, R24";

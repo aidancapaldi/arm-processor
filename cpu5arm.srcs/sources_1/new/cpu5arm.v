@@ -33,7 +33,7 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     
     //// ***DECODER + FIRST MUX OUTPUTS*** ////
     // Store the output of the decoders 
-    wire [63:0] Aselect, Bselect, rdrtOut;
+    wire [63:0] Aselect, Bselect;
     
     // Store the sign extended IType instruction 
     wire [63:0] signextOUT;
@@ -135,6 +135,7 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     // Intermediate wire 
     wire [5:0] movmuxOutput;
     
+    wire [31:0] rdrtOUT;
      
     //// Instantiate the PC adders 
     assign signExtSLL = signextOUT << 2;
@@ -220,7 +221,7 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     //// Assign rd ////
     decoder5bit rdrt (
         .r(IFSout[4:0]), 
-        .sel(rdrtOut)
+        .sel(rdrtOUT)
     );
     
     //// Read opcode to determine ALU operation ////
@@ -254,15 +255,7 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
         .sel(MOVZOP),
         .out(movmuxOutput)
     );
-    
-    //// Instantiate the mux ////
-    mux2 RTRDMux (
-        .in0(rdOut),
-        .in1(Bselect),
-        .sel(ImmOP),
-        .out(RTRDMuxResult)
-    );
-    
+        
     //// Instantiate and use the 32x64 bit regfile     
     assign regAbusOUT = Aselect[31] ? 64'b0 : 64'bz;
     assign regBbusOUT = Bselect[31] ? 64'b0 : 64'bz;
@@ -966,6 +959,7 @@ module signextender(in, instrType, se);
     input [2:0] instrType;
     output [63:0] se;
     
+    reg [63:0] se;
     // is the always @ condition correct?
     always @ (in) begin  
         case (instrType)
@@ -1048,10 +1042,12 @@ endmodule
 
 // Module which behaviorally sets the instruction bus flag 
 // This module decides which type of ARM instruction we have 
-module InstrFlagSetter();
+module InstrFlagSetter(instructionBusIn, instructionBusOut, instructionFlagOut);
     input [31:0] instructionBusIn;
     output [31:0] instructionBusOut;
     output [2:0] instructionFlagOut;
+    
+    reg [2:0] instructionFlagOut;
     
     // Based on the instruction bus, set the flag. 
     always @ (instructionBusIn) begin
@@ -1083,7 +1079,7 @@ module IDEXDFF (Imm, S, Cin, ImmIN, SIN, CinIN, clk, abusIN, bbusIN, RTRDMuxIN, 
     
     reg [2:0] S;
     reg [63:0] abusOUT, bbusOUT, RTRDMuxOUT, SignExtOUT;
-    reg Cin, Imm, SWOutput, LWOutput, SInstrOUTm, MOVZOutput;
+    reg Cin, Imm, SWOutput, LWOutput, SInstrOUT, MOVZOutput;
     reg [5:0] ShiftOUT;
     
     always @ (posedge clk) begin 
@@ -1191,6 +1187,10 @@ module comparator64(a, b, result, DselectIn, DselectOut, BNEFlag, BEQFlag, VFlag
             assign DselectOut = 32'b10000000000000000000000000000000;
         end
     else if (CBNZCBFlag == 1'b1 && BNEFlag == 1'b1 && a !== b) begin 
+            assign result = 1'b1;
+            assign DselectOut = 32'b10000000000000000000000000000000;
+        end
+    else if (BNEFlag == 1'b1 && BEQFlag == 1'b1) begin 
             assign result = 1'b1;
             assign DselectOut = 32'b10000000000000000000000000000000;
         end
