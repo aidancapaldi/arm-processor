@@ -244,7 +244,7 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     
     //// Sign extend for non R-type instructions //// 
     signextender sd (
-        .in(IFSout[15:0]),
+        .in(IFSout),
         .instrType(instrFlag),
         .se(signextOUT)
     );
@@ -956,7 +956,7 @@ endmodule
 
 // Sign extend the given value to 64 bits 
 module signextender(in, instrType, se);
-    input [63:0] in;
+    input [31:0] in;
     input [2:0] instrType;
     output [63:0] se;
     
