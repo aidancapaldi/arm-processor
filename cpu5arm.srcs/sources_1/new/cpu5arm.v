@@ -141,7 +141,7 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     assign signExtSLL = signextOUT << 2;
     add64 signextAdder(
         .a(signExtSLL),
-        .b(IFIDaddOUT),
+        .b(IFIDaddOUT - imm4),
         .sum(signextAdderOUT)
     );
     
