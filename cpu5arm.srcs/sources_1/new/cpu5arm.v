@@ -33,7 +33,7 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     
     //// ***DECODER + FIRST MUX OUTPUTS*** ////
     // Store the output of the decoders 
-    wire [31:0] Aselect, Bselect;
+    wire [31:0] Aselect, Bselect, rmOut;
     
     // Store the sign extended IType instruction 
     wire [63:0] signextOUT;
@@ -215,13 +215,20 @@ module cpu5arm(ibus, clk, daddrbus, databus, reset, iaddrbus);
     //// Assign rt ////
     decoder5bitsize32 rm (
         .r(IFSout[20:16]),
-        .sel(Bselect)
+        .sel(rmOut)
     );
     
     //// Assign rd ////
     decoder5bitsize32 rdrt (
         .r(IFSout[4:0]), 
         .sel(rdrtOUT)
+    );
+    
+    mux2 BselectMux(
+        .in0(rmOut),
+        .in1(rdrtOUT),
+        .sel(SWOP),
+        .out(Bselect)
     );
     
     //// Read opcode to determine ALU operation ////
@@ -1229,8 +1236,11 @@ module regfile(clk, Dselect, Aselect, Bselect, dbus, abus, bbus);
     output [63:0] abus, bbus;
    
     reg [63:0] Q;
-
-    always @ (negedge clk) begin 
+    
+    wire newclk;
+    
+    assign newclk = clk & Dselect;
+    always @(negedge newclk) begin
             if (Dselect == 1'b1) Q = dbus;
         end
    assign abus = Aselect ? Q : 64'bz; 
