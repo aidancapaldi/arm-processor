@@ -1,5 +1,6 @@
 `timescale 1ns / 1ps
 
+//// Authored by Aidan Capaldi and Mikayla Sagle
 
 //// *** CPU5 ARM *** ////
 // Structural representation of a 5-stage 32-bit pipelined CPU, memory enabled 
