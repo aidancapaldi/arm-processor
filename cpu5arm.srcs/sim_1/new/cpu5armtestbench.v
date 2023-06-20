@@ -2,7 +2,7 @@
 
 module cpu5armtestbench();
 
-parameter num = 53;
+parameter num = 54;
 reg  [31:0] instrbus;
 reg  [31:0] instrbusin[0:num];
 wire [63:0] iaddrbus, daddrbus;
@@ -115,21 +115,21 @@ iaddrbusout[0] = 64'h0000000000000000;
 //            opcode 
 instrbusin[0]={SUBI, 12'b000000000011, 5'b11111, 5'b00001};
 
-daddrbusout[0] = 64'b0000000000000000000000000000000000000000000000000000000000000011; 
+daddrbusout[0] = 64'b1111111111111111111111111111111111111111111111111111111111111101; 
 databusin[0] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[0] = dontcare;
 
 // ADDI  R2, R31, #1
-iaddrbusout[1] = 64'h0000000000000000;
+iaddrbusout[1] = 64'h0000000000000004;
 //            opcode 
 instrbusin[1]={SUBI, 12'b000000000001, 5'b11111, 5'b00010};
 
-daddrbusout[1] = 64'b0000000000000000000000000000000000000000000000000000000000000001; 
+daddrbusout[1] = 64'b1111111111111111111111111111111111111111111111111111111111111111; 
 databusin[1] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[1] = dontcare;
 
 // SUBI  R3, R31, #2
-iaddrbusout[2] = 64'h0000000000000000;
+iaddrbusout[2] = 64'h0000000000000008;
 //            opcode 
 instrbusin[2]={SUBI, 12'b000000000010, 5'b11111, 5'b00011};
 
@@ -138,7 +138,7 @@ databusin[2] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[2] = dontcare;
 
 // SUBI  R4, R31, #1
-iaddrbusout[3] = 64'h0000000000000000;
+iaddrbusout[3] = 64'h000000000000000C;
 //            opcode 
 instrbusin[3]={SUBI, 12'b000000000001, 5'b11111, 5'b00100};
 
@@ -147,16 +147,16 @@ databusin[3] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[3] = dontcare;
 
 // LDUR  R5, [R1,0]
-iaddrbusout[4] = 64'h000000000000000C;
+iaddrbusout[4] = 64'h0000000000000010;
 //            opcode
 instrbusin[4]={LDUR, 9'b000000000, 2'b00, 5'b00001, 5'b00101};
 
-daddrbusout[4] = 64'h0000000000000001;
+daddrbusout[4] = 64'hFFFFFFFFFFFFFFFD;
 databusin[4]   = 64'hAAAAAAAAAAAAAAAA;
 databusout[4]  = dontcare;
 
 // LDUR  R6, [R2,0]
-iaddrbusout[5] = 64'h000000000000000C;
+iaddrbusout[5] = 64'h0000000000000014;
 //            opcode
 instrbusin[5]={LDUR, 9'b000000000, 2'b00, 5'b00010, 5'b00110};
 
@@ -164,387 +164,379 @@ daddrbusout[5] = 64'hFFFFFFFFFFFFFFFF;
 databusin[5]   = 64'hCCCCCCCCCCCCCCCC;
 databusout[5]  = dontcare;
 
-// STUR   R1, [R3,0] 
-iaddrbusout[6] = 64'h0000000000000014; // TODO: check these
+// STUR   R1, [R9,0] 
+iaddrbusout[6] = 64'h0000000000000018; // TODO: check these
 //            opcode 
 instrbusin[6]={STUR, 9'b000000000, 2'b01, 5'b00011, 5'b00001};
 
-daddrbusout[6] = 64'h0000000000000066;
+daddrbusout[6] = 64'hFFFFFFFFFFFFFFFE;
 databusin[6] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
-databusout[6] = 64'hFFFFFFFFFFFFFFFF;
+databusout[6] = 64'hFFFFFFFFFFFFFFFD;
 
 // STUR   R2, [R4,0] 
-iaddrbusout[7] = 64'h0000000000000014;
+iaddrbusout[7] = 64'h000000000000001C;
 //            opcode 
 instrbusin[7]={STUR, 9'b000000000, 2'b01, 5'b00100, 5'b00010};
 
-daddrbusout[7] = 64'h0000000000000066;
+daddrbusout[7] = 64'hFFFFFFFFFFFFFFFF;
 databusin[7] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[7] = 64'hFFFFFFFFFFFFFFFF;
 
 
 // ADD   R11, R5, R1
-iaddrbusout[8] = 64'h000000000000001C;
+iaddrbusout[8] = 64'h0000000000000020;
 //             opcode   
 instrbusin[8]={ADD, 5'd5, 6'd1, 5'd1, 5'd11};
 
-daddrbusout[8] = 64'b0111011101110111011101110111011101110111011101110111011101110110; //dontcare;
+daddrbusout[8] = 64'b1010101010101010101010101010101010101010101010101010101010100111; //dontcare;
 databusin[8] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[8] = dontcare;
 
 // ADD   R11, R5, R31
-iaddrbusout[9] = 64'h000000000000001C;
+iaddrbusout[9] = 64'h0000000000000024;
 //             opcode   
 instrbusin[9]={ADD, 5'd31, 6'd1, 5'd1, 5'd11};
 
-daddrbusout[9] = 64'b0111011101110111011101110111011101110111011101110111011101110110; //dontcare;
+daddrbusout[9] = 64'b1111111111111111111111111111111111111111111111111111111111111101; //dontcare;
 databusin[9] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[9] = dontcare;
 
 // ADDI   R12, R11, 1111
-iaddrbusout[10] = 64'h0000000000000030;
+iaddrbusout[10] = 64'h0000000000000028;
 //            opcode 
 instrbusin[10]={ADDIS, 12'd1111, 5'd11, 5'd12};
 
-daddrbusout[10] = 64'b1100110011001100110011001100110011001100110011001101000100100011;
+daddrbusout[10] = dontcare;
 databusin[10] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[10] = dontcare;
 
 // ADDI   R13, R5, 1111
-iaddrbusout[11] = 64'h0000000000000030;
+iaddrbusout[11] = 64'h000000000000002C;
 //            opcode 
 instrbusin[11]={ADDIS, 12'd1111, 5'd5, 5'd13};
 
-daddrbusout[11] = 64'b1100110011001100110011001100110011001100110011001101000100100011;
+daddrbusout[11] = 64'b1010101010101010101010101010101010101010101010101010111100000001;
 databusin[11] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[11] = dontcare;
 
 // AND    R1, R2, R29          
-iaddrbusout[12] = 64'h000000000000002C;
+iaddrbusout[12] = 64'h0000000000000030;
 //             opcode 
 instrbusin[12]={AND, 5'd29, 6'd0, 5'd2, 5'd1};
 
-daddrbusout[12] = 64'b0000000000000000000000000000000000000000000000000000000000000000;
+daddrbusout[12] = dontcare;
 databusin[12] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[12] = dontcare;
 
 // AND    R13, R12, R28          
-iaddrbusout[13] = 64'h000000000000002C;
+iaddrbusout[13] = 64'h0000000000000034;
 //             opcode 
 instrbusin[13]={AND, 5'd28, 6'd0, 5'd12, 5'd13};
 
-daddrbusout[13] = 64'b0000000000000000000000000000000000000000000000000000000000000000;
+daddrbusout[13] = dontcare;
 databusin[13] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[13] = dontcare;
 
 // ANDIS   R12, R11, #1             
-iaddrbusout[14] = 64'h0000000000000028;
+iaddrbusout[14] = 64'h0000000000000038;
 //            opcode
 instrbusin[14]={ANDIS, 12'd1, 5'd11, 5'd12};
 
-daddrbusout[14] = 64'b0000000000000000000000000000000000000000000000000000000000000000;
+daddrbusout[14] = 64'b0000000000000000000000000000000000000000000000000000000000000001;
 databusin[14] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[14] = dontcare;
 
 // ANDIS   R13, R5, #1             
-iaddrbusout[14] = 64'h0000000000000028;
+iaddrbusout[15] = 64'h000000000000003C;
 //            opcode
-instrbusin[14]={ANDIS, 12'd1, 5'd5, 5'd13};
+instrbusin[15]={ANDIS, 12'd1, 5'd5, 5'd13};
 
-daddrbusout[14] = 64'b0000000000000000000000000000000000000000000000000000000000000000;
-databusin[14] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
-databusout[14] = dontcare;
-
-// EOR   R26, R30, R3
-iaddrbusout[15] = 64'h0000000000000108;
-//             opcode
-instrbusin[15]={EOR, 5'd3, 6'd10, 5'd30, 5'd26};
-
-daddrbusout[15] = 64'b1100110011001100110011001100110011001100110011001101000100100011;
+daddrbusout[15] = 64'b0000000000000000000000000000000000000000000000000000000000000000;
 databusin[15] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[15] = dontcare;
 
-// EOR   R25, R30, R26
-iaddrbusout[16] = 64'h0000000000000108;
+// EOR   R26, R30, R3
+iaddrbusout[16] = 64'h0000000000000040;
 //             opcode
-instrbusin[16]={EOR, 5'd26, 6'd10, 5'd30, 5'd25};
+instrbusin[16]={EOR, 5'd3, 6'd10, 5'd30, 5'd26};
 
-daddrbusout[16] = 64'b1100110011001100110011001100110011001100110011001101000100100011;
+daddrbusout[16] = dontcare;
 databusin[16] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[16] = dontcare;
 
-// ENOR   R27, R30, R3
-iaddrbusout[17] = 64'h0000000000000108;
+// EOR   R25, R30, R26
+iaddrbusout[17] = 64'h0000000000000044;
 //             opcode
-instrbusin[17]={ENOR, 5'd3, 6'd10, 5'd30, 5'd27}; // TODO is that 6'd right 
+instrbusin[17]={EOR, 5'd26, 6'd10, 5'd30, 5'd25};
 
-daddrbusout[17] = 64'b1100110011001100110011001100110011001100110011001101000100100011;
+daddrbusout[17] = dontcare;
 databusin[17] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[17] = dontcare;
 
-// ENOR   R23, R31, R1
-iaddrbusout[18] = 64'h0000000000000108;
+// ENOR   R27, R30, R3
+iaddrbusout[18] = 64'h0000000000000048;
 //             opcode
-instrbusin[18]={ENOR, 5'd1, 6'd10, 5'd31, 5'd23};
+instrbusin[18]={ENOR, 5'd3, 6'd10, 5'd30, 5'd27}; // TODO is that 6'd right 
 
-daddrbusout[18] = 64'b1100110011001100110011001100110011001100110011001101000100100011;
+daddrbusout[18] = dontcare;
 databusin[18] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[18] = dontcare;
 
-// LSL   R31, R10, 6'd10
-iaddrbusout[19] = 64'h0000000000000114;
+// ENOR   R23, R31, R1
+iaddrbusout[19] = 64'h000000000000004C;
 //             opcode
-instrbusin[19]={LSL, 5'd01, 6'd10, 5'd10, 5'd31};
+instrbusin[19]={ENOR, 5'd1, 6'd10, 5'd31, 5'd23};
 
-daddrbusout[19] = 64'b0011001100110011001100110011001100110011001100110111110000000000;
+daddrbusout[19] = dontcare;
 databusin[19] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[19] = dontcare;
 
-// LSR   R31, R10, 6'd10
-iaddrbusout[20] = 64'h0000000000000110;
+// LSL   R31, R10, 6'd10
+iaddrbusout[20] = 64'h0000000000000050;
 //             opcode
-instrbusin[20]={LSR, 5'd01, 6'd10, 5'd10, 5'd31};
+instrbusin[20]={LSL, 5'd01, 6'd10, 5'd10, 5'd31};
 
-daddrbusout[20] = 64'b0000000000110011001100110011001100110011001100110011001100110011;
+daddrbusout[20] = 64'bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0000000000;
 databusin[20] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[20] = dontcare;
 
-// ORR     R22, R2, R1
-iaddrbusout[21] = 64'h000000000000003C;
-//             opcode   source1   source2   dest      shift     Function...
-instrbusin[21]={ORR, 5'd1, 6'd0, 5'd2, 5'd22};
+// LSR   R31, R10, 6'd10
+iaddrbusout[21] = 64'h0000000000000054;
+//             opcode
+instrbusin[21]={LSR, 5'd01, 6'd10, 5'd10, 5'd31};
 
-daddrbusout[21] = 64'b1110111011101110111011101110111011101110111011101110111011101110;
+daddrbusout[21] = 64'b0000000000xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx;
 databusin[21] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
-databusout[21] =  dontcare;
+databusout[21] = dontcare;
 
-// ORR     R19, R5, R14
-iaddrbusout[22] = 64'h000000000000003C;
+// ORR     R22, R2, R1
+iaddrbusout[22] = 64'h0000000000000058;
 //             opcode   source1   source2   dest      shift     Function...
-instrbusin[22]={ORR, 5'd14, 6'd0, 5'd5, 5'd19};
+instrbusin[22]={ORR, 5'd1, 6'd0, 5'd2, 5'd22};
 
-daddrbusout[22] = 64'b1110111011101110111011101110111011101110111011101110111011101110;
+daddrbusout[22] = 64'b1111111111111111111111111111111111111111111111111111111111111111;
 databusin[22] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[22] =  dontcare;
 
-// SUB   R23, R5, R1
-iaddrbusout[23] = 64'h0000000000000024;
-//             opcode
-instrbusin[23]={SUB, 5'd1, 6'd11, 5'd5, 5'd23};
+// ORR     R19, R5, R14
+iaddrbusout[23] = 64'h000000000000005C;
+//             opcode   source1   source2   dest      shift     Function...
+instrbusin[23]={ORR, 5'd14, 6'd0, 5'd5, 5'd19};
 
-daddrbusout[23] = 64'b0010001000100010001000100010001000100010001000100010001000100010;
+daddrbusout[23] = 64'b1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x;
 databusin[23] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
-databusout[23] = dontcare;
+databusout[23] =  dontcare;
 
-// SUB   R25, R4, R4
-iaddrbusout[24] = 64'h0000000000000024;
+// SUB   R23, R5, R1
+iaddrbusout[24] = 64'h0000000000000060;
 //             opcode
-instrbusin[24]={SUB, 5'd4, 6'd11, 5'd4, 5'd25};
+instrbusin[24]={SUB, 5'd1, 6'd11, 5'd5, 5'd23};
 
-daddrbusout[24] = 64'b0010001000100010001000100010001000100010001000100010001000100010;
+daddrbusout[24] = dontcare;
 databusin[24] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[24] = dontcare;
 
-// SUBS  R24,  R3, R3
-iaddrbusout[25] = 64'h00000000000000B0;
-//                 
-instrbusin[25] = {SUBS, 5'd3, 6'd0, 5'd3, 5'd24};
-daddrbusout[25] = 64'b0000000000000000000000000000000000000000000000000000000000010011;
+// SUB   R25, R4, R4
+iaddrbusout[25] = 64'h0000000000000064;
+//             opcode
+instrbusin[25]={SUB, 5'd4, 6'd11, 5'd4, 5'd25};
+
+daddrbusout[25] = 64'b0000000000000000000000000000000000000000000000000000000000000000;
 databusin[25] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[25] = dontcare;
 
-// SUBS  R16,  R30, R1
-iaddrbusout[26] = 64'h00000000000000B0;
+// SUBS  R24,  R3, R3
+iaddrbusout[26] = 64'h0000000000000068;
 //                 
-instrbusin[26] = {SUBS, 5'd1, 6'd0, 5'd30, 5'd16};
-daddrbusout[26] = 64'b0000000000000000000000000000000000000000000000000000000000010011;
+instrbusin[26] = {SUBS, 5'd3, 6'd0, 5'd3, 5'd24};
+daddrbusout[26] = 64'b0000000000000000000000000000000000000000000000000000000000000000;
 databusin[26] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[26] = dontcare;
 
-// ADDI  R25, R31, #1
-iaddrbusout[27] = 64'h0000000000000004;
-//            opcode
-instrbusin[27]={ADDI, 12'b000000000001, 5'b11111, 5'b11001};
+// SUBS  R16,  R30, R1
+iaddrbusout[27] = 64'h000000000000006C;
+//                 
+instrbusin[27] = {SUBS, 5'd1, 6'd0, 5'd30, 5'd16};
+daddrbusout[27] = dontcare;
+databusin[27] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
+databusout[27] = dontcare;
 
-daddrbusout[27] = 64'b0000000000000000000000000000000000000000000000000000000000000001; //dontcare;
-databusin[27]   = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
-databusout[27]  = dontcare;
+// ADDI  R25, R31, #1
+iaddrbusout[28] = 64'h0000000000000070;
+//            opcode
+instrbusin[28]={ADDI, 12'b000000000001, 5'b11111, 5'b11001};
+
+daddrbusout[28] = 64'b0000000000000000000000000000000000000000000000000000000000000001; //dontcare;
+databusin[28]   = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
+databusout[28]  = dontcare;
 
 // EORI   R30, R29, #hFFF
-iaddrbusout[28] = 64'h000000000000010C;
+iaddrbusout[29] = 64'h0000000000000074;
 //             opcode
-instrbusin[28]={EORI, 12'hFFF, 5'd29, 5'd30};
+instrbusin[29]={EORI, 12'hFFF, 5'd29, 5'd30};
 
-daddrbusout[28] = 64'b1100110011001100110011001100110011001100110011001101111011011100;
-databusin[28] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
-databusout[28] = dontcare;
-
-// ENORI   R14, R29, #hFFF
-iaddrbusout[29] = 64'h000000000000010C;
-//             opcode
-instrbusin[29]={ENORI, 12'hFFF, 5'd29, 5'd14};
-
-daddrbusout[29] = 64'b1100110011001100110011001100110011001100110011001101111011011100;
+daddrbusout[29] = dontcare;
 databusin[29] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[29] = dontcare;
 
+// ENORI   R14, R29, #hFFF
+iaddrbusout[30] = 64'h0000000000000078;
+//             opcode
+instrbusin[30]={ENORI, 12'hFFF, 5'd29, 5'd14};
+
+daddrbusout[30] = dontcare;
+databusin[30] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
+databusout[30] = dontcare;
+
 // SUBIS R16, R1, #1
-iaddrbusout[30] = 64'h000000000000005C;
+iaddrbusout[31] = 64'h000000000000007C;
 //            opcode 
-instrbusin[30]={SUBIS, 12'd1, 5'd1, 5'd16};
-daddrbusout[30] = 64'b1111111111111111111111111111111111111111111111111111111111111111;
-databusin[30] =   64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
-databusout[30] =  dontcare;
+instrbusin[31]={SUBIS, 12'd1, 5'd1, 5'd16};
+daddrbusout[31] = dontcare;
+databusin[31] =   64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
+databusout[31] =  dontcare;
 
 // BEQ #15
-iaddrbusout[31] = 64'h00000000000000AC;
+iaddrbusout[32] = 64'h0000000000000080;
 //            opcode
-instrbusin[31]={BEQ, 19'd15, 5'd0};
-daddrbusout[31] = 64'b0000000000000000000000000000000000000000000000000000000011111000;
-databusin[31] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
-databusout[31] = dontcare;
+instrbusin[32]={BEQ, 19'd15, 5'd0};
+daddrbusout[32] = 64'b0000000000000000000000000000000000000000000000000000000011111000;
+databusin[32] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
+databusout[32] = dontcare;
 
 // SUBIS R20, R1, #1
-iaddrbusout[32] = 64'h000000000000005C;
+iaddrbusout[33] = 64'h0000000000000084;
 //            opcode 
-instrbusin[32]={SUBIS, 12'd1, 5'd1, 5'd20};
-daddrbusout[32] = 64'b1111111111111111111111111111111111111111111111111111111111111111;
-databusin[32] =   64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
-databusout[32] =  dontcare;
+instrbusin[33]={SUBIS, 12'd1, 5'd1, 5'd20};
+daddrbusout[33] = dontcare;
+databusin[33] =   64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
+databusout[33] =  dontcare;
 
 // BEQ #0
-iaddrbusout[33] = 64'h00000000000000AC;
+iaddrbusout[34] = 64'h0000000000000088;
 //            opcode
-instrbusin[33]={BEQ, 19'd0, 5'd0};
-daddrbusout[33] = 64'b0000000000000000000000000000000000000000000000000000000011111000;
-databusin[33] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
-databusout[33] = dontcare;
+instrbusin[34]={BEQ, 19'd0, 5'd0};
+daddrbusout[34] = 64'b0000000000000000000000000000000000000000000000000000000011111000;
+databusin[34] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
+databusout[34] = dontcare;
 
 // SUBIS R21, R1, #0
-iaddrbusout[34] = 64'h000000000000005C;
+iaddrbusout[35] = 64'h000000000000008C;
 //            opcode 
-instrbusin[34]={SUBIS, 12'd0, 5'd1, 5'd21};
-daddrbusout[34] = 64'b1111111111111111111111111111111111111111111111111111111111111111;
-databusin[34] =   64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
-databusout[34] =  dontcare;
+instrbusin[35]={SUBIS, 12'd0, 5'd1, 5'd21};
+daddrbusout[35] = dontcare;
+databusin[35] =   64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
+databusout[35] =  dontcare;
 
 // BNE #9
-iaddrbusout[35] = 64'h0000000000000060;
+iaddrbusout[36] = 64'h0000000000000090;
 //            opcode 
-instrbusin[35]={BNE, 19'd9, 5'd0};
-daddrbusout[35] = dontcare;
-databusin[35] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
-databusout[35] = dontcare;
-
-// NOP  ANDI  R31,  R21, #hFF
-iaddrbusout[36] = 64'h00000000000000A4;
-//                   
-instrbusin[36] = {ANDI, 12'hFF, 5'd21, 5'd31};
-daddrbusout[36] = 64'b0000000000000000000000000000000000000000000000000000000011011111;
+instrbusin[36]={BNE, 19'd9, 5'd0};
+daddrbusout[36] = dontcare;
 databusin[36] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[36] = dontcare;
 
 // NOP  ANDI  R31,  R21, #hFF
-iaddrbusout[37] = 64'h00000000000000A4;
+iaddrbusout[37] = 64'h0000000000000094;
 //                   
 instrbusin[37] = {ANDI, 12'hFF, 5'd21, 5'd31};
-daddrbusout[37] = 64'b0000000000000000000000000000000000000000000000000000000011011111;
+daddrbusout[37] = 64'b00000000000000000000000000000000000000000000000000000000xxxxxxxx;
 databusin[37] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[37] = dontcare;
 
-// MOVZ  R31, (<< 3*16), #hCCCA 
-iaddrbusout[38] = 64'h000000000000011C;
-//             opcode
-instrbusin[38]={MOVZ, 2'b11, 16'hCCCA, 5'd31};
-
-daddrbusout[38] = 64'b0000000000000000000000000000000010101011110011010000000000000000;
+// NOP  ANDI  R31,  R21, #hFF
+iaddrbusout[38] = 64'h0000000000000098;
+//                   
+instrbusin[38] = {ANDI, 12'hFF, 5'd21, 5'd31};
+daddrbusout[38] = 64'b00000000000000000000000000000000000000000000000000000000xxxxxxxx;
 databusin[38] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[38] = dontcare;
 
-// MOVZ  R31, (<< 1*16), #h000A
-iaddrbusout[39] = 64'h000000000000011C;
+// MOVZ  R31, (<< 3*16), #hCCCA 
+iaddrbusout[39] = 64'h000000000000009C;
 //             opcode
-instrbusin[39]={MOVZ, 2'b01, 16'h000A, 5'd31};
+instrbusin[39]={MOVZ, 2'b11, 16'hCCCA, 5'd31};
 
-daddrbusout[39] = 64'b0000000000000000000000000000000010101011110011010000000000000000;
+daddrbusout[39] = 64'b1100110011001010000000000000000000000000000000000000000000000000;
 databusin[39] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[39] = dontcare;
 
-// CBZ R21, #d9
-iaddrbusout[40] = 64'h000000000000019C;
-//            opcode
-instrbusin[40]={CBZ, 19'd9, 5'd21};
-daddrbusout[40] = dontcare;
+// MOVZ  R31, (<< 1*16), #h000A
+iaddrbusout[40] = 64'h00000000000000A0;
+//             opcode
+instrbusin[40]={MOVZ, 2'b01, 16'h000A, 5'd31};
+
+daddrbusout[40] = 64'b0000000000000000000000000000000000000000000010100000000000000000;
 databusin[40] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[40] = dontcare;
 
-// NOP  ANDI  R31,  R21, #hFF
+// CBZ R21, #d9
 iaddrbusout[41] = 64'h00000000000000A4;
-//                   
-instrbusin[41] = {ANDI, 12'hFF, 5'd21, 5'd31};
-daddrbusout[41] = 64'b0000000000000000000000000000000000000000000000000000000011011111;
+//            opcode
+instrbusin[41]={CBZ, 19'd9, 5'd21};
+daddrbusout[41] = dontcare;
 databusin[41] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[41] = dontcare;
 
-// B     #d16
-iaddrbusout[42] = 64'h0000000000000118;
-//             opcode
-instrbusin[42]={BRANCH, 26'd16};
-
-daddrbusout[42] = 64'b0011001100110011001100110011001100110011001100110111110000000000;
+// NOP  ANDI  R31,  R21, #hFF
+iaddrbusout[42] = 64'h00000000000000A8;
+//                   
+instrbusin[42] = {ANDI, 12'hFF, 5'd21, 5'd31};
+daddrbusout[42] = 64'b00000000000000000000000000000000000000000000000000000000xxxxxxxx;
 databusin[42] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[42] = dontcare;
 
-// CBNZ R21, #d9
-iaddrbusout[43] = 64'h00000000000001A4;
-//            opcode
-instrbusin[43]={CBNZ, 19'd9, 5'd21};
+// B     #d16
+iaddrbusout[43] = 64'h00000000000000AC;
+//             opcode
+instrbusin[43]={BRANCH, 26'd16};
+
 daddrbusout[43] = dontcare;
 databusin[43] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[43] = dontcare;
 
-// SUBS  R31,  R1, R1
+// CBNZ R21, #d9
 iaddrbusout[44] = 64'h00000000000000B0;
-//                 
-instrbusin[44] = {SUBS, 5'd1, 6'd0, 5'd31, 5'd1};
-daddrbusout[44] = 64'b0000000000000000000000000000000000000000000000000000000000000000;
+//            opcode
+instrbusin[44]={CBNZ, 19'd9, 5'd21};
+daddrbusout[44] = dontcare;
 databusin[44] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[44] = dontcare;
 
-// BLT  #9
-iaddrbusout[45] = 64'h00000000000000FC;
-//            opcode
-instrbusin[45]={BLT, 19'd9, 5'd0};
+// SUBS  R31,  R1, R1
+iaddrbusout[45] = 64'h00000000000000EC;
+//                 
+instrbusin[45] = {SUBS, 5'd1, 6'd0, 5'd31, 5'd1};
 daddrbusout[45] = dontcare;
 databusin[45] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[45] = dontcare;
 
-// SUBS  R31,  R2, R1
-iaddrbusout[46] = 64'h00000000000000B0;
-//                 
-instrbusin[46] = {SUBS, 5'd1, 6'd0, 5'd31, 5'd2};
-daddrbusout[46] = 64'b0000000000000000000000000000000000000000000000000000000000000000;
+// BLT  #9
+iaddrbusout[46] = 64'h00000000000000D4;
+//            opcode
+instrbusin[46]={BLT, 19'd9, 5'd0};
+daddrbusout[46] = dontcare;
 databusin[46] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[46] = dontcare;
 
-// BGE  #5
-iaddrbusout[47] = 64'h00000000000000B4;
-//            opcode
-instrbusin[47]={BGE, 19'd5, 5'd0};
+// SUBS  R31,  R2, R1
+iaddrbusout[47] = 64'h00000000000000D8;
+//                 
+instrbusin[47] = {SUBS, 5'd1, 6'd0, 5'd31, 5'd2};
 daddrbusout[47] = dontcare;
 databusin[47] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[47] = dontcare;
 
-// NOP  ADDI  R31,  R31, #0
-iaddrbusout[48] = 64'h00000000000001A0;
-//            opcode 
-instrbusin[48]={ADDI, 12'd0, 5'd31, 5'd31};
-daddrbusout[48] = 64'd0;
+// BGE  #5
+iaddrbusout[48] = 64'h00000000000000DC;
+//            opcode
+instrbusin[48]={BGE, 19'd5, 5'd0};
+daddrbusout[48] = dontcare;
 databusin[48] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[48] = dontcare;
 
-//* NOP  ADDI  R31,  R31, #0
-iaddrbusout[49] = 64'h00000000000001A0;
+// NOP  ADDI  R31,  R31, #0
+iaddrbusout[49] = 64'h00000000000000E0;
 //            opcode 
 instrbusin[49]={ADDI, 12'd0, 5'd31, 5'd31};
 daddrbusout[49] = 64'd0;
@@ -552,7 +544,7 @@ databusin[49] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 databusout[49] = dontcare;
 
 //* NOP  ADDI  R31,  R31, #0
-iaddrbusout[50] = 64'h00000000000001A0;
+iaddrbusout[50] = 64'h00000000000000F0;
 //            opcode 
 instrbusin[50]={ADDI, 12'd0, 5'd31, 5'd31};
 daddrbusout[50] = 64'd0;
@@ -560,7 +552,7 @@ databusin[50] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 databusout[50] = dontcare;
 
 //* NOP  ADDI  R31,  R31, #0
-iaddrbusout[51] = 64'h00000000000001A0;
+iaddrbusout[51] = 64'h00000000000000F4;
 //            opcode 
 instrbusin[51]={ADDI, 12'd0, 5'd31, 5'd31};
 daddrbusout[51] = 64'd0;
@@ -568,7 +560,7 @@ databusin[51] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 databusout[51] = dontcare;
 
 //* NOP  ADDI  R31,  R31, #0
-iaddrbusout[52] = 64'h00000000000001A0;
+iaddrbusout[52] = 64'h00000000000000F8;
 //            opcode 
 instrbusin[52]={ADDI, 12'd0, 5'd31, 5'd31};
 daddrbusout[52] = 64'd0;
@@ -576,16 +568,24 @@ databusin[52] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 databusout[52] = dontcare;
 
 //* NOP  ADDI  R31,  R31, #0
-iaddrbusout[53] = 64'h00000000000001A0;
+iaddrbusout[53] = 64'h00000000000000FC;
 //            opcode 
 instrbusin[53]={ADDI, 12'd0, 5'd31, 5'd31};
 daddrbusout[53] = 64'd0;
 databusin[53] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[53] = dontcare;
 
-// 53 Instrs, 2 Loads, 2 * (2 Stores) --> 70
+//* NOP  ADDI  R31,  R31, #0
+iaddrbusout[54] = 64'h0000000000000100;
+//            opcode 
+instrbusin[54]={ADDI, 12'd0, 5'd31, 5'd31};
+daddrbusout[54] = 64'd0;
+databusin[54] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
+databusout[54] = dontcare;
+
+// 55 Instrs, 2 Loads, 2 * (2 Stores) --> 71
 // (no. instructions) + (no. loads) + 2*(no. stores) = 
-ntests = 100;
+ntests = 71;
 
 $timeformat(-9,1,"ns",12);
 

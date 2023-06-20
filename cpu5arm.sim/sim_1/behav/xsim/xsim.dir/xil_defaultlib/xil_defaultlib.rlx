@@ -4,5 +4,5 @@ Apr 18 2022
 16:05:34
 E:/arm-processor/arm-processor/cpu5arm.sim/sim_1/behav/xsim/glbl.v,1686871686,verilog,,,,glbl,,,,,,,,
 E:/arm-processor/arm-processor/cpu5arm.srcs/sim_1/new/cpu5armtb.v,1687219680,verilog,,,,cpu5armtb,,,,,,,,
-E:/arm-processor/arm-processor/cpu5arm.srcs/sim_1/new/cpu5armtestbench.v,1687222024,verilog,,,,cpu5armtestbench,,,,,,,,
+E:/arm-processor/arm-processor/cpu5arm.srcs/sim_1/new/cpu5armtestbench.v,1687225740,verilog,,,,cpu5armtestbench,,,,,,,,
 E:/arm-processor/arm-processor/cpu5arm.srcs/sources_1/new/cpu5arm.v,1687207988,verilog,,E:/arm-processor/arm-processor/cpu5arm.srcs/sim_1/new/cpu5armtestbench.v,,EXMEMDFF;IDEXDFF;IFIDDFF;InstrFlagSetter;MEMWBDFF;PCDFF;add64;alu64;alu_cell;comparator64;cpu5arm;decoder5bitsize32;dff;lac;lac2;lac3;lac4;lac5;lac6;mux2;mux6bit;opcodedecoder;overflow;regfile;shifter;signextender;tristatebuffer,,,,,,,,
