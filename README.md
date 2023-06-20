@@ -1,44 +1,16 @@
-### Notes on Marpaung Lecture 6/12/2023
+### 5-Stage Pipelined ARM CPU
 
-##### Initial Comments 
+##### What is this?
 
-`ADD` is just add
-`ADDS` generates a flag: adding two numbers generates 4 flags: `V` (overflow), `C` (cout), `N` (bit 63 (MSB: 1 negative, 0 positive)), `Z` (zero flag is set when result is zero) 
-so forth for all -S ending instrs
+This repository contains an implementation of a 5-stage CPU. This processor can handle a selection of instructions from the `ARM` instruction set. The CPU is pipelined, which allows it to handle multiple instructions in tandem rather than waiting several cycles for completion of previous instructions, saving clock cycles over a multi-cyle or single-cycle processor. 
+Instructions enter the "pipeline" wherein they proceed through the Instruction Fetch, Instruction Decode, Instruction Execute, Memory Access, and Memory Writeback stages. 
 
-`LDUR` loads register 
+The processor supports 64-bit instructions provided via `ibus`. Data memory can be simulated via testbench from the bidirectional `databus` line. `daddrbus` line specifies which address to which the register should read or write, and the `iaddrbus` line specifies the program counter for the instructions. 
+`iaddrbus` can increment as needed to support branching. 
 
-Branch (`B`) is jump unconditional 
+##### Supported Opcodes
 
-`BEQ`, `BNE`, `BLT`, `BGE` jump on flags 
-`BEQ`: Branch when `Z == 1` 
-`BNE`: Branch when `Z == 0`
-`BLT`: Branch when `N != V` 
-`BGE`: Branch when `N == V` 
-
-Registers are 64 bits
-
-We don't have to consider data hazards or synchronization 
-
-No NOR included in ARM.... can remove that from S and replace that with something useful for other operations
-
-##### Slide Deck 
-
-`ADDS` happens on execute, if `bEQ` is next, it has to be on the decode stage. The branch needs to get the information directly from the execute stage without any pipelining. We forward the data to the decode stage. 
-E.G., we have to set the flags properly immediately and without delay
-
-Can use-S-suffixed instructions on the Zero register (`XZR`) such that the flags get set at the right time for the antecedent / incoming branch instruction. 
-
-ALU generates the four flags needed
-
-`CondBranchAddress` at (4) on the right column should read `[23]` not `[25]` (the *CODE INSTRUCTION FORMATS*) section is more correct. 
-
-Common ways to implement the new thing: 
-- Go with the new testbench file, copy 
-
-##### Ariel's Corrected Opcodes
-
-opcode values:
+The following operation codes are supported by the CPU. Note the differences between these opcodes and those of the `LEGV8` green sheet. 
 
 ```verilog
 parameter BRANCH = 6'b000011;
@@ -72,18 +44,19 @@ parameter MOVZ = 9'b110010101;
 parameter STUR = 11'b11010000001;
 parameter LDUR = 11'b11010000000;
 ```
+##### Using the processor 
 
-##### TODO List
+This processor was designed with an eye to use in the Xilinx Vivado toolsuite. Included are three testbenches which demonstrate the range of instructions supported.
 
-- [X] Add logic to force B input to the ALU to be SHAMT when using LSL, same for LSR. 
+Due credit goes to my colleague, Ariel Mahler, who wrote one of the testbenches (`cput5armtbAriel.v`) for the program. Credit for the `cpuarm5tb.v` testbench goes to Dr. Julius Marpaung.
 
-- [ ] Redesign the decoder stage completely for the new opcodes 
-- [ ] Figure out what we want to happen at the `SignExtend` module
-- [ ] Fix his testbench to start our own 
-- [x] Redesign the regfile declaration for the new bits 
-- [x] Refactor any use of `[0:31]` and so on to respect the new ordering of bits --> done except for Sign Extender
-- [x] Need `LAC6` so we can get to 64 bits for the ALU and all that relies on the LAC 
-- [x] Add the one flag needed for the ALU 
 
-##### DIAGRAM
+##### Schematic Diagram 
+
 [Diagram link](https://lucid.app/lucidchart/bb6ea441-bf98-424a-8f45-dcc6bf4a040e/edit?page=0_0&invitationId=inv_fa02469f-1cc0-4602-ad25-949e55a2c984#)
+
+##### Acknowledgements
+
+This program was authored and designed by Mikayla Sagle and Aidan Capaldi at Northeastern University in Summer term 2023. 
+
+One of the two testbenches was authored by Ariel Mahler. Special thanks to Dr. Julius Marpaung for providing lectures and debugging support!

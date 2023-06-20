@@ -1,0 +1,4 @@
+Running: xsim.dir/cpu5armtbAriel_behav/xsimk.exe -simmode gui -wdb cpu5armtbAriel_behav.wdb -simrunnum 0 -socket 63008
+Design successfully loaded
+Design Loading Memory Usage: 8332 KB (Peak: 8332 KB)
+Design Loading CPU Usage: 15 ms

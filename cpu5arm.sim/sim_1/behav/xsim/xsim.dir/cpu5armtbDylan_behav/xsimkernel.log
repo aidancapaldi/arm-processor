@@ -1,0 +1,7 @@
+Running: xsim.dir/cpu5armtbDylan_behav/xsimk.exe -simmode gui -wdb cpu5armtbDylan_behav.wdb -simrunnum 0 -socket 62344
+Design successfully loaded
+Design Loading Memory Usage: 9180 KB (Peak: 9180 KB)
+Design Loading CPU Usage: 31 ms
+Simulation completed
+Simulation Memory Usage: 9888 KB (Peak: 9888 KB)
+Simulation CPU Usage: 62 ms

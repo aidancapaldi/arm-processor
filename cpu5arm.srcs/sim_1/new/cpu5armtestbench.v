@@ -1,4 +1,7 @@
+// Authored by Aidan Capaldi and Mikayla Sagle
+
 `timescale 1ns/10ps
+
 
 module cpu5armtestbench();
 
