@@ -50,6 +50,8 @@ This processor was designed with an eye to use in the Xilinx Vivado toolsuite. I
 
 Due credit goes to my colleague, Ariel Mahler, who wrote one of the testbenches (`cput5armtbAriel.v`) for the program. Credit for the `cpuarm5tb.v` testbench goes to Dr. Julius Marpaung.
 
+Christian Bender also wrote one of the included testbenches.
+
 
 ##### Schematic Diagram 
 
