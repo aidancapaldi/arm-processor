@@ -2,3 +2,6 @@ Running: xsim.dir/cpu5armtbAriel_behav/xsimk.exe -simmode gui -wdb cpu5armtbArie
 Design successfully loaded
 Design Loading Memory Usage: 8332 KB (Peak: 8332 KB)
 Design Loading CPU Usage: 15 ms
+Simulation completed
+Simulation Memory Usage: 9248 KB (Peak: 9248 KB)
+Simulation CPU Usage: 62 ms

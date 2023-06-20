@@ -1,4 +1,8 @@
-// Authored by Aidan Capaldi and Mikayla Sagle
+
+
+
+//// Authored by Aidan Capaldi and Mikayla Sagle
+
 
 `timescale 1ns/10ps
 
@@ -168,7 +172,7 @@ databusin[5]   = 64'hCCCCCCCCCCCCCCCC;
 databusout[5]  = dontcare;
 
 // STUR   R1, [R9,0] 
-iaddrbusout[6] = 64'h0000000000000018; // TODO: check these
+iaddrbusout[6] = 64'h0000000000000018;
 //            opcode 
 instrbusin[6]={STUR, 9'b000000000, 2'b01, 5'b00011, 5'b00001};
 
@@ -191,7 +195,7 @@ iaddrbusout[8] = 64'h0000000000000020;
 //             opcode   
 instrbusin[8]={ADD, 5'd5, 6'd1, 5'd1, 5'd11};
 
-daddrbusout[8] = 64'b1010101010101010101010101010101010101010101010101010101010100111; //dontcare;
+daddrbusout[8] = 64'b1010101010101010101010101010101010101010101010101010101010100111;
 databusin[8] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[8] = dontcare;
 
@@ -200,7 +204,7 @@ iaddrbusout[9] = 64'h0000000000000024;
 //             opcode   
 instrbusin[9]={ADD, 5'd31, 6'd1, 5'd1, 5'd11};
 
-daddrbusout[9] = 64'b1111111111111111111111111111111111111111111111111111111111111101; //dontcare;
+daddrbusout[9] = 64'b1111111111111111111111111111111111111111111111111111111111111101;
 databusin[9] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[9] = dontcare;
 
@@ -279,7 +283,7 @@ databusout[17] = dontcare;
 // ENOR   R27, R30, R3
 iaddrbusout[18] = 64'h0000000000000048;
 //             opcode
-instrbusin[18]={ENOR, 5'd3, 6'd10, 5'd30, 5'd27}; // TODO is that 6'd right 
+instrbusin[18]={ENOR, 5'd3, 6'd10, 5'd30, 5'd27}; 
 
 daddrbusout[18] = dontcare;
 databusin[18] = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
@@ -369,7 +373,7 @@ iaddrbusout[28] = 64'h0000000000000070;
 //            opcode
 instrbusin[28]={ADDI, 12'b000000000001, 5'b11111, 5'b11001};
 
-daddrbusout[28] = 64'b0000000000000000000000000000000000000000000000000000000000000001; //dontcare;
+daddrbusout[28] = 64'b0000000000000000000000000000000000000000000000000000000000000001; 
 databusin[28]   = 64'bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz;
 databusout[28]  = dontcare;
 
