@@ -1,0 +1,2910 @@
+Time resolution is 1 ps
+Time=       0.0ns
+  clk=1
+reset=1
+Time=       5.0ns
+  clk=0
+Time=      10.0ns
+  clk=1
+Time=      15.0ns
+  clk=0
+Time=      20.0ns
+  clk=0
+Time=      20.0ns
+  clk=1
+Time=      25.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           0
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000000000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+  instrbus=100010 01110 00000 00001 11111100001 for instruction           0:         ADDI R1, R31, #3
+Time=      25.0ns
+  clk=0
+Time=      30.0ns
+  clk=0
+Time=      30.0ns
+  clk=1
+Time=      35.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           1
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000000100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 01110 00000 00000 11111100010 for instruction           1:         ADDI R2, R31, #1
+Time=      35.0ns
+  clk=0
+Time=      40.0ns
+  clk=0
+Time=      40.0ns
+  clk=1
+Time=      45.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           2
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000001000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 01110 00000 00001 01111100011 for instruction           2:         SUBI R3, R31, #2
+Time=      45.0ns
+  clk=0
+Time=      50.0ns
+  clk=0
+Time=      50.0ns
+  clk=1
+Time=      55.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           3
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000001100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 01110 00000 00000 11111100100 for instruction           3:         SUBI R4, R31, #1
+  Testing data address for instruction           0:
+          ADDI R1, R31, #3
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111101
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=      55.0ns
+  clk=0
+Time=      60.0ns
+  clk=0
+Time=      60.0ns
+  clk=1
+Time=      65.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           4
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000010000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000001100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110100 00000 00000 00000 00000100101 for instruction           4:          LDUR R5, [R1,0]
+  Testing data address for instruction           1:
+          ADDI R2, R31, #1
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000001
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=      65.0ns
+  clk=0
+Time=      70.0ns
+  clk=0
+Time=      70.0ns
+  clk=1
+Time=      75.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           5
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000010100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000001100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110100 00000 00000 00000 00001000110 for instruction           5:          LDUR R6, [R2,0]
+  Testing data address for instruction           2:
+          SUBI R3, R31, #2
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111110
+    Correct daddrbus = 1111111111111111111111111111111111111111111111111111111111111110
+Time=      75.0ns
+  clk=0
+Time=      80.0ns
+  clk=0
+Time=      80.0ns
+  clk=1
+Time=      85.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           6
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000011000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000010100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110100 00001 00000 00000 10001100001 for instruction           6:          STUR R1, [R9,0]
+  Testing data address for instruction           3:
+          SUBI R4, R31, #1
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct daddrbus = 1111111111111111111111111111111111111111111111111111111111111111
+Time=      85.0ns
+  clk=0
+Time=      90.0ns
+  clk=0
+Time=      90.0ns
+  clk=1
+Time=      95.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           7
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000011100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000010100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110100 00001 00000 00000 10010000010 for instruction           7:          STUR R2, [R4,0]
+  Testing data address for instruction           4:
+           LDUR R5, [R1,0]
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111101
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000001
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=      95.0ns
+  clk=0
+Time=     100.0ns
+  clk=0
+Time=     100.0ns
+  clk=1
+Time=     105.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           8
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000100000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00000 00101 00000 10000101011 for instruction           8:          ADD R11, R5, R1
+  Testing data address for instruction           5:
+           LDUR R6, [R2,0]
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct daddrbus = 1111111111111111111111111111111111111111111111111111111111111111
+Time=     105.0ns
+  clk=0
+Time=     110.0ns
+  clk=0
+Time=     110.0ns
+  clk=1
+Time=     115.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           9
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000100100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00000 11111 00000 10000101011 for instruction           9:         ADD R11, R5, R31
+  Testing data address for instruction           6:
+           STUR R1, [R9,0]
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111110
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000001100110
+    -------------ERROR. A Mismatch Has Occured-----------
+  Testing store data for instruction           6:
+           STUR R1, [R9,0]
+    Your databus =    1111111111111111111111111111111111111111111111111111111111111101
+    Correct databus = 1111111111111111111111111111111111111111111111111111111111111111
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     115.0ns
+  clk=0
+Time=     120.0ns
+  clk=0
+Time=     120.0ns
+  clk=1
+Time=     125.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          10
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000101000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00010 10001 01011 10101101100 for instruction          10:     ADDIS R12, R11, 1111
+  Testing data address for instruction           7:
+           STUR R2, [R4,0]
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000001100110
+    -------------ERROR. A Mismatch Has Occured-----------
+  Testing store data for instruction           7:
+           STUR R2, [R4,0]
+    Your databus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct databus = 1111111111111111111111111111111111111111111111111111111111111111
+Time=     125.0ns
+  clk=0
+Time=     130.0ns
+  clk=0
+Time=     130.0ns
+  clk=1
+Time=     135.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          11
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000101100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00010 10001 01011 10010101101 for instruction          11:      ADDIS R13, R5, 1111
+  Testing data address for instruction           8:
+           ADD R11, R5, R1
+    Your daddrbus =    1010101010101010101010101010101010101010101010101010101010100111
+    Correct daddrbus = 0111011101110111011101110111011101110111011101110111011101110110
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     135.0ns
+  clk=0
+Time=     140.0ns
+  clk=0
+Time=     140.0ns
+  clk=1
+Time=     145.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          12
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000110000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000101100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00010 11101 00000 00001000001 for instruction          12:          AND R29, R1, R2
+  Testing data address for instruction           9:
+          ADD R11, R5, R31
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111101
+    Correct daddrbus = 0111011101110111011101110111011101110111011101110111011101110110
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     145.0ns
+  clk=0
+Time=     150.0ns
+  clk=0
+Time=     150.0ns
+  clk=1
+Time=     155.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          13
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000110100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000101100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00010 11100 00000 00110001101 for instruction          13:        AND R28, R12, R13
+  Testing data address for instruction          10:
+      ADDIS R12, R11, 1111
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     155.0ns
+  clk=0
+Time=     160.0ns
+  clk=0
+Time=     160.0ns
+  clk=1
+Time=     165.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          14
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000111000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000101000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00110 00000 00000 10010101101 for instruction          14:        ANDIS R30, R1, R2
+  Testing data address for instruction          11:
+       ADDIS R13, R5, 1111
+    Your daddrbus =    1010101010101010101010101010101010101010101010101010111100000001
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     165.0ns
+  clk=0
+Time=     170.0ns
+  clk=0
+Time=     170.0ns
+  clk=1
+Time=     175.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          15
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000111100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00100 00011 00101 01111011010 for instruction          15:        ANDIS R27, R3, R1
+  Testing data address for instruction          12:
+           AND R29, R1, R2
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     175.0ns
+  clk=0
+Time=     180.0ns
+  clk=0
+Time=     180.0ns
+  clk=1
+Time=     185.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          16
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001000000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00100 11010 00101 01111011001 for instruction          16:         EOR R26, R30, R3
+  Testing data address for instruction          13:
+         AND R28, R12, R13
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     185.0ns
+  clk=0
+Time=     190.0ns
+  clk=0
+Time=     190.0ns
+  clk=1
+Time=     195.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          17
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001000100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00101 00011 00101 01111011011 for instruction          17:        EOR R25, R30, R26
+  Testing data address for instruction          14:
+         ANDIS R30, R1, R2
+    Your daddrbus =    0000000000000000000000000000000000000000000000000000000000000000
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+Time=     195.0ns
+  clk=0
+Time=     200.0ns
+  clk=0
+Time=     200.0ns
+  clk=1
+Time=     205.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          18
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001001000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00101 00001 00101 01111110111 for instruction          18:        ENOR R27, R30, R3
+  Testing data address for instruction          15:
+         ANDIS R27, R3, R1
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     205.0ns
+  clk=0
+Time=     210.0ns
+  clk=0
+Time=     210.0ns
+  clk=1
+Time=     215.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          19
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001001100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100010100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00110 00001 00101 00101011111 for instruction          19:        ENOR R23, R31, R1
+  Testing data address for instruction          16:
+          EOR R26, R30, R3
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     215.0ns
+  clk=0
+Time=     220.0ns
+  clk=0
+Time=     220.0ns
+  clk=1
+Time=     225.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          20
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001010000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100010000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00111 00001 00101 00101011111 for instruction          20:      LSL R31, R10, 6'd10
+  Testing data address for instruction          17:
+         EOR R25, R30, R26
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     225.0ns
+  clk=0
+Time=     230.0ns
+  clk=0
+Time=     230.0ns
+  clk=1
+Time=     235.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          21
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001010100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000111100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01000 00001 00000 00001010110 for instruction          21:      LSR R31, R10, 6'd10
+  Testing data address for instruction          18:
+         ENOR R27, R30, R3
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     235.0ns
+  clk=0
+Time=     240.0ns
+  clk=0
+Time=     240.0ns
+  clk=1
+Time=     245.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          22
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001011000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000111100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01000 01110 00000 00010110011 for instruction          22:          ORR R22, R2, R1
+  Testing data address for instruction          19:
+         ENOR R23, R31, R1
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0000000000
+    Correct daddrbus = 0011001100110011001100110011001100110011001100110111110000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     245.0ns
+  clk=0
+Time=     250.0ns
+  clk=0
+Time=     250.0ns
+  clk=1
+Time=     255.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          23
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001011100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000100100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01001 00001 00101 10010110111 for instruction          23:         ORR R19, R5, R14
+  Testing data address for instruction          20:
+       LSL R31, R10, 6'd10
+    Your daddrbus =    0000000000xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000110011001100110011001100110011001100110011001100110011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     255.0ns
+  clk=0
+Time=     260.0ns
+  clk=0
+Time=     260.0ns
+  clk=1
+Time=     265.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          24
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001100000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000100100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01001 00100 00101 10010011001 for instruction          24:          SUB R23, R5, R1
+  Testing data address for instruction          21:
+       LSR R31, R10, 6'd10
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct daddrbus = 1110111011101110111011101110111011101110111011101110111011101110
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     265.0ns
+  clk=0
+Time=     270.0ns
+  clk=0
+Time=     270.0ns
+  clk=1
+Time=     275.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          25
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001100100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01010 00011 00000 00001111000 for instruction          25:          SUB R25, R4, R4
+  Testing data address for instruction          22:
+           ORR R22, R2, R1
+    Your daddrbus =    1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x
+    Correct daddrbus = 1110111011101110111011101110111011101110111011101110111011101110
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     275.0ns
+  clk=0
+Time=     280.0ns
+  clk=0
+Time=     280.0ns
+  clk=1
+Time=     285.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          26
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001101000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01010 00001 00000 01111010000 for instruction          26:         SUBS R24, R3, R3
+  Testing data address for instruction          23:
+          ORR R19, R5, R14
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0010001000100010001000100010001000100010001000100010001000100010
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     285.0ns
+  clk=0
+Time=     290.0ns
+  clk=0
+Time=     290.0ns
+  clk=1
+Time=     295.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          27
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001101100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000000100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 11111111001 for instruction          27:        SUBS R16, R30, R1
+  Testing data address for instruction          24:
+           SUB R23, R5, R1
+    Your daddrbus =    0000000000000000000000000000000000000000000000000000000000000000
+    Correct daddrbus = 0010001000100010001000100010001000100010001000100010001000100010
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     295.0ns
+  clk=0
+Time=     300.0ns
+  clk=0
+Time=     300.0ns
+  clk=1
+Time=     305.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          28
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001110000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 01001 11111 11111 11110111110 for instruction          28:         ADDI R25, R5, #1
+  Testing data address for instruction          25:
+           SUB R25, R4, R4
+    Your daddrbus =    0000000000000000000000000000000000000000000000000000000000000000
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000010011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     305.0ns
+  clk=0
+Time=     310.0ns
+  clk=0
+Time=     310.0ns
+  clk=1
+Time=     315.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          29
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001110100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 01011 11111 11111 11110101110 for instruction          29:     EORI R30, R29, #hFFF
+  Testing data address for instruction          26:
+          SUBS R24, R3, R3
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000010011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     315.0ns
+  clk=0
+Time=     320.0ns
+  clk=0
+Time=     320.0ns
+  clk=1
+Time=     325.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          30
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001111000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000001011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 10000 00000 00000 10000110000 for instruction          30:    ENORI R14, R29, #hFFF
+  Testing data address for instruction          27:
+         SUBS R16, R30, R1
+    Your daddrbus =    0000000000000000000000000000000000000000000000000000000000000001
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000001
+Time=     325.0ns
+  clk=0
+Time=     330.0ns
+  clk=0
+Time=     330.0ns
+  clk=1
+Time=     335.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          31
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001111100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010101100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=011101 00000 00000 00000 00111100000 for instruction          31:      SUBIS R16, R1, 1111
+  Testing data address for instruction          28:
+          ADDI R25, R5, #1
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101111011011100
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     335.0ns
+  clk=0
+Time=     340.0ns
+  clk=0
+Time=     340.0ns
+  clk=1
+Time=     345.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          32
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010000000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000001011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 10000 00000 00000 10000110100 for instruction          32:                  BEQ #15
+  Testing data address for instruction          29:
+      EORI R30, R29, #hFFF
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101111011011100
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     345.0ns
+  clk=0
+Time=     350.0ns
+  clk=0
+Time=     350.0ns
+  clk=1
+Time=     355.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          33
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010000100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010101100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=011101 00000 00000 00000 00000000000 for instruction          33:      SUBIS R20, R1, 1111
+  Testing data address for instruction          30:
+     ENORI R14, R29, #hFFF
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1111111111111111111111111111111111111111111111111111111111111111
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     355.0ns
+  clk=0
+Time=     360.0ns
+  clk=0
+Time=     360.0ns
+  clk=1
+Time=     365.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          34
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010001000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000001011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 10000 00000 00000 00000110101 for instruction          34:                   BEQ #0
+  Testing data address for instruction          31:
+       SUBIS R16, R1, 1111
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000011111000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     365.0ns
+  clk=0
+Time=     370.0ns
+  clk=0
+Time=     370.0ns
+  clk=1
+Time=     375.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          35
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010001100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000001100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=011101 01000 00000 00000 00100100000 for instruction          35:      SUBIS R21, R1, 0000
+Time=     375.0ns
+  clk=0
+Time=     380.0ns
+  clk=0
+Time=     380.0ns
+  clk=1
+Time=     385.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          36
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010010000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010100100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00100 00011 11111 11010111111 for instruction          36:                   BNE #9
+  Testing data address for instruction          33:
+       SUBIS R20, R1, 1111
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000011111000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     385.0ns
+  clk=0
+Time=     390.0ns
+  clk=0
+Time=     390.0ns
+  clk=1
+Time=     395.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          37
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010010100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010100100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00100 00011 11111 11010111111 for instruction          37:  NOP ANDI R31, R21, #hFF
+Time=     395.0ns
+  clk=0
+Time=     400.0ns
+  clk=0
+Time=     400.0ns
+  clk=1
+Time=     405.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          38
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010011000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110010 10111 11001 10011 00101011111 for instruction          38:  NOP ANDI R31, R21, #hFF
+  Testing data address for instruction          35:
+       SUBIS R21, R1, 0000
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Time=     405.0ns
+  clk=0
+Time=     410.0ns
+  clk=0
+Time=     410.0ns
+  clk=1
+Time=     415.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          39
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010011100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110010 10101 00000 00000 00101011111 for instruction          39: Z R31, (<< 3*16), #hCCCA
+Time=     415.0ns
+  clk=0
+Time=     420.0ns
+  clk=0
+Time=     420.0ns
+  clk=1
+Time=     425.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          40
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010100000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=111101 00000 00000 00000 00100110101 for instruction          40: Z R31, (<< 1*16), #h000A
+  Testing data address for instruction          37:
+   NOP ANDI R31, R21, #hFF
+    Your daddrbus =    00000000000000000000000000000000000000000000000000000000xxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000011011111
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     425.0ns
+  clk=0
+Time=     430.0ns
+  clk=0
+Time=     430.0ns
+  clk=1
+Time=     435.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          41
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010100100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010100100
+  instrbus=100010 00100 00011 11111 11010111111 for instruction          41:             CBZ R21, #d9
+  Testing data address for instruction          38:
+   NOP ANDI R31, R21, #hFF
+    Your daddrbus =    1100110011001010000000000000000000000000000000000000000000000000
+    Correct daddrbus = 0000000000000000000000000000000010101011110011010000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     435.0ns
+  clk=0
+Time=     440.0ns
+  clk=0
+Time=     440.0ns
+  clk=1
+Time=     445.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          42
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010101000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100011000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=000011 00000 00000 00000 00000010000 for instruction          42:  NOP ANDI R31, R21, #hFF
+  Testing data address for instruction          39:
+  Z R31, (<< 3*16), #hCCCA
+    Your daddrbus =    0000000000000000000000000000000000000000000010100000000000000000
+    Correct daddrbus = 0000000000000000000000000000000010101011110011010000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     445.0ns
+  clk=0
+Time=     450.0ns
+  clk=0
+Time=     450.0ns
+  clk=1
+Time=     455.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          43
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010101100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=111101 01000 00000 00000 00100110101 for instruction          43:                   B #d16
+  Testing data address for instruction          40:
+  Z R31, (<< 1*16), #h000A
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Time=     455.0ns
+  clk=0
+Time=     460.0ns
+  clk=0
+Time=     460.0ns
+  clk=1
+Time=     465.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          44
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011101000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01010 00001 00000 01111100001 for instruction          44:            CBNZ R21, #d9
+Time=     465.0ns
+  clk=0
+Time=     470.0ns
+  clk=0
+Time=     470.0ns
+  clk=1
+Time=     475.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          45
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011010000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000011111100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=011101 10000 00000 00000 00100100000 for instruction          45:         SUBS R31, R1, R1
+  Testing data address for instruction          42:
+   NOP ANDI R31, R21, #hFF
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0011001100110011001100110011001100110011001100110111110000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     475.0ns
+  clk=0
+Time=     480.0ns
+  clk=0
+Time=     480.0ns
+  clk=1
+Time=     485.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          46
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011010100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01010 00001 00000 01111100010 for instruction          46:                   BLT #9
+  Testing data address for instruction          43:
+                    B #d16
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Time=     485.0ns
+  clk=0
+Time=     490.0ns
+  clk=0
+Time=     490.0ns
+  clk=1
+Time=     495.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          47
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011011000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010110100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=011101 11000 00000 00000 00010100000 for instruction          47:         SUBS R31, R2, R1
+Time=     495.0ns
+  clk=0
+Time=     500.0ns
+  clk=0
+Time=     500.0ns
+  clk=1
+Time=     505.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          48
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011011100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 01111111111 for instruction          48:                   BGE #5
+  Testing data address for instruction          45:
+          SUBS R31, R1, R1
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Time=     505.0ns
+  clk=0
+Time=     510.0ns
+  clk=0
+Time=     510.0ns
+  clk=1
+Time=     515.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          49
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011101100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 01111111111 for instruction          49:    NOP ADDI R31, R31, #0
+Time=     515.0ns
+  clk=0
+Time=     520.0ns
+  clk=0
+Time=     520.0ns
+  clk=1
+Time=     525.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          50
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011110000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 01111111111 for instruction          50:    NOP ADDI R31, R31, #0
+  Testing data address for instruction          47:
+          SUBS R31, R2, R1
+    Your daddrbus =    1010101010101010101010101010101010101010101010101010101010101010
+    Correct daddrbus = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     525.0ns
+  clk=0
+Time=     530.0ns
+  clk=0
+Time=     530.0ns
+  clk=1
+Time=     535.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          51
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011110100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 01111111111 for instruction          51:    NOP ADDI R31, R31, #0
+Time=     535.0ns
+  clk=0
+Time=     540.0ns
+  clk=0
+Time=     540.0ns
+  clk=1
+Time=     545.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          52
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011111000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 01111111111 for instruction          52:    NOP ADDI R31, R31, #0
+  Testing data address for instruction          49:
+     NOP ADDI R31, R31, #0
+    Your daddrbus =    0000000000000000000000000000000000000000000000000000000000000000
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+Time=     545.0ns
+  clk=0
+Time=     550.0ns
+  clk=0
+Time=     550.0ns
+  clk=1
+Time=     555.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          53
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011111100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 01111111111 for instruction          53:    NOP ADDI R31, R31, #0
+  Testing data address for instruction          50:
+     NOP ADDI R31, R31, #0
+    Your daddrbus =    0000000000000000000000000000000000000000000000000000000000000000
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+Time=     555.0ns
+  clk=0
+Time=     560.0ns
+  clk=0
+--------- SIMULATION UNSUCCESFUL - MISMATCHES HAVE OCCURED ----------
+ Number Of Errors =          86
+ Total Test numbers =         100
+ Total number of correct operations =          14
+ 
+Time=       0.0ns
+  clk=1
+reset=1
+Time=       5.0ns
+  clk=0
+Time=      10.0ns
+  clk=1
+Time=      15.0ns
+  clk=0
+Time=      20.0ns
+  clk=0
+Time=      20.0ns
+  clk=1
+Time=      25.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           0
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000000000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+  instrbus=100010 01110 00000 00001 11111100001 for instruction           0:         ADDI R1, R31, #3
+Time=      25.0ns
+  clk=0
+Time=      30.0ns
+  clk=0
+Time=      30.0ns
+  clk=1
+Time=      35.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           1
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000000100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 01110 00000 00000 11111100010 for instruction           1:         ADDI R2, R31, #1
+Time=      35.0ns
+  clk=0
+Time=      40.0ns
+  clk=0
+Time=      40.0ns
+  clk=1
+Time=      45.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           2
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000001000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 01110 00000 00001 01111100011 for instruction           2:         SUBI R3, R31, #2
+Time=      45.0ns
+  clk=0
+Time=      50.0ns
+  clk=0
+Time=      50.0ns
+  clk=1
+Time=      55.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           3
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000001100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 01110 00000 00000 11111100100 for instruction           3:         SUBI R4, R31, #1
+  Testing data address for instruction           0:
+          ADDI R1, R31, #3
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111101
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=      55.0ns
+  clk=0
+Time=      60.0ns
+  clk=0
+Time=      60.0ns
+  clk=1
+Time=      65.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           4
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000010000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000001100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110100 00000 00000 00000 00000100101 for instruction           4:          LDUR R5, [R1,0]
+  Testing data address for instruction           1:
+          ADDI R2, R31, #1
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000001
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=      65.0ns
+  clk=0
+Time=      70.0ns
+  clk=0
+Time=      70.0ns
+  clk=1
+Time=      75.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           5
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000010100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000001100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110100 00000 00000 00000 00001000110 for instruction           5:          LDUR R6, [R2,0]
+  Testing data address for instruction           2:
+          SUBI R3, R31, #2
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111110
+    Correct daddrbus = 1111111111111111111111111111111111111111111111111111111111111110
+Time=      75.0ns
+  clk=0
+Time=      80.0ns
+  clk=0
+Time=      80.0ns
+  clk=1
+Time=      85.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           6
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000011000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000010100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110100 00001 00000 00000 10001100001 for instruction           6:          STUR R1, [R9,0]
+  Testing data address for instruction           3:
+          SUBI R4, R31, #1
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct daddrbus = 1111111111111111111111111111111111111111111111111111111111111111
+Time=      85.0ns
+  clk=0
+Time=      90.0ns
+  clk=0
+Time=      90.0ns
+  clk=1
+Time=      95.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           7
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000011100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000010100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110100 00001 00000 00000 10010000010 for instruction           7:          STUR R2, [R4,0]
+  Testing data address for instruction           4:
+           LDUR R5, [R1,0]
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111101
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000001
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=      95.0ns
+  clk=0
+Time=     100.0ns
+  clk=0
+Time=     100.0ns
+  clk=1
+Time=     105.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           8
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000100000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00000 00101 00000 10000101011 for instruction           8:          ADD R11, R5, R1
+  Testing data address for instruction           5:
+           LDUR R6, [R2,0]
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct daddrbus = 1111111111111111111111111111111111111111111111111111111111111111
+Time=     105.0ns
+  clk=0
+Time=     110.0ns
+  clk=0
+Time=     110.0ns
+  clk=1
+Time=     115.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           9
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000100100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00000 11111 00000 10000101011 for instruction           9:         ADD R11, R5, R31
+  Testing data address for instruction           6:
+           STUR R1, [R9,0]
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111110
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000001100110
+    -------------ERROR. A Mismatch Has Occured-----------
+  Testing store data for instruction           6:
+           STUR R1, [R9,0]
+    Your databus =    1111111111111111111111111111111111111111111111111111111111111101
+    Correct databus = 1111111111111111111111111111111111111111111111111111111111111111
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     115.0ns
+  clk=0
+Time=     120.0ns
+  clk=0
+Time=     120.0ns
+  clk=1
+Time=     125.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          10
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000101000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00010 10001 01011 10101101100 for instruction          10:     ADDIS R12, R11, 1111
+  Testing data address for instruction           7:
+           STUR R2, [R4,0]
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000001100110
+    -------------ERROR. A Mismatch Has Occured-----------
+  Testing store data for instruction           7:
+           STUR R2, [R4,0]
+    Your databus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct databus = 1111111111111111111111111111111111111111111111111111111111111111
+Time=     125.0ns
+  clk=0
+Time=     130.0ns
+  clk=0
+Time=     130.0ns
+  clk=1
+Time=     135.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          11
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000101100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00010 10001 01011 10010101101 for instruction          11:      ADDIS R13, R5, 1111
+  Testing data address for instruction           8:
+           ADD R11, R5, R1
+    Your daddrbus =    1010101010101010101010101010101010101010101010101010101010100111
+    Correct daddrbus = 0111011101110111011101110111011101110111011101110111011101110110
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     135.0ns
+  clk=0
+Time=     140.0ns
+  clk=0
+Time=     140.0ns
+  clk=1
+Time=     145.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          12
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000110000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000101100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00010 11101 00000 00001000001 for instruction          12:          AND R29, R1, R2
+  Testing data address for instruction           9:
+          ADD R11, R5, R31
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111101
+    Correct daddrbus = 0111011101110111011101110111011101110111011101110111011101110110
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     145.0ns
+  clk=0
+Time=     150.0ns
+  clk=0
+Time=     150.0ns
+  clk=1
+Time=     155.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          13
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000110100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000101100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00010 11100 00000 00110001101 for instruction          13:        AND R28, R12, R13
+  Testing data address for instruction          10:
+      ADDIS R12, R11, 1111
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     155.0ns
+  clk=0
+Time=     160.0ns
+  clk=0
+Time=     160.0ns
+  clk=1
+Time=     165.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          14
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000111000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000101000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00110 00000 00000 10010101101 for instruction          14:        ANDIS R30, R1, R2
+  Testing data address for instruction          11:
+       ADDIS R13, R5, 1111
+    Your daddrbus =    1010101010101010101010101010101010101010101010101010111100000001
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     165.0ns
+  clk=0
+Time=     170.0ns
+  clk=0
+Time=     170.0ns
+  clk=1
+Time=     175.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          15
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000111100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00100 00011 00101 01111011010 for instruction          15:        ANDIS R27, R3, R1
+  Testing data address for instruction          12:
+           AND R29, R1, R2
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     175.0ns
+  clk=0
+Time=     180.0ns
+  clk=0
+Time=     180.0ns
+  clk=1
+Time=     185.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          16
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001000000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00100 11010 00101 01111011001 for instruction          16:         EOR R26, R30, R3
+  Testing data address for instruction          13:
+         AND R28, R12, R13
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     185.0ns
+  clk=0
+Time=     190.0ns
+  clk=0
+Time=     190.0ns
+  clk=1
+Time=     195.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          17
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001000100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00101 00011 00101 01111011011 for instruction          17:        EOR R25, R30, R26
+  Testing data address for instruction          14:
+         ANDIS R30, R1, R2
+    Your daddrbus =    0000000000000000000000000000000000000000000000000000000000000000
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+Time=     195.0ns
+  clk=0
+Time=     200.0ns
+  clk=0
+Time=     200.0ns
+  clk=1
+Time=     205.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          18
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001001000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00101 00001 00101 01111110111 for instruction          18:        ENOR R27, R30, R3
+  Testing data address for instruction          15:
+         ANDIS R27, R3, R1
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     205.0ns
+  clk=0
+Time=     210.0ns
+  clk=0
+Time=     210.0ns
+  clk=1
+Time=     215.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          19
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001001100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100010100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00110 00001 00101 00101011111 for instruction          19:        ENOR R23, R31, R1
+  Testing data address for instruction          16:
+          EOR R26, R30, R3
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     215.0ns
+  clk=0
+Time=     220.0ns
+  clk=0
+Time=     220.0ns
+  clk=1
+Time=     225.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          20
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001010000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100010000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00111 00001 00101 00101011111 for instruction          20:      LSL R31, R10, 6'd10
+  Testing data address for instruction          17:
+         EOR R25, R30, R26
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     225.0ns
+  clk=0
+Time=     230.0ns
+  clk=0
+Time=     230.0ns
+  clk=1
+Time=     235.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          21
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001010100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000111100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01000 00001 00000 00001010110 for instruction          21:      LSR R31, R10, 6'd10
+  Testing data address for instruction          18:
+         ENOR R27, R30, R3
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     235.0ns
+  clk=0
+Time=     240.0ns
+  clk=0
+Time=     240.0ns
+  clk=1
+Time=     245.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          22
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001011000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000111100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01000 01110 00000 00010110011 for instruction          22:          ORR R22, R2, R1
+  Testing data address for instruction          19:
+         ENOR R23, R31, R1
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0000000000
+    Correct daddrbus = 0011001100110011001100110011001100110011001100110111110000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     245.0ns
+  clk=0
+Time=     250.0ns
+  clk=0
+Time=     250.0ns
+  clk=1
+Time=     255.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          23
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001011100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000100100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01001 00001 00101 10010110111 for instruction          23:         ORR R19, R5, R14
+  Testing data address for instruction          20:
+       LSL R31, R10, 6'd10
+    Your daddrbus =    0000000000xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000110011001100110011001100110011001100110011001100110011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     255.0ns
+  clk=0
+Time=     260.0ns
+  clk=0
+Time=     260.0ns
+  clk=1
+Time=     265.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          24
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001100000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000100100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01001 00100 00101 10010011001 for instruction          24:          SUB R23, R5, R1
+  Testing data address for instruction          21:
+       LSR R31, R10, 6'd10
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct daddrbus = 1110111011101110111011101110111011101110111011101110111011101110
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     265.0ns
+  clk=0
+Time=     270.0ns
+  clk=0
+Time=     270.0ns
+  clk=1
+Time=     275.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          25
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001100100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01010 00011 00000 00001111000 for instruction          25:          SUB R25, R4, R4
+  Testing data address for instruction          22:
+           ORR R22, R2, R1
+    Your daddrbus =    1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x
+    Correct daddrbus = 1110111011101110111011101110111011101110111011101110111011101110
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     275.0ns
+  clk=0
+Time=     280.0ns
+  clk=0
+Time=     280.0ns
+  clk=1
+Time=     285.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          26
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001101000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01010 00001 00000 01111010000 for instruction          26:         SUBS R24, R3, R3
+  Testing data address for instruction          23:
+          ORR R19, R5, R14
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0010001000100010001000100010001000100010001000100010001000100010
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     285.0ns
+  clk=0
+Time=     290.0ns
+  clk=0
+Time=     290.0ns
+  clk=1
+Time=     295.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          27
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001101100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000000100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 11111111001 for instruction          27:        SUBS R16, R30, R1
+  Testing data address for instruction          24:
+           SUB R23, R5, R1
+    Your daddrbus =    0000000000000000000000000000000000000000000000000000000000000000
+    Correct daddrbus = 0010001000100010001000100010001000100010001000100010001000100010
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     295.0ns
+  clk=0
+Time=     300.0ns
+  clk=0
+Time=     300.0ns
+  clk=1
+Time=     305.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          28
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001110000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 01001 11111 11111 11110111110 for instruction          28:         ADDI R25, R5, #1
+  Testing data address for instruction          25:
+           SUB R25, R4, R4
+    Your daddrbus =    0000000000000000000000000000000000000000000000000000000000000000
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000010011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     305.0ns
+  clk=0
+Time=     310.0ns
+  clk=0
+Time=     310.0ns
+  clk=1
+Time=     315.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          29
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001110100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 01011 11111 11111 11110101110 for instruction          29:     EORI R30, R29, #hFFF
+  Testing data address for instruction          26:
+          SUBS R24, R3, R3
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000010011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     315.0ns
+  clk=0
+Time=     320.0ns
+  clk=0
+Time=     320.0ns
+  clk=1
+Time=     325.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          30
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001111000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000001011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 10000 00000 00000 10000110000 for instruction          30:    ENORI R14, R29, #hFFF
+  Testing data address for instruction          27:
+         SUBS R16, R30, R1
+    Your daddrbus =    0000000000000000000000000000000000000000000000000000000000000001
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000001
+Time=     325.0ns
+  clk=0
+Time=     330.0ns
+  clk=0
+Time=     330.0ns
+  clk=1
+Time=     335.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          31
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001111100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010101100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=011101 00000 00000 00000 00111100000 for instruction          31:      SUBIS R16, R1, 1111
+  Testing data address for instruction          28:
+          ADDI R25, R5, #1
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101111011011100
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     335.0ns
+  clk=0
+Time=     340.0ns
+  clk=0
+Time=     340.0ns
+  clk=1
+Time=     345.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          32
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010000000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000001011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 10000 00000 00000 10000110100 for instruction          32:                  BEQ #15
+  Testing data address for instruction          29:
+      EORI R30, R29, #hFFF
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101111011011100
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     345.0ns
+  clk=0
+Time=     350.0ns
+  clk=0
+Time=     350.0ns
+  clk=1
+Time=     355.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          33
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010000100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010101100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=011101 00000 00000 00000 00000000000 for instruction          33:      SUBIS R20, R1, 1111
+  Testing data address for instruction          30:
+     ENORI R14, R29, #hFFF
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1111111111111111111111111111111111111111111111111111111111111111
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     355.0ns
+  clk=0
+Time=     360.0ns
+  clk=0
+Time=     360.0ns
+  clk=1
+Time=     365.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          34
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010001000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000001011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 10000 00000 00000 00000110101 for instruction          34:                   BEQ #0
+  Testing data address for instruction          31:
+       SUBIS R16, R1, 1111
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000011111000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     365.0ns
+  clk=0
+Time=     370.0ns
+  clk=0
+Time=     370.0ns
+  clk=1
+Time=     375.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          35
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010001100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000001100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=011101 01000 00000 00000 00100100000 for instruction          35:      SUBIS R21, R1, 0000
+Time=     375.0ns
+  clk=0
+Time=     380.0ns
+  clk=0
+Time=     380.0ns
+  clk=1
+Time=     385.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          36
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010010000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010100100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00100 00011 11111 11010111111 for instruction          36:                   BNE #9
+  Testing data address for instruction          33:
+       SUBIS R20, R1, 1111
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000011111000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     385.0ns
+  clk=0
+Time=     390.0ns
+  clk=0
+Time=     390.0ns
+  clk=1
+Time=     395.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          37
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010010100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010100100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00100 00011 11111 11010111111 for instruction          37:  NOP ANDI R31, R21, #hFF
+Time=     395.0ns
+  clk=0
+Time=     400.0ns
+  clk=0
+Time=     400.0ns
+  clk=1
+Time=     405.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          38
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010011000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110010 10111 11001 10011 00101011111 for instruction          38:  NOP ANDI R31, R21, #hFF
+  Testing data address for instruction          35:
+       SUBIS R21, R1, 0000
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Time=     405.0ns
+  clk=0
+Time=     410.0ns
+  clk=0
+Time=     410.0ns
+  clk=1
+Time=     415.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          39
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010011100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110010 10101 00000 00000 00101011111 for instruction          39: Z R31, (<< 3*16), #hCCCA
+Time=     415.0ns
+  clk=0
+Time=     420.0ns
+  clk=0
+Time=     420.0ns
+  clk=1
+Time=     425.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          40
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010100000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=111101 00000 00000 00000 00100110101 for instruction          40: Z R31, (<< 1*16), #h000A
+  Testing data address for instruction          37:
+   NOP ANDI R31, R21, #hFF
+    Your daddrbus =    00000000000000000000000000000000000000000000000000000000xxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000011011111
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     425.0ns
+  clk=0
+Time=     430.0ns
+  clk=0
+Time=     430.0ns
+  clk=1
+Time=     435.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          41
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010100100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010100100
+  instrbus=100010 00100 00011 11111 11010111111 for instruction          41:             CBZ R21, #d9
+  Testing data address for instruction          38:
+   NOP ANDI R31, R21, #hFF
+    Your daddrbus =    1100110011001010000000000000000000000000000000000000000000000000
+    Correct daddrbus = 0000000000000000000000000000000010101011110011010000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     435.0ns
+  clk=0
+Time=     440.0ns
+  clk=0
+Time=     440.0ns
+  clk=1
+Time=     445.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          42
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010101000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100011000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=000011 00000 00000 00000 00000010000 for instruction          42:  NOP ANDI R31, R21, #hFF
+  Testing data address for instruction          39:
+  Z R31, (<< 3*16), #hCCCA
+    Your daddrbus =    0000000000000000000000000000000000000000000010100000000000000000
+    Correct daddrbus = 0000000000000000000000000000000010101011110011010000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     445.0ns
+  clk=0
+Time=     450.0ns
+  clk=0
+Time=     450.0ns
+  clk=1
+Time=     455.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          43
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010101100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=111101 01000 00000 00000 00100110101 for instruction          43:                   B #d16
+  Testing data address for instruction          40:
+  Z R31, (<< 1*16), #h000A
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Time=     455.0ns
+  clk=0
+Time=     460.0ns
+  clk=0
+Time=     460.0ns
+  clk=1
+Time=     465.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          44
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011101000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01010 00001 00000 01111100001 for instruction          44:            CBNZ R21, #d9
+Time=     465.0ns
+  clk=0
+Time=     470.0ns
+  clk=0
+Time=     470.0ns
+  clk=1
+Time=     475.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          45
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011010000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000011111100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=011101 10000 00000 00000 00100100000 for instruction          45:         SUBS R31, R1, R1
+  Testing data address for instruction          42:
+   NOP ANDI R31, R21, #hFF
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0011001100110011001100110011001100110011001100110111110000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     475.0ns
+  clk=0
+Time=     480.0ns
+  clk=0
+Time=     480.0ns
+  clk=1
+Time=     485.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          46
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011010100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01010 00001 00000 01111100010 for instruction          46:                   BLT #9
+  Testing data address for instruction          43:
+                    B #d16
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Time=     485.0ns
+  clk=0
+Time=     490.0ns
+  clk=0
+Time=     490.0ns
+  clk=1
+Time=     495.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          47
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011011000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010110100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=011101 11000 00000 00000 00010100000 for instruction          47:         SUBS R31, R2, R1
+Time=     495.0ns
+  clk=0
+Time=     500.0ns
+  clk=0
+Time=     500.0ns
+  clk=1
+Time=     505.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          48
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011011100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 01111111111 for instruction          48:                   BGE #5
+  Testing data address for instruction          45:
+          SUBS R31, R1, R1
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Time=     505.0ns
+  clk=0
+Time=     510.0ns
+  clk=0
+Time=     510.0ns
+  clk=1
+Time=     515.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          49
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011101100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 01111111111 for instruction          49:    NOP ADDI R31, R31, #0
+Time=     515.0ns
+  clk=0
+Time=     520.0ns
+  clk=0
+Time=     520.0ns
+  clk=1
+Time=     525.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          50
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011110000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 01111111111 for instruction          50:    NOP ADDI R31, R31, #0
+  Testing data address for instruction          47:
+          SUBS R31, R2, R1
+    Your daddrbus =    1010101010101010101010101010101010101010101010101010101010101010
+    Correct daddrbus = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     525.0ns
+  clk=0
+Time=     530.0ns
+  clk=0
+Time=     530.0ns
+  clk=1
+Time=     535.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          51
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011110100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 01111111111 for instruction          51:    NOP ADDI R31, R31, #0
+Time=     535.0ns
+  clk=0
+Time=     540.0ns
+  clk=0
+Time=     540.0ns
+  clk=1
+Time=     545.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          52
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011111000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 01111111111 for instruction          52:    NOP ADDI R31, R31, #0
+  Testing data address for instruction          49:
+     NOP ADDI R31, R31, #0
+    Your daddrbus =    0000000000000000000000000000000000000000000000000000000000000000
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+Time=     545.0ns
+  clk=0
+Time=     550.0ns
+  clk=0
+Time=     550.0ns
+  clk=1
+Time=     555.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          53
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011111100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 01111111111 for instruction          53:    NOP ADDI R31, R31, #0
+  Testing data address for instruction          50:
+     NOP ADDI R31, R31, #0
+    Your daddrbus =    0000000000000000000000000000000000000000000000000000000000000000
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+Time=     555.0ns
+  clk=0
+Time=     560.0ns
+  clk=0
+--------- SIMULATION UNSUCCESFUL - MISMATCHES HAVE OCCURED ----------
+ Number Of Errors =          86
+ Total Test numbers =         100
+ Total number of correct operations =          14
+ 
+Time=       0.0ns
+  clk=1
+reset=1
+Time=       5.0ns
+  clk=0
+Time=      10.0ns
+  clk=1
+Time=      15.0ns
+  clk=0
+Time=      20.0ns
+  clk=0
+Time=      20.0ns
+  clk=1
+Time=      25.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           0
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000000000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+  instrbus=100010 01110 00000 00001 11111100001 for instruction           0:         ADDI R1, R31, #3
+Time=      25.0ns
+  clk=0
+Time=      30.0ns
+  clk=0
+Time=      30.0ns
+  clk=1
+Time=      35.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           1
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000000100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 01110 00000 00000 11111100010 for instruction           1:         ADDI R2, R31, #1
+Time=      35.0ns
+  clk=0
+Time=      40.0ns
+  clk=0
+Time=      40.0ns
+  clk=1
+Time=      45.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           2
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000001000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 01110 00000 00001 01111100011 for instruction           2:         SUBI R3, R31, #2
+Time=      45.0ns
+  clk=0
+Time=      50.0ns
+  clk=0
+Time=      50.0ns
+  clk=1
+Time=      55.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           3
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000001100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 01110 00000 00000 11111100100 for instruction           3:         SUBI R4, R31, #1
+  Testing data address for instruction           0:
+          ADDI R1, R31, #3
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111101
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=      55.0ns
+  clk=0
+Time=      60.0ns
+  clk=0
+Time=      60.0ns
+  clk=1
+Time=      65.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           4
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000010000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000001100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110100 00000 00000 00000 00000100101 for instruction           4:          LDUR R5, [R1,0]
+  Testing data address for instruction           1:
+          ADDI R2, R31, #1
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000001
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=      65.0ns
+  clk=0
+Time=      70.0ns
+  clk=0
+Time=      70.0ns
+  clk=1
+Time=      75.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           5
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000010100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000001100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110100 00000 00000 00000 00001000110 for instruction           5:          LDUR R6, [R2,0]
+  Testing data address for instruction           2:
+          SUBI R3, R31, #2
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111110
+    Correct daddrbus = 1111111111111111111111111111111111111111111111111111111111111110
+Time=      75.0ns
+  clk=0
+Time=      80.0ns
+  clk=0
+Time=      80.0ns
+  clk=1
+Time=      85.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           6
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000011000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000010100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110100 00001 00000 00000 10001100001 for instruction           6:          STUR R1, [R9,0]
+  Testing data address for instruction           3:
+          SUBI R4, R31, #1
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct daddrbus = 1111111111111111111111111111111111111111111111111111111111111111
+Time=      85.0ns
+  clk=0
+Time=      90.0ns
+  clk=0
+Time=      90.0ns
+  clk=1
+Time=      95.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           7
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000011100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000010100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110100 00001 00000 00000 10010000010 for instruction           7:          STUR R2, [R4,0]
+  Testing data address for instruction           4:
+           LDUR R5, [R1,0]
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111101
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000001
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=      95.0ns
+  clk=0
+Time=     100.0ns
+  clk=0
+Time=     100.0ns
+  clk=1
+Time=     105.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           8
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000100000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00000 00101 00000 10000101011 for instruction           8:          ADD R11, R5, R1
+  Testing data address for instruction           5:
+           LDUR R6, [R2,0]
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct daddrbus = 1111111111111111111111111111111111111111111111111111111111111111
+Time=     105.0ns
+  clk=0
+Time=     110.0ns
+  clk=0
+Time=     110.0ns
+  clk=1
+Time=     115.0ns
+  clk=1
+reset=0
+  Testing PC for instruction           9
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000100100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00000 11111 00000 10000101011 for instruction           9:         ADD R11, R5, R31
+  Testing data address for instruction           6:
+           STUR R1, [R9,0]
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111110
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000001100110
+    -------------ERROR. A Mismatch Has Occured-----------
+  Testing store data for instruction           6:
+           STUR R1, [R9,0]
+    Your databus =    1111111111111111111111111111111111111111111111111111111111111101
+    Correct databus = 1111111111111111111111111111111111111111111111111111111111111111
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     115.0ns
+  clk=0
+Time=     120.0ns
+  clk=0
+Time=     120.0ns
+  clk=1
+Time=     125.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          10
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000101000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00010 10001 01011 10101101100 for instruction          10:     ADDIS R12, R11, 1111
+  Testing data address for instruction           7:
+           STUR R2, [R4,0]
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000001100110
+    -------------ERROR. A Mismatch Has Occured-----------
+  Testing store data for instruction           7:
+           STUR R2, [R4,0]
+    Your databus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct databus = 1111111111111111111111111111111111111111111111111111111111111111
+Time=     125.0ns
+  clk=0
+Time=     130.0ns
+  clk=0
+Time=     130.0ns
+  clk=1
+Time=     135.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          11
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000101100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00010 10001 01011 10010101101 for instruction          11:      ADDIS R13, R5, 1111
+  Testing data address for instruction           8:
+           ADD R11, R5, R1
+    Your daddrbus =    1010101010101010101010101010101010101010101010101010101010100111
+    Correct daddrbus = 0111011101110111011101110111011101110111011101110111011101110110
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     135.0ns
+  clk=0
+Time=     140.0ns
+  clk=0
+Time=     140.0ns
+  clk=1
+Time=     145.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          12
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000110000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000101100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00010 11101 00000 00001000001 for instruction          12:          AND R29, R1, R2
+  Testing data address for instruction           9:
+          ADD R11, R5, R31
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111101
+    Correct daddrbus = 0111011101110111011101110111011101110111011101110111011101110110
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     145.0ns
+  clk=0
+Time=     150.0ns
+  clk=0
+Time=     150.0ns
+  clk=1
+Time=     155.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          13
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000110100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000101100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00010 11100 00000 00110001101 for instruction          13:        AND R28, R12, R13
+  Testing data address for instruction          10:
+      ADDIS R12, R11, 1111
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     155.0ns
+  clk=0
+Time=     160.0ns
+  clk=0
+Time=     160.0ns
+  clk=1
+Time=     165.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          14
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000111000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000101000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00110 00000 00000 10010101101 for instruction          14:        ANDIS R30, R1, R2
+  Testing data address for instruction          11:
+       ADDIS R13, R5, 1111
+    Your daddrbus =    1010101010101010101010101010101010101010101010101010111100000001
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     165.0ns
+  clk=0
+Time=     170.0ns
+  clk=0
+Time=     170.0ns
+  clk=1
+Time=     175.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          15
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000000111100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00100 00011 00101 01111011010 for instruction          15:        ANDIS R27, R3, R1
+  Testing data address for instruction          12:
+           AND R29, R1, R2
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     175.0ns
+  clk=0
+Time=     180.0ns
+  clk=0
+Time=     180.0ns
+  clk=1
+Time=     185.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          16
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001000000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00100 11010 00101 01111011001 for instruction          16:         EOR R26, R30, R3
+  Testing data address for instruction          13:
+         AND R28, R12, R13
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     185.0ns
+  clk=0
+Time=     190.0ns
+  clk=0
+Time=     190.0ns
+  clk=1
+Time=     195.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          17
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001000100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00101 00011 00101 01111011011 for instruction          17:        EOR R25, R30, R26
+  Testing data address for instruction          14:
+         ANDIS R30, R1, R2
+    Your daddrbus =    0000000000000000000000000000000000000000000000000000000000000000
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000000
+Time=     195.0ns
+  clk=0
+Time=     200.0ns
+  clk=0
+Time=     200.0ns
+  clk=1
+Time=     205.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          18
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001001000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00101 00001 00101 01111110111 for instruction          18:        ENOR R27, R30, R3
+  Testing data address for instruction          15:
+         ANDIS R27, R3, R1
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     205.0ns
+  clk=0
+Time=     210.0ns
+  clk=0
+Time=     210.0ns
+  clk=1
+Time=     215.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          19
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001001100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100010100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00110 00001 00101 00101011111 for instruction          19:        ENOR R23, R31, R1
+  Testing data address for instruction          16:
+          EOR R26, R30, R3
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     215.0ns
+  clk=0
+Time=     220.0ns
+  clk=0
+Time=     220.0ns
+  clk=1
+Time=     225.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          20
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001010000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100010000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 00111 00001 00101 00101011111 for instruction          20:      LSL R31, R10, 6'd10
+  Testing data address for instruction          17:
+         EOR R25, R30, R26
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     225.0ns
+  clk=0
+Time=     230.0ns
+  clk=0
+Time=     230.0ns
+  clk=1
+Time=     235.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          21
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001010100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000111100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01000 00001 00000 00001010110 for instruction          21:      LSR R31, R10, 6'd10
+  Testing data address for instruction          18:
+         ENOR R27, R30, R3
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101000100100011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     235.0ns
+  clk=0
+Time=     240.0ns
+  clk=0
+Time=     240.0ns
+  clk=1
+Time=     245.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          22
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001011000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000111100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01000 01110 00000 00010110011 for instruction          22:          ORR R22, R2, R1
+  Testing data address for instruction          19:
+         ENOR R23, R31, R1
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx0000000000
+    Correct daddrbus = 0011001100110011001100110011001100110011001100110111110000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     245.0ns
+  clk=0
+Time=     250.0ns
+  clk=0
+Time=     250.0ns
+  clk=1
+Time=     255.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          23
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001011100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000100100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01001 00001 00101 10010110111 for instruction          23:         ORR R19, R5, R14
+  Testing data address for instruction          20:
+       LSL R31, R10, 6'd10
+    Your daddrbus =    0000000000xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000110011001100110011001100110011001100110011001100110011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     255.0ns
+  clk=0
+Time=     260.0ns
+  clk=0
+Time=     260.0ns
+  clk=1
+Time=     265.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          24
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001100000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000100100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01001 00100 00101 10010011001 for instruction          24:          SUB R23, R5, R1
+  Testing data address for instruction          21:
+       LSR R31, R10, 6'd10
+    Your daddrbus =    1111111111111111111111111111111111111111111111111111111111111111
+    Correct daddrbus = 1110111011101110111011101110111011101110111011101110111011101110
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     265.0ns
+  clk=0
+Time=     270.0ns
+  clk=0
+Time=     270.0ns
+  clk=1
+Time=     275.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          25
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001100100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01010 00011 00000 00001111000 for instruction          25:          SUB R25, R4, R4
+  Testing data address for instruction          22:
+           ORR R22, R2, R1
+    Your daddrbus =    1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x1x
+    Correct daddrbus = 1110111011101110111011101110111011101110111011101110111011101110
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     275.0ns
+  clk=0
+Time=     280.0ns
+  clk=0
+Time=     280.0ns
+  clk=1
+Time=     285.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          26
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001101000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01010 00001 00000 01111010000 for instruction          26:         SUBS R24, R3, R3
+  Testing data address for instruction          23:
+          ORR R19, R5, R14
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0010001000100010001000100010001000100010001000100010001000100010
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     285.0ns
+  clk=0
+Time=     290.0ns
+  clk=0
+Time=     290.0ns
+  clk=1
+Time=     295.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          27
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001101100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000000000100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 11111111001 for instruction          27:        SUBS R16, R30, R1
+  Testing data address for instruction          24:
+           SUB R23, R5, R1
+    Your daddrbus =    0000000000000000000000000000000000000000000000000000000000000000
+    Correct daddrbus = 0010001000100010001000100010001000100010001000100010001000100010
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     295.0ns
+  clk=0
+Time=     300.0ns
+  clk=0
+Time=     300.0ns
+  clk=1
+Time=     305.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          28
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001110000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 01001 11111 11111 11110111110 for instruction          28:         ADDI R25, R5, #1
+  Testing data address for instruction          25:
+           SUB R25, R4, R4
+    Your daddrbus =    0000000000000000000000000000000000000000000000000000000000000000
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000010011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     305.0ns
+  clk=0
+Time=     310.0ns
+  clk=0
+Time=     310.0ns
+  clk=1
+Time=     315.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          29
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001110100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100001100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 01011 11111 11111 11110101110 for instruction          29:     EORI R30, R29, #hFFF
+  Testing data address for instruction          26:
+          SUBS R24, R3, R3
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000010011
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     315.0ns
+  clk=0
+Time=     320.0ns
+  clk=0
+Time=     320.0ns
+  clk=1
+Time=     325.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          30
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001111000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000001011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 10000 00000 00000 10000110000 for instruction          30:    ENORI R14, R29, #hFFF
+  Testing data address for instruction          27:
+         SUBS R16, R30, R1
+    Your daddrbus =    0000000000000000000000000000000000000000000000000000000000000001
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000000000001
+Time=     325.0ns
+  clk=0
+Time=     330.0ns
+  clk=0
+Time=     330.0ns
+  clk=1
+Time=     335.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          31
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000001111100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010101100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=011101 00000 00000 00000 00111100000 for instruction          31:      SUBIS R16, R1, 1111
+  Testing data address for instruction          28:
+          ADDI R25, R5, #1
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101111011011100
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     335.0ns
+  clk=0
+Time=     340.0ns
+  clk=0
+Time=     340.0ns
+  clk=1
+Time=     345.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          32
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010000000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000001011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 10000 00000 00000 10000110100 for instruction          32:                  BEQ #15
+  Testing data address for instruction          29:
+      EORI R30, R29, #hFFF
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1100110011001100110011001100110011001100110011001101111011011100
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     345.0ns
+  clk=0
+Time=     350.0ns
+  clk=0
+Time=     350.0ns
+  clk=1
+Time=     355.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          33
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010000100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010101100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=011101 00000 00000 00000 00000000000 for instruction          33:      SUBIS R20, R1, 1111
+  Testing data address for instruction          30:
+     ENORI R14, R29, #hFFF
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 1111111111111111111111111111111111111111111111111111111111111111
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     355.0ns
+  clk=0
+Time=     360.0ns
+  clk=0
+Time=     360.0ns
+  clk=1
+Time=     365.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          34
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010001000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000001011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 10000 00000 00000 00000110101 for instruction          34:                   BEQ #0
+  Testing data address for instruction          31:
+       SUBIS R16, R1, 1111
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000011111000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     365.0ns
+  clk=0
+Time=     370.0ns
+  clk=0
+Time=     370.0ns
+  clk=1
+Time=     375.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          35
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010001100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000001100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=011101 01000 00000 00000 00100100000 for instruction          35:      SUBIS R21, R1, 0000
+Time=     375.0ns
+  clk=0
+Time=     380.0ns
+  clk=0
+Time=     380.0ns
+  clk=1
+Time=     385.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          36
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010010000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010100100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00100 00011 11111 11010111111 for instruction          36:                   BNE #9
+  Testing data address for instruction          33:
+       SUBIS R20, R1, 1111
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000011111000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     385.0ns
+  clk=0
+Time=     390.0ns
+  clk=0
+Time=     390.0ns
+  clk=1
+Time=     395.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          37
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010010100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010100100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00100 00011 11111 11010111111 for instruction          37:  NOP ANDI R31, R21, #hFF
+Time=     395.0ns
+  clk=0
+Time=     400.0ns
+  clk=0
+Time=     400.0ns
+  clk=1
+Time=     405.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          38
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010011000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110010 10111 11001 10011 00101011111 for instruction          38:  NOP ANDI R31, R21, #hFF
+  Testing data address for instruction          35:
+       SUBIS R21, R1, 0000
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Time=     405.0ns
+  clk=0
+Time=     410.0ns
+  clk=0
+Time=     410.0ns
+  clk=1
+Time=     415.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          39
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010011100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=110010 10101 00000 00000 00101011111 for instruction          39: Z R31, (<< 3*16), #hCCCA
+Time=     415.0ns
+  clk=0
+Time=     420.0ns
+  clk=0
+Time=     420.0ns
+  clk=1
+Time=     425.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          40
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010100000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110011100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=111101 00000 00000 00000 00100110101 for instruction          40: Z R31, (<< 1*16), #h000A
+  Testing data address for instruction          37:
+   NOP ANDI R31, R21, #hFF
+    Your daddrbus =    00000000000000000000000000000000000000000000000000000000xxxxxxxx
+    Correct daddrbus = 0000000000000000000000000000000000000000000000000000000011011111
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     425.0ns
+  clk=0
+Time=     430.0ns
+  clk=0
+Time=     430.0ns
+  clk=1
+Time=     435.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          41
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010100100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010100100
+  instrbus=100010 00100 00011 11111 11010111111 for instruction          41:             CBZ R21, #d9
+  Testing data address for instruction          38:
+   NOP ANDI R31, R21, #hFF
+    Your daddrbus =    1100110011001010000000000000000000000000000000000000000000000000
+    Correct daddrbus = 0000000000000000000000000000000010101011110011010000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     435.0ns
+  clk=0
+Time=     440.0ns
+  clk=0
+Time=     440.0ns
+  clk=1
+Time=     445.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          42
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010101000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000100011000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=000011 00000 00000 00000 00000010000 for instruction          42:  NOP ANDI R31, R21, #hFF
+  Testing data address for instruction          39:
+  Z R31, (<< 3*16), #hCCCA
+    Your daddrbus =    0000000000000000000000000000000000000000000010100000000000000000
+    Correct daddrbus = 0000000000000000000000000000000010101011110011010000000000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     445.0ns
+  clk=0
+Time=     450.0ns
+  clk=0
+Time=     450.0ns
+  clk=1
+Time=     455.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          43
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000010101100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=111101 01000 00000 00000 00100110101 for instruction          43:                   B #d16
+  Testing data address for instruction          40:
+  Z R31, (<< 1*16), #h000A
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Time=     455.0ns
+  clk=0
+Time=     460.0ns
+  clk=0
+Time=     460.0ns
+  clk=1
+Time=     465.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          44
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011101000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01010 00001 00000 01111100001 for instruction          44:            CBNZ R21, #d9
+Time=     465.0ns
+  clk=0
+Time=     470.0ns
+  clk=0
+Time=     470.0ns
+  clk=1
+Time=     475.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          45
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011010000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000011111100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=011101 10000 00000 00000 00100100000 for instruction          45:         SUBS R31, R1, R1
+  Testing data address for instruction          42:
+   NOP ANDI R31, R21, #hFF
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = 0011001100110011001100110011001100110011001100110111110000000000
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     475.0ns
+  clk=0
+Time=     480.0ns
+  clk=0
+Time=     480.0ns
+  clk=1
+Time=     485.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          46
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011010100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010110000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=001010 01010 00001 00000 01111100010 for instruction          46:                   BLT #9
+  Testing data address for instruction          43:
+                    B #d16
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Time=     485.0ns
+  clk=0
+Time=     490.0ns
+  clk=0
+Time=     490.0ns
+  clk=1
+Time=     495.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          47
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011011000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000010110100
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=011101 11000 00000 00000 00010100000 for instruction          47:         SUBS R31, R2, R1
+Time=     495.0ns
+  clk=0
+Time=     500.0ns
+  clk=0
+Time=     500.0ns
+  clk=1
+Time=     505.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          48
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011011100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 01111111111 for instruction          48:                   BGE #5
+  Testing data address for instruction          45:
+          SUBS R31, R1, R1
+    Your daddrbus =    xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    Correct daddrbus = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Time=     505.0ns
+  clk=0
+Time=     510.0ns
+  clk=0
+Time=     510.0ns
+  clk=1
+Time=     515.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          49
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011101100
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 01111111111 for instruction          49:    NOP ADDI R31, R31, #0
+Time=     515.0ns
+  clk=0
+Time=     520.0ns
+  clk=0
+Time=     520.0ns
+  clk=1
+Time=     525.0ns
+  clk=1
+reset=0
+  Testing PC for instruction          50
+    Your iaddrbus =    0000000000000000000000000000000000000000000000000000000011110000
+    Correct iaddrbus = 0000000000000000000000000000000000000000000000000000000110100000
+    -------------ERROR. A Mismatch Has Occured-----------
+  instrbus=100010 00000 00000 00000 01111111111 for instruction          50:    NOP ADDI R31, R31, #0
+  Testing data address for instruction          47:
+          SUBS R31, R2, R1
+    Your daddrbus =    1010101010101010101010101010101010101010101010101010101010101010
+    Correct daddrbus = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    -------------ERROR. A Mismatch Has Occured-----------
+Time=     525.0ns
+  clk=0
+Time=     530.0ns
+  c
