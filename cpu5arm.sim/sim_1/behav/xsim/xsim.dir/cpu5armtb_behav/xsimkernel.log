@@ -1,7 +1,7 @@
-Running: xsim.dir/cpu5armtb_behav/xsimk.exe -simmode gui -wdb cpu5armtb_behav.wdb -simrunnum 0 -socket 60646
+Running: xsim.dir/cpu5armtb_behav/xsimk.exe -simmode gui -wdb cpu5armtb_behav.wdb -simrunnum 0 -socket 50797
 Design successfully loaded
-Design Loading Memory Usage: 7536 KB (Peak: 7536 KB)
-Design Loading CPU Usage: 15 ms
+Design Loading Memory Usage: 7560 KB (Peak: 7560 KB)
+Design Loading CPU Usage: 0 ms
 Simulation completed
-Simulation Memory Usage: 8736 KB (Peak: 8736 KB)
-Simulation CPU Usage: 93 ms
+Simulation Memory Usage: 8792 KB (Peak: 8792 KB)
+Simulation CPU Usage: 15 ms

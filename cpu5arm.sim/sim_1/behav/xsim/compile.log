@@ -1,0 +1,30 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/arm-processor/arm-processor/cpu5arm.srcs/sources_1/new/cpu5arm.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module cpu5arm
+INFO: [VRFC 10-311] analyzing module decoder5bitsize32
+INFO: [VRFC 10-311] analyzing module tristatebuffer
+INFO: [VRFC 10-311] analyzing module opcodedecoder
+INFO: [VRFC 10-311] analyzing module signextender
+INFO: [VRFC 10-311] analyzing module mux2
+INFO: [VRFC 10-311] analyzing module mux6bit
+INFO: [VRFC 10-311] analyzing module dff
+INFO: [VRFC 10-311] analyzing module PCDFF
+INFO: [VRFC 10-311] analyzing module IFIDDFF
+INFO: [VRFC 10-311] analyzing module InstrFlagSetter
+INFO: [VRFC 10-311] analyzing module IDEXDFF
+INFO: [VRFC 10-311] analyzing module EXMEMDFF
+INFO: [VRFC 10-311] analyzing module MEMWBDFF
+INFO: [VRFC 10-311] analyzing module add64
+INFO: [VRFC 10-311] analyzing module comparator64
+INFO: [VRFC 10-311] analyzing module regfile
+INFO: [VRFC 10-311] analyzing module shifter
+INFO: [VRFC 10-311] analyzing module alu64
+INFO: [VRFC 10-311] analyzing module alu_cell
+INFO: [VRFC 10-311] analyzing module overflow
+INFO: [VRFC 10-311] analyzing module lac
+INFO: [VRFC 10-311] analyzing module lac2
+INFO: [VRFC 10-311] analyzing module lac3
+INFO: [VRFC 10-311] analyzing module lac4
+INFO: [VRFC 10-311] analyzing module lac5
+INFO: [VRFC 10-311] analyzing module lac6
+INFO: [VRFC 10-2263] Analyzing Verilog file "E:/arm-processor/arm-processor/cpu5arm.srcs/sim_1/new/cpu5armtestbench.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module cpu5armtestbench
